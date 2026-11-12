@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12">
+  <title>Agent workspace: processes, profiles and the agent channel</title>
+  <desc>Two instances of the AxioSozo app: the personal profile and the agent profile. Agents connect over the agent profile's Unix-socket endpoint; each session owns its own tabs. Gecko tabs use in-process WebDriver BiDi, Chromium tabs the CEF host's in-process DevTools messages over its private pipe. A fallback to the legacy agent browser exists until the final phase.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#555"/></marker>
+    <marker id="arrow-soft" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#999"/></marker>
+  </defs>
+  <rect width="960" height="560" fill="#fbfbfc"/>
+
+  <!-- Personal instance -->
+  <rect x="20" y="20" width="300" height="230" rx="12" fill="#eef2fb" stroke="#4068c4" stroke-width="1.2"/>
+  <text x="36" y="44" font-weight="700" font-size="13" fill="#1c1c1e">AxioSozo · personal profile</text>
+  <text x="36" y="61" fill="#555">role personal · system hosts block kept</text>
+  <rect x="36" y="74" width="268" height="40" rx="8" fill="#fff" stroke="#c9d3ec"/>
+  <text x="48" y="98" fill="#1c1c1e">Zen/Gecko parent · personal tabs</text>
+  <rect x="36" y="122" width="268" height="40" rx="8" fill="#fff" stroke="#c9d3ec"/>
+  <text x="48" y="146" fill="#1c1c1e">CEF host · Chromium profile (personal)</text>
+  <rect x="36" y="170" width="268" height="62" rx="8" fill="#fff" stroke="#c9d3ec"/>
+  <text x="48" y="190" fill="#1c1c1e">P4 agent endpoint (unchanged)</text>
+  <text x="48" y="207" fill="#555">Allow for this session +</text>
+  <text x="48" y="223" fill="#555">Allow once per action</text>
+
+  <!-- Agent instance -->
+  <rect x="360" y="20" width="400" height="400" rx="12" fill="#f4effc" stroke="#7646c4" stroke-width="1.4"/>
+  <text x="376" y="44" font-weight="700" font-size="13" fill="#1c1c1e">AxioSozo · agent profile (login item)</text>
+  <text x="376" y="61" fill="#555">role agent · own cookies, storage, logins · no import or sync</text>
+  <rect x="376" y="74" width="368" height="58" rx="8" fill="#fff" stroke="#d8c9ef"/>
+  <text x="388" y="96" fill="#1c1c1e">Zen/Gecko parent</text>
+  <text x="388" y="114" fill="#555">AgentTabRegistry: one owner per tab (s_…, human, system)</text>
+  <rect x="376" y="140" width="178" height="74" rx="8" fill="#fff" stroke="#d8c9ef"/>
+  <text x="388" y="162" fill="#1c1c1e">Gecko tabs</text>
+  <text x="388" y="180" fill="#555">WebDriver BiDi, in-process</text>
+  <text x="388" y="197" fill="#555">no listener, no port</text>
+  <rect x="566" y="140" width="178" height="74" rx="8" fill="#fff" stroke="#d8c9ef"/>
+  <text x="578" y="162" fill="#1c1c1e">CEF host (agent)</text>
+  <text x="578" y="180" fill="#555">DevTools messages over</text>
+  <text x="578" y="197" fill="#555">the private stdin/stdout pipe</text>
+  <rect x="376" y="222" width="368" height="74" rx="8" fill="#fff" stroke="#7646c4"/>
+  <text x="388" y="244" font-weight="600" fill="#1c1c1e">Workspace endpoint · Unix socket 0600 · this Mac only</text>
+  <text x="388" y="262" fill="#555">off until the Settings action · owner check · takeover ·</text>
+  <text x="388" y="279" fill="#555">credential rule · action grants · sensitive hosts</text>
+  <rect x="376" y="304" width="178" height="100" rx="8" fill="#fff" stroke="#d8c9ef"/>
+  <text x="388" y="326" fill="#1c1c1e">Egress rule (opt-in)</text>
+  <text x="388" y="344" fill="#555">DoH for hosts-blocked</text>
+  <text x="388" y="361" fill="#555">names, this profile only;</text>
+  <text x="388" y="378" fill="#555">local and private names</text>
+  <text x="388" y="395" fill="#555">stay on the system resolver</text>
+  <rect x="566" y="304" width="178" height="100" rx="8" fill="#fff" stroke="#d8c9ef"/>
+  <text x="578" y="326" fill="#1c1c1e">Sign-in status</text>
+  <text x="578" y="344" fill="#555">system-owned probe tab,</text>
+  <text x="578" y="361" fill="#555">every 4 h and on demand;</text>
+  <text x="578" y="378" fill="#555">human-owned sign-in tabs</text>
+  <text x="578" y="395" fill="#555">agents never see</text>
+  <line x1="465" y1="132" x2="465" y2="140" stroke="#999"/>
+  <line x1="655" y1="132" x2="655" y2="140" stroke="#999"/>
+  <line x1="560" y1="214" x2="560" y2="222" stroke="#999"/>
+
+  <!-- Agents -->
+  <rect x="800" y="150" width="140" height="48" rx="8" fill="#fff" stroke="#888"/>
+  <text x="812" y="170" fill="#1c1c1e">Agent 1 (MCP)</text>
+  <text x="812" y="187" fill="#555">bridge --workspace</text>
+  <rect x="800" y="214" width="140" height="48" rx="8" fill="#fff" stroke="#888"/>
+  <text x="812" y="234" fill="#1c1c1e">Agent 2 (MCP)</text>
+  <text x="812" y="251" fill="#555">bridge --workspace</text>
+  <rect x="800" y="290" width="140" height="48" rx="8" fill="#fff" stroke="#888"/>
+  <text x="812" y="310" fill="#1c1c1e">Status consumer</text>
+  <text x="812" y="327" fill="#555">status.read / CLI</text>
+  <path d="M800 174 C 780 174, 770 240, 746 250" fill="none" stroke="#555" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <text x="774" y="166" fill="#555" font-size="11">s_1</text>
+  <path d="M800 238 L 746 256" fill="none" stroke="#555" stroke-width="1.3" marker-end="url(#arrow)"/>
+  <text x="770" y="236" fill="#555" font-size="11">s_2</text>
+  <path d="M800 314 C 780 314, 770 280, 746 270" fill="none" stroke="#555" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+  <text x="764" y="316" fill="#555" font-size="11">read</text>
+
+  <!-- Summary to personal -->
+  <path d="M376 250 C 340 250, 340 200, 306 196" fill="none" stroke="#999" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arrow-soft)"/>
+  <text x="28" y="272" fill="#555" font-size="11">summary only: agents, hosts, states</text>
+  <text x="28" y="287" fill="#555" font-size="11">(no URLs, content or cookies)</text>
+
+  <!-- Legacy fallback -->
+  <rect x="780" y="440" width="160" height="70" rx="8" fill="#fff" stroke="#bbb" stroke-dasharray="5 4"/>
+  <text x="792" y="462" fill="#777">Legacy agent browser</text>
+  <text x="792" y="479" fill="#999">fallback until phase 13,</text>
+  <text x="792" y="496" fill="#999">then retired</text>
+  <path d="M870 262 L 870 440" fill="none" stroke="#bbb" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#arrow-soft)"/>
+  <text x="878" y="420" fill="#999" font-size="11">if endpoint off</text>
+
+  <!-- Human -->
+  <rect x="20" y="300" width="300" height="120" rx="12" fill="#fff8e6" stroke="#c99a2e"/>
+  <text x="36" y="324" font-weight="700" fill="#1c1c1e">Human</text>
+  <text x="36" y="344" fill="#555">signs in only inside the agent profile</text>
+  <text x="36" y="362" fill="#555">grants post / react / follow / message</text>
+  <text x="36" y="380" fill="#555">takes over a tab by typing in it,</text>
+  <text x="36" y="398" fill="#555">gives it back with one click</text>
+  <path d="M320 360 L 376 360" fill="none" stroke="#c99a2e" stroke-width="1.3" marker-end="url(#arrow)"/>
+
+  <text x="20" y="460" fill="#555">Never shared between the two instances: profile directory, cookies, storage, password store,</text>
+  <text x="20" y="477" fill="#555">add-ons, preferences, Chromium profile. No TCP listener, debugging port or WebSocket for agents.</text>
+  <text x="20" y="540" fill="#999" font-size="11">docs/design/agent-workspace.md §3 · design only</text>
+</svg>

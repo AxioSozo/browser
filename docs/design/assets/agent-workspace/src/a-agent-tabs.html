@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. https://mozilla.org/MPL/2.0/ -->
+<!-- Mock (a): which tabs agents own and what they do. docs/design/agent-workspace.md §5.1 -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mock (a) · agent tabs</title>
+<link rel="stylesheet" href="../../../../../apps/browser/chrome/lab/lab.css">
+<link rel="stylesheet" href="../../../../../apps/browser/chrome/lab/presence/presence.css">
+<link rel="stylesheet" href="mock.css">
+<script>if (location.hash === "#dark") document.documentElement.classList.add("dark");</script>
+</head>
+<body>
+<div class="window">
+  <aside class="sidebar">
+    <div class="toolbar">
+      <svg viewBox="0 0 16 16"><circle cx="3" cy="8" r="1.3" fill="currentColor"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="13" cy="8" r="1.3" fill="currentColor"/></svg>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M6 3v10"/></svg>
+      <span class="spacer"></span>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 3 5 8l5 5"/></svg>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"/></svg>
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 8a5 5 0 1 1-1.5-3.5M13 3v3h-3"/></svg>
+    </div>
+    <div class="urlbar">🔒 <b>social.example</b>/compose</div>
+    <span class="profile-chip">Agent profile</span>
+
+    <div class="agent-head"><span class="agent-icon cx">Cx</span>Codex<span class="task">· Draft launch reply</span><span class="ring" title="Working"></span></div>
+    <div class="tab selected"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Compose · social.example</span></div>
+    <div class="tab"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Launch thread · social.example</span></div>
+
+    <div class="agent-head"><span class="agent-icon cc">CC</span>Claude Code<span class="task">· Check build dashboard</span><span class="dot amber" title="Waiting for you"></span></div>
+    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Pipelines · code.example</span><span class="badge amber">Sign-in</span></div>
+    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Build #482 · code.example</span></div>
+    <div class="tab"><span class="favicon" style="background:rgb(90 90 210)">D</span><span class="title">Release notes · docs.example</span></div>
+
+    <div class="section-head">You<span class="count">1</span></div>
+    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Sign in · code.example</span><span class="badge you">You</span></div>
+
+    <div class="section-head">Parked<span class="count">10 min</span></div>
+    <div class="tab dim"><span class="favicon" style="background:rgb(190 90 40)">J</span><span class="title">Openings · jobs.example</span><span class="badge">Codex</span></div>
+
+    <div class="footer">
+      <span class="dot green"></span> 2 agents · 6 tabs
+      <span class="spaces"><i></i><i class="on"></i></span>
+    </div>
+  </aside>
+
+  <main class="content">
+    <div class="page">
+      <div class="site-head"><span class="site-logo" style="background:rgb(30 30 34)">S</span><span class="site-name">social.example</span>
+        <span class="site-nav"><span>Home</span><span>Explore</span><span>Messages</span><span>Profile</span></span></div>
+      <div class="post"><div class="who">Launch team <span>· 2h</span></div><p>We shipped the new release today. Tell us what you think!</p></div>
+      <div class="composer">
+        <div class="text">Congrats on the launch — the new sync is fast<span class="caret"></span></div>
+        <div class="bar"><span class="fake-btn">Reply</span></div>
+      </div>
+      <div class="skeleton" style="width:58%;margin-top:22px"></div>
+      <div class="skeleton" style="width:44%"></div>
+    </div>
+
+    <section class="axiosozo-lab-card" style="right:14px;top:14px;width:372px" aria-label="Agents">
+      <div class="axiosozo-lab-card-head"><span class="axiosozo-lab-card-title">Agents</span><button class="axiosozo-lab-card-close" aria-label="Close"></button></div>
+      <div class="endpoint"><span class="dot green"></span>On · this Mac only · 2 agents</div>
+      <div class="axiosozo-lab-card-body">
+        <div>
+          <div class="panel-row">
+            <span class="agent-icon cx">Cx</span>
+            <div class="main"><div class="name">Codex</div><div class="sub">2 tabs · <span class="code">type_text</span> ok · 2 s ago</div></div>
+            <button class="axiosozo-lab-button quiet">Disconnect</button>
+          </div>
+          <div class="panel-row">
+            <span class="agent-icon cc">CC</span>
+            <div class="main"><div class="name">Claude Code</div><div class="sub" style="color:var(--amber)">Waiting for you to sign in to code.example</div></div>
+            <button class="axiosozo-lab-button primary">Open sign-in</button>
+          </div>
+          <div class="panel-row">
+            <span class="agent-icon sys">↻</span>
+            <div class="main"><div class="name">Sign-in check</div><div class="sub">Next run in 3 h 12 min · no tabs visible to agents</div></div>
+          </div>
+        </div>
+        <p class="axiosozo-presence-meta">Grants in force: Codex may <b>post</b> on social.example · 1 left</p>
+      </div>
+    </section>
+    <span class="mock-label">Mock (a) · agent workspace window · design only</span>
+  </main>
+</div>
+</body>
+</html>
