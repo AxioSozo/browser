@@ -1,0 +1,149 @@
+9921-00:02:33 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/build/unix/stdc++compat'
+9922-00:02:33 /home/runner/axiosozo-build/toolchains/zen/sccache/sccache /usr/lib/llvm-19/bin/clang++ -std=gnu++20 -o stdc++compat.o -c  -I/home/runner/axiosozo-build/zen/obj/dist/system_wrappers -include /home/runner/axiosozo-build/zen/source/engine/config/gcc_hidden.h -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fstack-clash-protection -fstrict-flex-arrays=1 -DNDEBUG=1 -DTRIMMED=1 -I/home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat -I/home/runner/axiosozo-build/zen/obj/build/unix/stdc++compat -I/home/runner/axiosozo-build/zen/obj/dist/include -I/home/runner/axiosozo-build/zen/obj/dist/include/nspr -I/home/runner/axiosozo-build/zen/obj/dist/include/nss -DMOZILLA_CLIENT -include /home/runner/axiosozo-build/zen/obj/mozilla-config.h -D_GLIBCXX_USE_CXX11_ABI=0 -fno-rtti -pthread -fno-sized-deallocation -fno-aligned-new -ffunction-sections -fdata-sections -fno-math-errno -fno-exceptions -fdiagnostics-absolute-paths -fPIC -O2 -fomit-frame-pointer -funwind-tables -Wall -Wbitfield-enum-conversion -Wempty-body -Wformat-type-confusion -Wignored-qualifiers -Wpointer-arith -Wshadow-field-in-constructor-modified -Wsign-compare -Wtautological-constant-in-range-compare -Wtype-limits -Wno-error=tautological-type-limit-compare -Wunreachable-code -Wunreachable-code-return -Wunused-but-set-parameter -Wvector-conversion -Wno-invalid-offsetof -Wclass-varargs -Wempty-init-stmt -Wfloat-overflow-conversion -Wfloat-zero-conversion -Wloop-analysis -Wno-range-loop-analysis -Wno-deprecated-anon-enum-enum-conversion -Wno-deprecated-enum-enum-conversion -Wdeprecated-literal-operator -Winvalid-utf8 -Wcomma -Wimplicit-fallthrough -Wstring-conversion -Wno-inline-new-delete -Wno-error=deprecated-declarations -Wno-error=array-bounds -Wno-error=free-nonheap-object -Wno-error=atomic-alignment -Wno-error=deprecated-builtins -Wformat -Wformat-security -Wno-psabi -Wthread-safety -Wno-error=builtin-macro-redefined -Wno-vla-cxx-extension -Wno-unknown-warning-option -fno-strict-aliasing -ffp-contract=off  -MD -MP -MF .deps/stdc++compat.o.pp   /home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat/stdc++compat.cpp
+9923-00:02:33 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/build/unix/stdc++compat'
+9924:00:02:33 /home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat/stdc++compat.cpp:132:22: error: '_State' is a private member of 'std::thread'
+9925-00:02:33   132 |   unique_ptr<thread::_State> mState;
+9926-00:02:33       |                      ^
+9927-00:02:33 /usr/include/c++/14/bits/std_thread.h:234:12: note: declared private here
+9928-00:02:33   234 |     struct _State
+9929-00:02:33       |            ^
+9930:00:02:33 /home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat/stdc++compat.cpp:134:35: error: '_State' is a private member of 'std::thread'
+9931-00:02:33   134 |   StateWrapper(unique_ptr<thread::_State> aState) : mState(std::move(aState)) {}
+9932-00:02:33       |                                   ^
+9933-00:02:33 /usr/include/c++/14/bits/std_thread.h:234:12: note: declared private here
+9934-00:02:33   234 |     struct _State
+9935-00:02:33       |            ^
+9936-00:02:33 2 errors generated.
+9937:00:02:33 gmake[4]: *** [/home/runner/axiosozo-build/zen/source/engine/config/rules.mk:656: stdc++compat.o] Error 1
+9938-00:02:33 gmake[4]: Target 'target-objects' not remade because of errors.
+9939:00:02:33 gmake[3]: *** [/home/runner/axiosozo-build/zen/source/engine/config/recurse.mk:79: build/unix/stdc++compat/target-objects] Error 2
+9940-00:02:33 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/memory/build'
+9941-00:02:33 mkdir -p '.deps/'
+9942-00:02:33 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/memory/build'
+9943-00:02:33 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/memory/build'
+9944-00:02:33 memory/build/Unified_cpp_memory_build0.o
+9945-00:02:33 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/memory/build'
+9946-00:02:33 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/security/nss/lib/ssl/ssl_ssl'
+9947-00:02:33 /home/runner/axiosozo-build/toolchains/zen/sccache/sccache /usr/lib/llvm-19/bin/clang -o ssl3ext.o -c  -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fstack-clash-protection -fstrict-flex-arrays=1 -DNDEBUG -DTRIMMED=1 -DNSS_FIPS_DISABLED -DNSS_NO_INIT_SUPPORT -DNSS_X86_OR_X64 -DNSS_X64 -DNSS_USE_64 -DNSS_ALLOW_SSLKEYLOGFILE -DUSE_UTIL_DIRECTLY -DNO_NSPR_10_SUPPORT -DSSL_DISABLE_DEPRECATED_CIPHER_SUITE_NAMES -DLINUX2_1 -DLINUX -Dlinux -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_POSIX_SOURCE -DSDB_MEASURE_USE_TEMP_DIR -DHAVE_STRERROR -DXP_UNIX -D_REENTRANT -DNSS_DISABLE_DBM -DNSS_DISABLE_LIBPKIX -DNSS_USE_PKCS5_PBKD2_PARAMS2_ONLY -DSOFTOKEN_USE_PKCS5_PBKD2_PARAMS2_ONLY -I/home/runner/axiosozo-build/zen/source/engine/security/nss/lib/ssl -I/home/runner/axiosozo-build/zen/obj/security/nss/lib/ssl/ssl_ssl -I/home/runner/axiosozo-build/zen/obj/dist/include/nspr -I/home/runner/axiosozo-build/zen/obj/dist/include/private/nss -I/home/runner/axiosozo-build/zen/obj/dist/include/nss -I/home/runner/axiosozo-build/zen/obj/dist/include -DMOZILLA_CLIENT -include /home/runner/axiosozo-build/zen/obj/mozilla-config.h -pthread -ffunction-sections -fdata-sections -fno-math-errno -fdiagnostics-absolute-paths -fPIC -O2 -fomit-frame-pointer -funwind-tables -Wall -Wbitfield-enum-conversion -Wempty-body -Wformat-type-confusion -Wignored-qualifiers -Wpointer-arith -Wshadow-field-in-constructor-modified -Wtautological-constant-in-range-compare -Wtype-limits -Wno-error=tautological-type-limit-compare -Wunreachable-code -Wunreachable-code-return -Wunused-but-set-parameter -Wvector-conversion -Wclass-varargs -Wfloat-overflow-conversion -Wfloat-zero-conversion -Wloop-analysis -Wno-range-loop-analysis -Winvalid-utf8 -Wstring-conversion -Wno-error=deprecated-declarations -Wno-error=array-bounds -Wno-error=free-nonheap-object -Wno-error=atomic-alignment -Wno-error=deprecated-builtins -Wformat -Wformat-security -Werror=implicit-function-declaration -Wno-psabi -Wthread-safety -Wno-error=builtin-macro-redefined -Wno-unknown-warning-option -fno-strict-aliasing -ffp-contract=off  -MD -MP -MF .deps/ssl3ext.o.pp   /home/runner/axiosozo-build/zen/source/engine/security/nss/lib/ssl/ssl3ext.c
+9948-00:02:33 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/security/nss/lib/ssl/ssl_ssl'
+9949-00:02:33 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/security/nss/lib/ssl/ssl_ssl'
+9950-00:02:33 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/security/nss/lib/ssl/ssl_ssl'
+9951-00:02:33 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/security/nss/lib/ssl/ssl_ssl'
+--
+10727-00:03:50 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/third_party/llama.cpp'
+10728-00:03:50 third_party/llama.cpp/binary-ops.o
+10729-00:03:50 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/third_party/llama.cpp'
+10730:00:03:51 /home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat/stdc++compat.cpp:132:22: error: '_State' is a private member of 'std::thread'
+10731-00:03:51   132 |   unique_ptr<thread::_State> mState;
+10732-00:03:51       |                      ^
+10733-00:03:51 /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_thread.h:234:12: note: declared private here
+10734-00:03:51   234 |     struct _State
+10735-00:03:51       |            ^
+10736:00:03:51 /home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat/stdc++compat.cpp:134:35: error: '_State' is a private member of 'std::thread'
+10737-00:03:51   134 |   StateWrapper(unique_ptr<thread::_State> aState) : mState(std::move(aState)) {}
+10738-00:03:51       |                                   ^
+10739-00:03:51 /usr/lib/gcc/x86_64-linux-gnu/14/../../../../include/c++/14/bits/std_thread.h:234:12: note: declared private here
+10740-00:03:51   234 |     struct _State
+10741-00:03:51       |            ^
+10742-00:03:51 2 errors generated.
+10743:00:03:51 gmake[4]: *** [/home/runner/axiosozo-build/zen/source/engine/config/rules.mk:560: host_stdc++compat.o] Error 1
+10744-00:03:51 gmake[4]: Target 'host-objects' not remade because of errors.
+10745:00:03:51 gmake[3]: *** [/home/runner/axiosozo-build/zen/source/engine/config/recurse.mk:79: build/unix/stdc++compat/host-objects] Error 2
+10746-00:03:51 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/build/unix/stdc++compat'
+10747-00:03:51 /home/runner/axiosozo-build/toolchains/zen/sccache/sccache /usr/lib/llvm-19/bin/clang++ -std=gnu++20 -o host_stdc++compat.o -c -DXP_UNIX -D_GLIBCXX_USE_CXX11_ABI=0 -O3 -DNDEBUG=1 -DTRIMMED=1 -I/home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat -I/home/runner/axiosozo-build/zen/obj/build/unix/stdc++compat -I/home/runner/axiosozo-build/zen/obj/dist/include -MD -MP -MF .deps/host_stdc++compat.o.pp -I/home/runner/axiosozo-build/zen/obj/dist/include/nspr /home/runner/axiosozo-build/zen/source/engine/build/unix/stdc++compat/stdc++compat.cpp
+10748-00:03:51 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/build/unix/stdc++compat'
+10749-00:03:51 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/config/external/wasm2c_sandbox_compiler'
+10750-00:03:51 mkdir -p '.deps/'
+10751-00:03:51 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/config/external/wasm2c_sandbox_compiler'
+10752-00:03:51 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/config/external/wasm2c_sandbox_compiler'
+10753-00:03:51 config/external/wasm2c_sandbox_compiler/host_opcode-code-table.o
+10754-00:03:51 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/config/external/wasm2c_sandbox_compiler'
+10755-00:03:51 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/third_party/parakeet.cpp'
+10756-00:03:51 /home/runner/axiosozo-build/toolchains/zen/sccache/sccache /usr/lib/llvm-19/bin/clang++ -std=gnu++20 -o mel.o -c  -I/home/runner/axiosozo-build/zen/obj/dist/stl_wrappers -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fstack-clash-protection -fstrict-flex-arrays=1 -DNDEBUG=1 -DTRIMMED=1 -DMOZ_HAS_MOZGLUE -I/home/runner/axiosozo-build/zen/source/engine/third_party/parakeet.cpp -I/home/runner/axiosozo-build/zen/obj/third_party/parakeet.cpp -I/home/runner/axiosozo-build/zen/source/engine/third_party/llama.cpp -I/home/runner/axiosozo-build/zen/source/engine/third_party/llama.cpp/ggml -I/home/runner/axiosozo-build/zen/source/engine/third_party/llama.cpp/ggml/include -I/home/runner/axiosozo-build/zen/source/engine/third_party/llama.cpp/ggml/src -I/home/runner/axiosozo-build/zen/source/engine/third_party/llama.cpp/ggml/src/ggml-cpu -I/home/runner/axiosozo-build/zen/source/engine/third_party/parakeet.cpp -I/home/runner/axiosozo-build/zen/source/engine/third_party/parakeet.cpp/include -I/home/runner/axiosozo-build/zen/source/engine/third_party/parakeet.cpp/src -I/home/runner/axiosozo-build/zen/obj/dist/include -I/home/runner/axiosozo-build/zen/obj/dist/include/nspr -I/home/runner/axiosozo-build/zen/obj/dist/include/nss -DMOZILLA_CLIENT -include /home/runner/axiosozo-build/zen/obj/mozilla-config.h -D_GLIBCXX_USE_CXX11_ABI=0 -fno-rtti -pthread -fno-sized-deallocation -fno-aligned-new -ffunction-sections -fdata-sections -fno-math-errno -fno-exceptions -fdiagnostics-absolute-paths -fPIC -O2 -fomit-frame-pointer -funwind-tables -Wall -Wbitfield-enum-conversion -Wempty-body -Wformat-type-confusion -Wignored-qualifiers -Wpointer-arith -Wshadow-field-in-constructor-modified -Wsign-compare -Wtautological-constant-in-range-compare -Wtype-limits -Wno-error=tautological-type-limit-compare -Wunreachable-code -Wunreachable-code-return -Wunused-but-set-parameter -Wvector-conversion -Wno-invalid-offsetof -Wclass-varargs -Wempty-init-stmt -Wfloat-overflow-conversion -Wfloat-zero-conversion -Wloop-analysis -Wno-range-loop-analysis -Wno-deprecated-anon-enum-enum-conversion -Wno-deprecated-enum-enum-conversion -Wdeprecated-literal-operator -Winvalid-utf8 -Wcomma -Wimplicit-fallthrough -Wstring-conversion -Wno-inline-new-delete -Wno-error=deprecated-declarations -Wno-error=array-bounds -Wno-error=free-nonheap-object -Wno-error=atomic-alignment -Wno-error=deprecated-builtins -Wformat -Wformat-security -Wno-psabi -Wthread-safety -Wno-error=builtin-macro-redefined -Wno-vla-cxx-extension -Wno-unknown-warning-option -fno-strict-aliasing -ffp-contract=off  -MD -MP -MF .deps/mel.o.pp   /home/runner/axiosozo-build/zen/source/engine/third_party/parakeet.cpp/src/mel.cpp
+10757-00:03:51 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/third_party/parakeet.cpp'
+--
+45234-00:25:19    Compiling procfs-core v0.18.0
+45236-00:25:19    Compiling error-graph v0.1.1
+45238-00:25:19    Compiling crash-context v0.8.0 (https://github.com/rust-minidump/minidump-writer.git?rev=6744feee58804a78730d176cdcc31bb4f3021107#6744feee)
+45240-00:25:19    Compiling socket2 v0.6.3
+45242-00:25:19 possible intended.
+45244-00:25:19    Compiling strck v1.0.0
+45246-00:25:19    Compiling litrs v0.4.1
+45248-00:25:19 representing fixed values). Particularly useful for proc macros, but can also
+45249-00:25:19 be used outside of a proc-macro context.
+--
+71253-01:31:16  exp (GLIBC_2.29)
+71254-01:31:16  pow (GLIBC_2.29)
+71255-01:31:16  fmod (GLIBC_2.38)
+71256:01:31:16 gmake[4]: *** [/home/runner/axiosozo-build/zen/source/engine/config/rules.mk:520: ../../../dist/bin/libmozsqlite3.so] Error 1
+71257-01:31:16 gmake[4]: Target 'target' not remade because of errors.
+71258-01:31:16 /home/runner/axiosozo-build/zen/mozbuild/srcdirs/engine-58c8d4c7ff1f/_virtualenvs/build/bin/python -m mozbuild.action.check_binary ../../../dist/bin/libmozsqlite3.so
+71259-01:31:16 TEST-PASS | check_textrel | libmozsqlite3.so
+71260-01:31:16 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/config/external/sqlite'
+71261:01:31:16 gmake[3]: *** [/home/runner/axiosozo-build/zen/source/engine/config/recurse.mk:79: config/external/sqlite/target] Error 2
+71262-01:31:16 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/xpcom/tests'
+71263-01:31:16 xpcom/tests/TestUnicodeArguments.o
+71264-01:31:16 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/xpcom/tests'
+71265-01:31:16 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/xpcom/tests'
+71266-01:31:16 /home/runner/axiosozo-build/toolchains/zen/sccache/sccache /usr/lib/llvm-19/bin/clang++ -std=gnu++20 -o TestUnicodeArguments.o -c  -I/home/runner/axiosozo-build/zen/obj/dist/stl_wrappers -I/home/runner/axiosozo-build/zen/obj/dist/system_wrappers -include /home/runner/axiosozo-build/zen/source/engine/config/gcc_hidden.h -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -fstack-protector-strong -fstack-clash-protection -fstrict-flex-arrays=1 -DNDEBUG=1 -DTRIMMED=1 -I/home/runner/axiosozo-build/zen/source/engine/xpcom/tests -I/home/runner/axiosozo-build/zen/obj/xpcom/tests -I/home/runner/axiosozo-build/zen/source/engine/xpcom/base -I/home/runner/axiosozo-build/zen/source/engine/xpcom/ds -I/home/runner/axiosozo-build/zen/obj/dist/include -I/home/runner/axiosozo-build/zen/obj/dist/include/testing -I/home/runner/axiosozo-build/zen/obj/dist/include/nspr -I/home/runner/axiosozo-build/zen/obj/dist/include/nss -DMOZILLA_CLIENT -include /home/runner/axiosozo-build/zen/obj/mozilla-config.h -D_GLIBCXX_USE_CXX11_ABI=0 -fno-rtti -pthread -fno-sized-deallocation -fno-aligned-new -ffunction-sections -fdata-sections -fno-math-errno -fno-exceptions -fdiagnostics-absolute-paths -fPIC -O2 -fomit-frame-pointer -funwind-tables -Wall -Wbitfield-enum-conversion -Wempty-body -Wformat-type-confusion -Wignored-qualifiers -Wpointer-arith -Wshadow-field-in-constructor-modified -Wsign-compare -Wtautological-constant-in-range-compare -Wtype-limits -Wno-error=tautological-type-limit-compare -Wunreachable-code -Wunreachable-code-return -Wunused-but-set-parameter -Wvector-conversion -Wno-invalid-offsetof -Wclass-varargs -Wempty-init-stmt -Wfloat-overflow-conversion -Wfloat-zero-conversion -Wloop-analysis -Wno-range-loop-analysis -Wno-deprecated-anon-enum-enum-conversion -Wno-deprecated-enum-enum-conversion -Wdeprecated-literal-operator -Winvalid-utf8 -Wcomma -Wimplicit-fallthrough -Wstring-conversion -Wno-inline-new-delete -Wno-error=deprecated-declarations -Wno-error=array-bounds -Wno-error=free-nonheap-object -Wno-error=atomic-alignment -Wno-error=deprecated-builtins -Wformat -Wformat-security -Wno-psabi -Wthread-safety -Wno-error=builtin-macro-redefined -Wno-vla-cxx-extension -Wno-unknown-warning-option -fno-strict-aliasing -ffp-contract=off  -MD -MP -MF .deps/TestUnicodeArguments.o.pp   /home/runner/axiosozo-build/zen/source/engine/xpcom/tests/TestUnicodeArguments.cpp
+71267-01:31:16 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/xpcom/tests'
+71268-01:31:16 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/xpcom/tests'
+71269-01:31:16 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/xpcom/tests'
+71270-01:31:16 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/config/external/nspr/pr'
+71271-01:31:16 config/external/nspr/pr/libnspr4.so
+71272-01:31:16 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/config/external/nspr/pr'
+71273-01:31:16 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/config/external/nspr/pr'
+--
+71306-01:31:17  pthread_key_delete (GLIBC_2.34)
+71307-01:31:17  pthread_once (GLIBC_2.34)
+71308-01:31:17  pthread_kill (GLIBC_2.34)
+71309:01:31:17 gmake[4]: *** [/home/runner/axiosozo-build/zen/source/engine/config/rules.mk:520: ../../../../dist/bin/libnspr4.so] Error 1
+71310-01:31:17 gmake[4]: Target 'target' not remade because of errors.
+71311-01:31:17 /home/runner/axiosozo-build/zen/mozbuild/srcdirs/engine-58c8d4c7ff1f/_virtualenvs/build/bin/python -m mozbuild.action.check_binary ../../../../dist/bin/libnspr4.so
+71312-01:31:17 TEST-PASS | check_textrel | libnspr4.so
+71313-01:31:17 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/config/external/nspr/pr'
+71314:01:31:17 gmake[3]: *** [/home/runner/axiosozo-build/zen/source/engine/config/recurse.mk:79: config/external/nspr/pr/target] Error 2
+71315-01:31:17 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71316-01:31:17 build/pure_virtual/libpure_virtual.a
+71317-01:31:17 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71318-01:31:17 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71319-01:31:17 rm -f libpure_virtual.a
+71320-01:31:17 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71321-01:31:17 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71322-01:31:17 /usr/lib/llvm-19/bin/llvm-ar crs libpure_virtual.a @/home/runner/axiosozo-build/zen/obj/build/pure_virtual/libpure_virtual_a.list
+71323-01:31:17 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71324-01:31:17 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71325-01:31:17 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+71326-01:31:17 gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/build/pure_virtual'
+--
+74479-01:32:18    Compiling minidump-common v0.26.1
+74481-01:32:18    Compiling error-graph v0.1.1
+74483-01:32:18 warning: unused import: `expect`
+74485-01:32:18   |
+74486-01:32:18 1 | use crate::{expect, ProcResult};
+74487-01:32:18   |             ^^^^^^
+74488-01:32:18   |
+74489-01:32:18   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+74490-01:32:18 warning: unused import: `expect`
+74492-01:32:18   |
+74493-01:32:18 1 | use crate::{expect, FromBufRead, ProcError, ProcResult};
+74494-01:32:18   |             ^^^^^^
+--
+83879-01:40:49 :
+83880-01:40:49 gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/security/manager/ssl/tests/unit/pkcs11testmodule'
+83881-01:40:49 gmake[3]: Target 'recurse_compile' not remade because of errors.
+83882:01:40:49 gmake[2]: *** [/home/runner/axiosozo-build/zen/source/engine/config/recurse.mk:34: compile] Error 2
+83883:01:40:49 gmake[1]: *** [/home/runner/axiosozo-build/zen/source/engine/config/rules.mk:345: default] Error 2
+83884:01:40:49 gmake: *** [client.mk:58: build] Error 2
+83885-01:40:49 171 compiler warnings present.
+83886-01:40:51 Streaming resource usage profile to: /home/runner/axiosozo-build/zen/obj/.mozbuild/logs/build/profile_log_20261112_134355.json
+83887-{"status": "BLOCKED_ENV", "error": "Command '['/usr/bin/python3', '/home/runner/work/browser/browser/scripts/storage.py', 'exec', '--', 'npm', 'run', 'build', '--', '--jobs', '4']' returned non-zero exit status 1."}
+83888-SETUP gate summary (Linux x86_64):
+83889-  BLOCKED_ENV exit=20  scripts/zen.py setup
+83890-SETUP: 0 PASS, 0 FAIL, 1 BLOCKED_ENV
+83891-SETUP: incomplete; see component results
+83892-Command exited with non-zero status 2
+83893-	Command being timed: "./dev setup --only zen"
+83894-	User time (seconds): 1146.03
+83895-	System time (seconds): 282.04
+83896-	Percent of CPU this job got: 22%
