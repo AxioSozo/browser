@@ -1,0 +1,111 @@
+{
+ "schema": "axiosozo-presenter-node-v1",
+ "engine": "v8 v22.23.4",
+ "cpu": "AMD EPYC 7763 64-Core Processor",
+ "nproc": 4,
+ "iterations": 30,
+ "source": "apps/browser/chrome/CEFPresenter.sys.mjs bgraToRGBA (imported)",
+ "baseline_presenter": null,
+ "results": [
+  {
+   "width": 900,
+   "height": 650,
+   "translucent_share": 0,
+   "bytes": 2340000,
+   "copy_ms": {
+    "n": 30,
+    "median": 1.018,
+    "p95": 3.88,
+    "min": 0.193
+   },
+   "presenter_bgraToRGBA_ms": {
+    "n": 30,
+    "median": 1.382,
+    "p95": 1.422,
+    "min": 1.371
+   },
+   "candidate_u32_opaque_fast_path_ms": {
+    "n": 30,
+    "median": 1.284,
+    "p95": 1.308,
+    "min": 1.279
+   },
+   "candidate_identical_output": true
+  },
+  {
+   "width": 900,
+   "height": 650,
+   "translucent_share": 0.1,
+   "bytes": 2340000,
+   "copy_ms": {
+    "n": 30,
+    "median": 0.222,
+    "p95": 1.086,
+    "min": 0.184
+   },
+   "presenter_bgraToRGBA_ms": {
+    "n": 30,
+    "median": 1.4,
+    "p95": 1.438,
+    "min": 1.389
+   },
+   "candidate_u32_opaque_fast_path_ms": {
+    "n": 30,
+    "median": 1.27,
+    "p95": 1.331,
+    "min": 1.262
+   },
+   "candidate_identical_output": true
+  },
+  {
+   "width": 1800,
+   "height": 1300,
+   "translucent_share": 0,
+   "bytes": 9360000,
+   "copy_ms": {
+    "n": 30,
+    "median": 1.013,
+    "p95": 4.52,
+    "min": 0.823
+   },
+   "presenter_bgraToRGBA_ms": {
+    "n": 30,
+    "median": 3.7,
+    "p95": 3.781,
+    "min": 3.663
+   },
+   "candidate_u32_opaque_fast_path_ms": {
+    "n": 30,
+    "median": 3.664,
+    "p95": 4.216,
+    "min": 3.649
+   },
+   "candidate_identical_output": true
+  },
+  {
+   "width": 1800,
+   "height": 1300,
+   "translucent_share": 0.1,
+   "bytes": 9360000,
+   "copy_ms": {
+    "n": 30,
+    "median": 1.19,
+    "p95": 4.292,
+    "min": 0.965
+   },
+   "presenter_bgraToRGBA_ms": {
+    "n": 30,
+    "median": 5.691,
+    "p95": 5.81,
+    "min": 5.67
+   },
+   "candidate_u32_opaque_fast_path_ms": {
+    "n": 30,
+    "median": 5.212,
+    "p95": 5.703,
+    "min": 5.174
+   },
+   "candidate_identical_output": true
+  }
+ ]
+}
