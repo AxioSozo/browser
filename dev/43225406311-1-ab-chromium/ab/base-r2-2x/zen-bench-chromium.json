@@ -1,0 +1,187 @@
+{
+ "harness": "axiosozo-zen-bench",
+ "version": 1,
+ "engine": "chromium",
+ "started_utc": "2026-11-12T13:20:47+00:00",
+ "host": {
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "cpus": 4
+ },
+ "test_only_switches": [
+  "-marionette",
+  "--remote-allow-system-access",
+  "loopback Marionette port",
+  "throwaway owned profile"
+ ],
+ "scenarios": {},
+ "screenshots": [
+  "/home/runner/work/browser/browser/.local/evidence-ab-chromium/ab/base-r2-2x/zen-bench-chromium.png"
+ ],
+ "bench": {
+  "launch_to_marionette_ms": 2246,
+  "window": {
+   "window_id": "2097155",
+   "xwininfo": {
+    "Width": "2072",
+    "Height": "1296",
+    "Map State": "IsViewable",
+    "Absolute upper-left X": "0",
+    "Absolute upper-left Y": "0"
+   },
+   "title": "AxioSozo \u2014 AxioSozo Dev"
+  },
+  "launch_to_window_ms": 2253,
+  "memory_at_start": {
+   "cpu_percent": 0.0,
+   "cpu_percent_by_kind": {
+    "Privileged Cont": 0.0,
+    "RDD Process": 0.0,
+    "Socket Process": 0.0,
+    "Utility Process": 0.0,
+    "Web Content": 0.0,
+    "WebExtensions": 0.0,
+    "axiosozo-dev": 0.0,
+    "forkserver": 0.0
+   },
+   "client_cpu_percent": 0.0,
+   "processes": 12,
+   "rss_mb": 1381.7,
+   "pss_mb": 648.8,
+   "rss_mb_by_kind": {
+    "Privileged Cont": 150.5,
+    "RDD Process": 30.8,
+    "Socket Process": 31.1,
+    "Utility Process": 29.2,
+    "Web Content": 427.2,
+    "WebExtensions": 132.1,
+    "axiosozo-dev": 547.6,
+    "forkserver": 33.2
+   }
+  },
+  "engine_prepare": {
+   "status": "BLOCKED_ENV",
+   "reason": "probe.py check: {\"component\": \"cef\", \"status\": \"BLOCKED_ENV\", \"message\": \"BLOCKED_ENV: native CEF rebuild required; run probe.py setup\"}"
+  },
+  "repetitions": [
+   {
+    "index": 0,
+    "status": "FAIL",
+    "reason": "AssertionError: switch to chromium failed: {'ok': False, 'ms': 1091.89354, 'error': 'CEF_PROTOCOL_OR_EOF'}"
+   },
+   {
+    "index": 1,
+    "status": "FAIL",
+    "reason": "AssertionError: switch to chromium failed: {'ok': False, 'ms': 831.4076420000006, 'error': 'CEF_PROTOCOL_OR_EOF'}"
+   }
+  ],
+  "memory_at_end": {
+   "cpu_percent": 0.0,
+   "cpu_percent_by_kind": {
+    "Isolated Web Co": 0.0,
+    "Privileged Cont": 0.0,
+    "RDD Process": 0.0,
+    "Socket Process": 0.0,
+    "Utility Process": 0.0,
+    "Web Content": 0.0,
+    "WebExtensions": 0.0,
+    "axiosozo-dev": 0.0,
+    "forkserver": 0.0
+   },
+   "client_cpu_percent": 0.0,
+   "processes": 12,
+   "rss_mb": 1613.4,
+   "pss_mb": 819.6,
+   "rss_mb_by_kind": {
+    "Isolated Web Co": 215.9,
+    "Privileged Cont": 150.5,
+    "RDD Process": 30.8,
+    "Socket Process": 31.1,
+    "Utility Process": 29.2,
+    "Web Content": 276.7,
+    "WebExtensions": 132.2,
+    "axiosozo-dev": 713.8,
+    "forkserver": 33.2
+   }
+  }
+ },
+ "app": {
+  "executable": "/home/runner/axiosozo-build/linux-app/39430325744/axiosozo-dev/axiosozo-dev",
+  "source": "fetched-artifact",
+  "run_id": "39430325744",
+  "repository_commit": "286ce7041ea77e3b69920d709b15fe5b2813448f",
+  "fingerprint": "3d41eb74ee6d73a6cfb625a900afb7ed6f530bdfb3f92204e7588c1ad794362b",
+  "fingerprint_matches_checkout": false
+ },
+ "session": "/home/runner/axiosozo-build/runtime/753a97d5a9bc09a8/bench-34d06487d8772d99",
+ "display": {
+  "server": "Xvfb",
+  "display": ":90",
+  "size": "2304x1440",
+  "xauth": true,
+  "geometry": "2304 1440"
+ },
+ "dbus": "private session bus",
+ "command": [
+  "/home/runner/axiosozo-build/linux-app/39430325744/axiosozo-dev/axiosozo-dev",
+  "-no-remote",
+  "-profile",
+  "/home/runner/axiosozo-build/runtime/753a97d5a9bc09a8/bench-34d06487d8772d99/gecko",
+  "-marionette",
+  "--remote-allow-system-access",
+  "about:blank"
+ ],
+ "browser": {
+  "pid": 5685,
+  "marionette_port": 32801,
+  "capabilities": {
+   "browserName": "axiosozo",
+   "browserVersion": "0.1a1",
+   "platformName": "linux"
+  },
+  "seconds_to_marionette": 2.24,
+  "exit_code": 0
+ },
+ "cef_check": "{\"component\": \"cef\", \"status\": \"BLOCKED_ENV\", \"message\": \"BLOCKED_ENV: native CEF rebuild required; run probe.py setup\"}",
+ "cleanup": {
+  "state": "DIRECT_CHILDREN_REAPED",
+  "direct_children_reaped": true,
+  "groups": "NOT_VERIFIED"
+ },
+ "summary": {},
+ "chrome_overlay": {
+  "label": "chrome-overlay (TEST-ONLY: prebuilt Zen app, chrome JS from this checkout)",
+  "overlay_commit": "33c79f552a83b99c57ac184c9d80c6c1ddd1988d",
+  "app_build_commit": "286ce7041ea77e3b69920d709b15fe5b2813448f",
+  "replaced": 0,
+  "added": 0
+ },
+ "device_scale_pref": {
+  "layout.css.devPixelsPerPx": "2.0",
+  "size": "2304x1440",
+  "label": "TEST-ONLY rendering scale pref"
+ },
+ "status": "FAIL",
+ "schema": "axiosozo-zen-bench-v1",
+ "label": "chromium",
+ "E1": "NOT_TESTED",
+ "E2": "NOT_TESTED",
+ "machine": {
+  "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "nproc": 4,
+  "python": "3.12.3",
+  "cpu_model": "AMD EPYC 9V45 96-Core Processor",
+  "mem_total_mb": 15983,
+  "os": "Ubuntu 24.04.5 LTS",
+  "gpu_dri": [
+   "card1"
+  ],
+  "pipe_max_size": 1048576,
+  "loadavg_start": [
+   "1.67",
+   "0.97",
+   "0.46"
+  ]
+ }
+}
