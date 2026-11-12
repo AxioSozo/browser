@@ -1,0 +1,147 @@
+{
+  "side": "head",
+  "commit": "4be47fa496597675fbc512e20c04d8922eb64f39",
+  "platform": "macOS-15.8.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "python": "3.9.6",
+  "counts": {
+    "EXPECTED_NONZERO": 1,
+    "PASS": 17,
+    "FAIL": 1
+  },
+  "gates": {
+    "dev-doctor": {
+      "status": "EXPECTED_NONZERO",
+      "exit": 2,
+      "seconds": 0.6,
+      "log": "logs/dev-doctor.log",
+      "tail": "rdinator_built\": false,\n  \"coordinator_build_current\": false,\n  \"live_provider_authorized\": false,\n  \"coordinator_browser_bridge\": \"IMPLEMENTED_GUI_UNVERIFIED\",\n  \"overall\": \"PARTIAL_ENGINE_BLOCKED\",\n  \"project_storage\": {\n    \"image\": \"/Volumes/T9/Dev.sparsebundle\",\n    \"volume_name\": \"AxioSozoBuild\",\n    \"mountpoint\": \"/Volumes/AxioSozoBuild\",\n    \"build_root\": \"/Volumes/AxioSozoBuild\",\n    \"mounted\": false,\n    \"image_exists\": false,\n    \"t9_free_gib\": null,\n    \"build_free_gib\": null\n  },\n  \"ram_gib\": 7\n}\n{\n  \"status\": \"BLOCKED_ENV\",\n  \"issues\": [\n    \"Project APFS build storage is not mounted\",\n    \"Zen checkout missing or does not match pin\",\n    \"Select Node 22 from upstream .nvmrc before setup\",\n    \"Select Rust 1.95.0 from upstream .rust-toolchain before setup\",\n    \"GNU tar (gtar) is required by pinned Surfer\",\n    \"Project-local cbindgen0.29.4 required by pinned Firefox\",\n    \"Project-local Python3.11 required by pinned upstream\"\n  ],\n  \"free_gib\": 0,\n  \"versions\": {\n    \"node\": null,\n    \"rustc\": null,\n    \"python3\": \"Python 3.9.6\",\n    \"gtar\": null,\n    \"cbindgen\": null,\n    \"npm_path\": null\n  },\n  \"upstream_sha\": null,\n  \"upstream_python\": \"3.11\",\n  \"build_jobs\": 2,\n  \"build_root\": \"/Volumes/AxioSozoBuild/zen\",\n  \"application\": \"/Volumes/AxioSozoBuild/zen/obj/dist/AxioSozo Dev.app\",\n  \"bundle_id\": \"nl.axiosozo.browser.dev\",\n  \"native_build_verified\": false\n}\nBLOCKED_ENV: pinned Node /Volumes/AxioSozoBuild/toolchains/zen/node/bin/node is missing; run ./dev setup\n"
+    },
+    "cargo-fmt": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.3,
+      "log": "logs/cargo-fmt.log",
+      "tail": ""
+    },
+    "cargo-clippy": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 7.8,
+      "log": "logs/cargo-clippy.log",
+      "tail": "    Updating crates.io index\n Downloading crates ...\n  Downloaded itoa v1.0.18\n  Downloaded unicode-ident v1.0.27\n  Downloaded zmij v1.0.23\n  Downloaded memchr v2.8.3\n  Downloaded quote v1.0.47\n  Downloaded serde_derive v1.0.228\n  Downloaded proc-macro2 v1.0.107\n  Downloaded serde v1.0.228\n  Downloaded serde_core v1.0.228\n  Downloaded serde_json v1.0.149\n  Downloaded syn v2.0.119\n   Compiling proc-macro2 v1.0.107\n   Compiling unicode-ident v1.0.27\n   Compiling quote v1.0.47\n   Compiling serde_core v1.0.228\n   Compiling zmij v1.0.23\n   Compiling serde_json v1.0.149\n   Compiling serde v1.0.228\n   Compiling syn v2.0.119\n    Checking itoa v1.0.18\n    Checking memchr v2.8.3\n   Compiling serde_derive v1.0.228\n    Checking browser-core v0.1.0 (/Users/runner/work/browser/browser/crates/browser-core)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.56s\n"
+    },
+    "cargo-test": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 3.2,
+      "log": "logs/cargo-test.log",
+      "tail": "   Compiling serde_core v1.0.228\n   Compiling zmij v1.0.23\n   Compiling memchr v2.8.3\n   Compiling itoa v1.0.18\n   Compiling serde_json v1.0.149\n   Compiling serde v1.0.228\n   Compiling browser-core v0.1.0 (/Users/runner/work/browser/browser/crates/browser-core)\n    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.15s\n     Running unittests src/lib.rs (/Users/runner/axiosozo-build/cargo-target/debug/deps/browser_core-26cd4b0cd630c02b)\n\nrunning 11 tests\ntest tests::authentication_and_session_isolation ... ok\ntest tests::expiry_scope_and_one_use ... ok\ntest tests::chrome_registration_preserves_real_target_and_rejects_rebinding ... ok\ntest tests::generations_are_lossless_in_javascript ... ok\ntest tests::forged_engine_identity_fails ... ok\ntest tests::private_context_never_granted ... ok\ntest tests::no_web_origin_or_extra_fields ... ok\ntest tests::replay_and_reconnect_never_repeat_action ... ok\ntest tests::stale_document_invalidates_grant ... ok\ntest tests::webkit_engine_is_its_own_identity ... ok\ntest tests::target_ids_are_browser_minted_and_unique ... ok\n\ntest result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n"
+    },
+    "cargo-build": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.7,
+      "log": "logs/cargo-build.log",
+      "tail": "   Compiling browser-core v0.1.0 (/Users/runner/work/browser/browser/crates/browser-core)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.64s\n"
+    },
+    "python-compile": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.4,
+      "log": "logs/python-compile.log",
+      "tail": "3.9.6 (default, Apr 30 2025, 02:07:17) \n[Clang 17.0.0 (clang-1700.0.13.5)]\n"
+    },
+    "python:test_agent_notify_install.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.3,
+      "log": "logs/python_test_agent_notify_install.py.log",
+      "tail": "l.InstallTest) ... ok\ntest_private_directory_refuses_wrong_mode_foreign_uid_and_symlink (test_agent_notify_install.InstallTest) ... ok\ntest_private_helper_mode_uid_link_or_special_refuse_without_repair (test_agent_notify_install.InstallTest) ... ok\ntest_product_pin_matches_native_module_literal (test_agent_notify_install.InstallTest) ... ok\ntest_setup_fixed_source_and_private_checksum_target (test_agent_notify_install.InstallTest) ... ok\ntest_short_writes_complete_exact_source (test_agent_notify_install.InstallTest) ... ok\ntest_source_ancestor_symlink_refuses_before_content_read (test_agent_notify_install.InstallTest) ... ok\ntest_source_hash_mismatch_before_build_mutations (test_agent_notify_install.InstallTest) ... ok\ntest_source_replacement_before_open_refuses (test_agent_notify_install.InstallTest) ... ok\ntest_source_same_inode_edit_during_read_refuses (test_agent_notify_install.InstallTest) ... ok\ntest_source_symlink_hardlink_foreign_uid_and_group_write_refuse_without_read (test_agent_notify_install.InstallTest) ... ok\ntest_source_too_large_before_read_refuses (test_agent_notify_install.InstallTest) ... ok\ntest_unknown_existing_hash_preserved (test_agent_notify_install.InstallTest) ... ok\ntest_valid_existing_setup_and_check_are_readonly (test_agent_notify_install.InstallTest) ... ok\ntest_zero_write_cleans_only_own_partial_entry (test_agent_notify_install.InstallTest) ... ok\n\n----------------------------------------------------------------------\nRan 22 tests in 0.013s\n\nOK\n"
+    },
+    "python:test_dev.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.7,
+      "log": "logs/python_test_dev.py.log",
+      "tail": "pointGates) ... SKIPPED_WORKSTATION_FIXTURE: agent socket POSIX tests require the workstation root\nSKIPPED_WORKSTATION_FIXTURE: agent bridge installer/stdio tests require the workstation root\nFAIL: current coordinator build unavailable; lifecycle tests were not run against a stale executable\nTEST gate summary (Darwin arm64):\n  PASS        exit=0   invented\n  FAIL        exit=1   coordinator lifecycle tests (stale or missing build)\nTEST: 1 PASS, 1 FAIL, 0 BLOCKED_ENV\nok\ntest_failed_e0_never_launches_zen_inspection (test_dev.EntrypointGates) ... PARTIAL_ENGINE_BLOCKED: E0 did not pass; no Zen embedding test was started.\nok\ntest_fixture_session_name_matches_native_profile_guard (test_dev.EntrypointGates) ... ok\ntest_linux_blocked_components_are_listed_but_not_failures (test_dev.EntrypointGates) ... ok\ntest_missing_custom_zen_never_creates_probe_profile (test_dev.EntrypointGates) ... BLOCKED_ENV: current coordinator and custom Zen builds are required for GUI inspection\nok\ntest_missing_pinned_node_blocks_provider_without_running_it (test_dev.EntrypointGates) ... ok\ntest_missing_pinned_node_starts_no_daily_session (test_dev.EntrypointGates) ... ok\ntest_provider_node_never_falls_back_to_global_node (test_dev.EntrypointGates) ... ok\ntest_web_probe_also_requires_actual_native_e0 (test_dev.EntrypointGates) ... PARTIAL_ENGINE_BLOCKED: E0 did not pass; no Zen embedding test was started.\nok\n\n----------------------------------------------------------------------\nRan 14 tests in 0.031s\n\nOK\n"
+    },
+    "python:test_dev_cleanup.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.2,
+      "log": "logs/python_test_dev_cleanup.py.log",
+      "tail": "test_final_timeout_does_not_retry_signals (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_grace_timeout_escalates_before_reap (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_initial_interrupt_already_reaped_has_no_signals (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_initial_wait_error_still_uses_owned_cleanup (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_interrupted_unreaped_leader_gets_term_then_grace_wait (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_kill_permission_error_propagates_after_wait (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_missing_kill_group_still_reaps_direct_child (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_missing_term_group_still_reaps_direct_child (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_nondefault_sigchld_rejected_before_build_mount_or_popen (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_nonzero_exit_is_preserved_without_cleanup (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_normal_exit_has_no_cleanup_signal_or_extra_wait (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_term_permission_error_propagates_after_wait (test_dev_cleanup.OwnedRunCleanupTests) ... ok\ntest_timeout_with_reaped_status_never_resignals_or_rewaits (test_dev_cleanup.OwnedRunCleanupTests) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 0.001s\n\nOK\n"
+    },
+    "python:test_fixtures.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.6,
+      "log": "logs/python_test_fixtures.py.log",
+      "tail": "test_exact_fixture_origin_and_no_privileged_endpoints (test_fixtures.Fixtures) ... ok\ntest_generated_certificate_is_not_trusted (test_fixtures.Fixtures) ... ok\ntest_owned_fixture_port_closes (test_fixtures.Fixtures) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.400s\n\nOK\n"
+    },
+    "python:test_gui_engine_chromium.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.3,
+      "log": "logs/python_test_gui_engine_chromium.py.log",
+      "tail": "test_environment_is_fixture_mode_bound_to_the_harness (test_gui_engine_chromium.ChromiumPlugin) ... ok\ntest_gecko_still_visible_or_wrong_render_path_fails (test_gui_engine_chromium.ChromiumPlugin) ... ok\ntest_registered_with_owner (test_gui_engine_chromium.ChromiumPlugin) ... ok\ntest_rendered_only_from_engine_reported_state (test_gui_engine_chromium.ChromiumPlugin) ... ok\ntest_title_must_come_from_the_engine (test_gui_engine_chromium.ChromiumPlugin) ... ok\ntest_unbuilt_host_is_blocked_env (test_gui_engine_chromium.ChromiumPlugin) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.007s\n\nOK\n"
+    },
+    "python:test_gui_view_pixels.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.4,
+      "log": "logs/python_test_gui_view_pixels.py.log",
+      "tail": "test_black_view_has_no_content (test_gui_view_pixels.ViewPixelsTest) ... ok\ntest_blank_light_page_has_no_text (test_gui_view_pixels.ViewPixelsTest) ... ok\ntest_box_is_clipped_to_the_image (test_gui_view_pixels.ViewPixelsTest) ... ok\ntest_text_on_light_page_is_content (test_gui_view_pixels.ViewPixelsTest) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.038s\n\nOK\n"
+    },
+    "python:test_key_fixture.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.3,
+      "log": "logs/python_test_key_fixture.py.log",
+      "tail": "test_busy_lock_refuses_and_closes_without_mutating_marker (test_key_fixture.FixtureTests) ... ok\ntest_corrupt_presence_data_is_refused_without_deletion (test_key_fixture.FixtureTests) ... ok\ntest_exact_external_hash_named_path_only (test_key_fixture.FixtureTests) ... ok\ntest_exists_remove_cannot_receive_secret_data (test_key_fixture.FixtureTests) ... ok\ntest_lock_owner_mode_and_nlink_are_checked (test_key_fixture.FixtureTests) ... ok\ntest_main_rejects_bad_argv_before_any_filesystem_admission (test_key_fixture.FixtureTests) ... ok\ntest_marker_owner_type_permissions_links_are_fail_closed (test_key_fixture.FixtureTests) ... ok\ntest_missing_has_exit_44_and_no_marker_mutation (test_key_fixture.FixtureTests) ... ok\ntest_no_unlink_after_marker_identity_changes (test_key_fixture.FixtureTests) ... ok\ntest_only_exact_invented_placeholders_are_accepted (test_key_fixture.FixtureTests) ... ok\ntest_owned_directory_required (test_key_fixture.FixtureTests) ... ok\ntest_read_and_unknown_operations_selectors_are_never_implemented (test_key_fixture.FixtureTests) ... ok\ntest_repeat_store_does_not_rewrite_existing_marker (test_key_fixture.FixtureTests) ... ok\ntest_two_providers_stay_separate_and_store_only_literal_marker (test_key_fixture.FixtureTests) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 0.008s\n\nOK\n"
+    },
+    "python:test_key_fixture_lock.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.2,
+      "log": "logs/python_test_key_fixture_lock.py.log",
+      "tail": "test_exclusive_writer_excludes_presence_and_mutation (test_key_fixture_lock.PresenceLockTests) ... ok\ntest_presence_reads_coexist_with_another_owned_shared_reader (test_key_fixture_lock.PresenceLockTests) ... ok\ntest_shared_reader_excludes_store_and_remove_without_changes (test_key_fixture_lock.PresenceLockTests) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.019s\n\nOK\n"
+    },
+    "python:test_lifecycle.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 25.7,
+      "log": "logs/python_test_lifecycle.py.log",
+      "tail": "test_profile_inventory_does_not_authorize_deletion (test_lifecycle.CefProfileCleanup) ... ok\ntest_chrome_stdio_bootstrap_and_invalid_bootstrap (test_lifecycle.Lifecycle) ... ok\ntest_cleanup_after_partial_start_failure (test_lifecycle.Lifecycle) ... ok\ntest_descendant_ignoring_term_receives_group_kill (test_lifecycle.Lifecycle) ... ok\ntest_foreign_token_rejected_without_leaking_secret (test_lifecycle.Lifecycle) ... ok\ntest_no_bootstrap_and_no_inherited_secret (test_lifecycle.Lifecycle) ... ok\ntest_oversized_and_malformed_frames_close_owned_process (test_lifecycle.Lifecycle) ... ok\ntest_symlink_ancestor_rejected_without_creating_outside_namespace (test_lifecycle.Lifecycle) ... ok\ntest_symlink_lock_rejected (test_lifecycle.Lifecycle) ... ok\ntest_two_starts_stops_no_orphan_or_profile_double_owner (test_lifecycle.Lifecycle) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 25.544s\n\nOK\n"
+    },
+    "python:test_linux_desktop.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.3,
+      "log": "logs/python_test_linux_desktop.py.log",
+      "tail": "test_entry_matches_gecko_window_class_and_quotes_exec (test_linux_desktop.LinuxDesktop) ... ok\ntest_icons_are_the_bundle_sizes (test_linux_desktop.LinuxDesktop) ... ok\ntest_install_writes_only_under_xdg_data_home_and_uninstall_removes_it (test_linux_desktop.LinuxDesktop) ... ok\ntest_resolve_accepts_the_directory_or_the_executable (test_linux_desktop.LinuxDesktop) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.019s\n\nOK\n"
+    },
+    "python:test_manifest_accept_install.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.4,
+      "log": "logs/python_test_manifest_accept_install.py.log",
+      "tail": "e_foreign_uid_and_symlink (test_manifest_accept_install.InstallTest) ... ok\ntest_private_helper_mode_uid_link_or_special_refuse_without_repair (test_manifest_accept_install.InstallTest) ... ok\ntest_setup_fixed_source_and_private_checksum_target (test_manifest_accept_install.InstallTest) ... ok\ntest_short_writes_complete_exact_source (test_manifest_accept_install.InstallTest) ... ok\ntest_source_ancestor_symlink_refuses_before_content_read (test_manifest_accept_install.InstallTest) ... ok\ntest_source_hash_mismatch_before_build_mutations (test_manifest_accept_install.InstallTest) ... ok\ntest_source_replacement_before_open_refuses (test_manifest_accept_install.InstallTest) ... ok\ntest_source_same_inode_edit_during_read_refuses (test_manifest_accept_install.InstallTest) ... ok\ntest_source_symlink_hardlink_foreign_uid_and_group_write_refuse_without_read (test_manifest_accept_install.InstallTest) ... ok\ntest_template_only_pin_and_nested_template_pin_refuse (test_manifest_accept_install.InstallTest) ... ok\ntest_unknown_existing_hash_preserved (test_manifest_accept_install.InstallTest) ... ok\ntest_unsupported_division_cannot_expose_a_template_pin (test_manifest_accept_install.InstallTest) ... ok\ntest_valid_existing_setup_and_check_are_readonly (test_manifest_accept_install.InstallTest) ... ok\ntest_zero_write_cleans_only_own_partial_entry (test_manifest_accept_install.InstallTest) ... ok\n\n----------------------------------------------------------------------\nRan 29 tests in 0.036s\n\nOK\n"
+    },
+    "python:test_release_preview.py": {
+      "status": "FAIL",
+      "exit": 1,
+      "seconds": 1.6,
+      "log": "logs/python_test_release_preview.py.log",
+      "tail": "pted (test_release_preview.SigningIdentity) ... skipped '/Volumes/AxioSozoBuild (project APFS volume) is not mounted'\ntest_identity_path_signs_inside_out_without_contacting_apple (test_release_preview.SigningIdentity) ... skipped '/Volumes/AxioSozoBuild (project APFS volume) is not mounted'\ntest_missing_identity_blocks_after_identity_free_steps (test_release_preview.SigningIdentity) ... skipped '/Volumes/AxioSozoBuild (project APFS volume) is not mounted'\ntest_notarize_requires_explicit_authorization (test_release_preview.SigningIdentity) ... ok\ntest_commit_mismatch_refuses (test_release_preview.SourceGate) ... ok\ntest_modified_tracked_file_refuses (test_release_preview.SourceGate) ... ok\ntest_untracked_file_refuses_before_any_write (test_release_preview.SourceGate) ... ok\n\n======================================================================\nFAIL: test_stage_root_must_be_external (test_release_preview.BundleChecks)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/runner/work/browser/browser/tests/test_release_preview.py\", line 442, in test_stage_root_must_be_external\n    self.assertIsNone(preview.stage_root_problem(self.stage_root))\nAssertionError: '/Users/runner/work/browser/browser/.local/release-tests/case-gi5afp8o/stage is not on external storage under /Volumes' is not None\n\n----------------------------------------------------------------------\nRan 21 tests in 1.290s\n\nFAILED (failures=1, skipped=5)\n"
+    },
+    "python:test_session_cleanup.py": {
+      "status": "PASS",
+      "exit": 0,
+      "seconds": 0.1,
+      "log": "logs/python_test_session_cleanup.py.log",
+      "tail": " ... ok\ntest_nondefault_sigchld_close_never_signals_or_waits (test_session_cleanup.CleanupTests) ... ok\ntest_nondefault_sigchld_spawn_rejected_before_popen (test_session_cleanup.CleanupTests) ... ok\ntest_profile_namespace_not_inspected_or_deleted_even_without_processes (test_session_cleanup.CleanupTests) ... ok\ntest_reaped_handles_receive_no_signal_wait_or_grace (test_session_cleanup.CleanupTests) ... ok\ntest_sigchld_change_during_grace_retains_leader_and_lease (test_session_cleanup.CleanupTests) ... ok\ntest_stream_error_continues_lock_release_and_reports_uncertain (test_session_cleanup.CleanupTests) ... ok\ntest_term_permission_error_reports_uncertain_after_reap (test_session_cleanup.CleanupTests) ... ok\ntest_uncertain_session_cannot_spawn_new_process (test_session_cleanup.CleanupTests) ... ok\ntest_unexpected_external_reap_during_grace_never_resignals (test_session_cleanup.CleanupTests) ... ok\ntest_unlock_error_still_closes_owned_lock_after_reap (test_session_cleanup.CleanupTests) ... ok\ntest_unreaped_leader_kept_through_grace_and_kill_before_wait (test_session_cleanup.CleanupTests) ... ok\ntest_wait_error_continues_other_direct_reaps_without_unlock (test_session_cleanup.CleanupTests) ... ok\ntest_wait_timeout_retains_lease_streams_and_handles (test_session_cleanup.CleanupTests) ... ok\ntest_zombie_group_kill_permission_error_is_uncertain (test_session_cleanup.CleanupTests) ... ok\n\n----------------------------------------------------------------------\nRan 19 tests in 0.001s\n\nOK\n"
+    }
+  }
+}
