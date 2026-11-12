@@ -432,8 +432,11 @@ LINUX_SOURCES = ['CMakeLists.txt', 'transport.hpp', 'a11y_core.hpp', 'core/json.
                  'core/cef_util.hpp', 'core/platform.hpp', 'core/png.hpp', 'core/host_core.hpp',
                  'core/host_core.cc', 'core/delegation.inc', 'core/input.inc', 'core/a11y_bridge.inc',
                  'core/handlers.inc', 'linux/main_linux.cc', 'linux/helper_linux.cc', 'linux/platform_linux.cc']
-LINUX_RUNTIME = ['libcef.so', 'libEGL.so', 'libGLESv2.so', 'libvk_swiftshader.so', 'libvulkan.so.1',
+LINUX_RUNTIME = ['libcef.so', 'libvk_swiftshader.so', 'libvulkan.so.1',
                  'v8_context_snapshot.bin', 'vk_swiftshader_icd.json']
+# CEF 156 no longer ships ANGLE's libEGL.so/libGLESv2.so (as on macOS); libcef.so loads
+# them only when present, so they are copied from older distributions but not required.
+LINUX_OPTIONAL_RUNTIME = ['libEGL.so', 'libGLESv2.so']
 LINUX_RESOURCES = ['chrome_100_percent.pak', 'chrome_200_percent.pak', 'resources.pak', 'icudtl.dat']
 
 
@@ -518,6 +521,11 @@ def linux_setup():
     run_command(['cmake', '--build', build, '--parallel', str(max(1, os.cpu_count() or 1))])
     for name in LINUX_RUNTIME:
         link_or_copy(CEF / 'Release' / name, APP / name)
+    for name in LINUX_OPTIONAL_RUNTIME:
+        if (CEF / 'Release' / name).is_file():
+            link_or_copy(CEF / 'Release' / name, APP / name)
+        elif (APP / name).is_file() or (APP / name).is_symlink():
+            (APP / name).unlink()  # never keep a previous pin's ANGLE beside the new libcef.so
     for name in LINUX_RESOURCES:
         link_or_copy(CEF / 'Resources' / name, APP / name)
     # The distribution README permits shipping only the configured locale (en-US).

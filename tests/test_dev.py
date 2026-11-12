@@ -66,7 +66,8 @@ class EntrypointGates(unittest.TestCase):
                 pinned.write_text("")
                 with self.assertRaisesRegex(RuntimeError, r"not the current pin"):
                     dev.provider_node()
-                pin = json.loads((dev.ROOT / "patches/zen/toolchains.json").read_text())["node"]["sha256"]
+                import zen_toolchain  # the host's pin file, as provider_node() reads it
+                pin = json.loads(zen_toolchain.PIN_FILE.read_text())["node"]["sha256"]
                 (pinned.parents[1] / ".extracted").write_text("0" * 64 + "\n")
                 with self.assertRaisesRegex(RuntimeError, r"not the current pin"):
                     dev.provider_node()

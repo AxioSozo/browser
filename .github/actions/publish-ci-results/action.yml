@@ -55,15 +55,20 @@ runs:
           "$REF" "$SHA" "$RUN" "$NAME" "$SERVER" "$REPO" "${RUN%%-*}" "$(date -u +%FT%TZ)" > "$work/$dest/_run.json"
         git -C "$work" add -A -- "$dest"
         git -C "$work" commit -qm "ci-results: $dest"
-        for attempt in 1 2 3 4 5 6; do
+        # A push to dev starts a dozen workflows that all publish here. On a rejected
+        # push, rebuild the one commit on the newest tip (only $dest is ours, so no
+        # rebase of shallow history) and retry with jitter.
+        for attempt in $(seq 1 15); do
           if git -C "$work" push -q origin HEAD:ci-results; then
             echo "publish-ci-results: published ci-results:$dest"
             echo "Results: \`git fetch origin ci-results && git ls-tree -r --name-only origin/ci-results -- $dest\`" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          sleep $((attempt * 4))
-          git -C "$work" fetch -q --depth 1 origin ci-results
-          git -C "$work" rebase -q FETCH_HEAD
+          sleep $((attempt * 2 + RANDOM % 10))
+          git -C "$work" fetch -q --depth 1 origin ci-results || continue
+          git -C "$work" reset -q FETCH_HEAD
+          git -C "$work" add -A -- "$dest"
+          git -C "$work" commit -qm "ci-results: $dest"
         done
-        echo "publish-ci-results: push failed after retries" >&2
-        exit 1
+        # Publishing is a convenience copy for cloud sessions; the job's own steps decide pass/fail.
+        echo "::warning::publish-ci-results: push to ci-results failed after retries; results remain in the run's artifacts/logs"
