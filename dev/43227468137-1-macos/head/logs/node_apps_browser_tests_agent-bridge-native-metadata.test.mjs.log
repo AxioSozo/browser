@@ -1,0 +1,20 @@
+✔ fixed metadata branch accepts only numeric native EOF from stdin close plus actual stdout EOF and zero wait (7.783709ms)
+✔ native EOF alone cannot admit invalid metadata or nonzero owned wait (1.724834ms)
+✔ non-EOF numeric, string EOF and private close failures reject fixed metadata without hashing (0.863666ms)
+✔ raw stdout/stderr enforce 512-byte cap and reject non-ASCII metadata (0.5825ms)
+✔ missing canonical OS metadata tool refuses before any process seam (0.207125ms)
+✔ metadata setup watchdog drops late child and cleans only that retained handle without reading it (0.566208ms)
+✔ hanging owned wait is refused within metadata plus bounded cleanup deadlines, never treated as exit proof (0.644542ms)
+✔ owned exit remains known when stdout read later fails (0.609791ms)
+✔ owned exit remains known when stderr read later fails (0.329875ms)
+✔ owned exit remains known when stdin close later fails with a non-EOF error (0.501209ms)
+✔ known owned exit plus stalled stderr still refuses at the metadata deadline without kill (2.270584ms)
+✔ read failure before any owned exit still kills and cleanup stays bounded (1.639375ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 83.095459
