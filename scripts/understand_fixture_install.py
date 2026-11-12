@@ -22,7 +22,7 @@ PYTHON = VOLUME / "toolchains/zen/python/bin/python3.11"
 NODE = VOLUME / "toolchains/zen/node/bin/node"
 BINARY_PINS = (
     (PYTHON, "67909d536cd240fcf4b1125a9ff691ad473ad23156fa4f45611da52233959071", 32 * 1024 * 1024),
-    (NODE, "2cc28a1880d0774616959f2210ee739bffa6ac695c887e8988a496a21271f6c0", 128 * 1024 * 1024),
+    (NODE, "ff9365ccf73e95b7ac69867418124973addde63043650c0db96bd6a722c53cd8", 128 * 1024 * 1024),
 )
 # Closed mapping: no caller-selected paths, manifests, commands or source bytes.
 INPUTS = (
@@ -33,8 +33,8 @@ INPUTS = (
     ("packages/provider-host/src/understand.mjs", "packages/provider-host/src/understand.mjs", "6f070833e58709c9a64345a19791c7f61f17baec2db7e58a9538c3eb92f69ef7", 65536),
     ("packages/provider-host/src/validation.mjs", "packages/provider-host/src/validation.mjs", "f9bc96f48c21c473061c8ab0fea425879a7d7279554542ccaa81134470f81365", 65536),
     ("packages/provider-host/vendor/t3/version.ts", "packages/provider-host/vendor/t3/version.ts", "d335a12481cab591cf84abc98b1becdec6229674e9e59fd0d8067cf204e8f92f", 65536),
-    ("policy.json", "tools/axiosozo-understand/policy.json", "9d18d84c61457a9e97fd5548a32542dc0427bd63af817bdbf4114f3e013d0c32", 32768),
-    ("understand_fixture.py", "tools/axiosozo-understand/understand_fixture.py", "3f9d4ac05a87f7c9aa694eaa57bbbca648338e5be36e136d6d03c87ca91017d8", 65536),
+    ("policy.json", "tools/axiosozo-understand/policy.json", "11bfa29243e6dd76224244c252b827794de6cb4a9e9efded19b01cfdadd17fcc", 32768),
+    ("understand_fixture.py", "tools/axiosozo-understand/understand_fixture.py", "816814804e3f91bd89d0bf6e304c6de7d4a58fe3b5bc20682ff895fd5b85ade5", 65536),
 )
 DIRECTORIES = (
     "home", "projects", "projects/harbor", "projects/inkline", "packages", "packages/provider-host",

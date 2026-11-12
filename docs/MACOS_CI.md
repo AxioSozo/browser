@@ -27,7 +27,7 @@ everything to `ci-results:<branch>/<run>-<attempt>-macos/{head,base,compare.md,c
 | `cargo-*` | `cargo fmt --check`, `clippy -D warnings`, `test`, `build` (Rust 1.99.1, workspace) |
 | `python-compile` | every script compiled by `/usr/bin/python3` 3.9 (catches 3.10+ syntax) |
 | `python:*` | each `tests/test_*.py` module, `apps/browser/tests/test_bootstrap.py`, the three `tools/*` tests |
-| `node:*` | each `apps/browser/tests`, `packages/contexts/tests`, `packages/provider-host/tests` `*.test.mjs` (Node 24.14.0 pinned) |
+| `node:*` | each `apps/browser/tests`, `packages/contexts/tests`, `packages/provider-host/tests` `*.test.mjs` (Node 24.22.3 pinned) |
 | `provider:*` | `cli.mjs check`, `setup` (Keychain helper + Seatbelt broker build), `keychain-negative-test` (empty search list, invalid input — no secret), `sandbox-test` |
 | `cef:*` | `probe.py setup` (pinned macosarm64 CEF 154, sha256-checked, compile + ad hoc sign), `check`, `test-native` (transport/crash-guard/a11y), `test_probe.py`, `stream_test.py` (real OSR on the runner), `surface_test.py` (Mach/IOSurface engine-surface-v1 transport + receiver), portable `transport_damage_test`/`core_test` |
 | `webkit:*` | engine-neutral core (`test_transport`, `test_json`, fake-host `core_test`), WKWebView scaffold build and `mac_test.py stream/input/security` |

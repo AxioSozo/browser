@@ -74,7 +74,7 @@ jobs:
           mkdir -p "$AXIOSOZO_BUILD_ROOT"
           chmod 700 "$AXIOSOZO_BUILD_ROOT"
 
-      - name: Pinned Node 24.14.0 (sha256 from upstreams.lock.json ci_node)
+      - name: Pinned Node 24.22.3 (sha256 from upstreams.lock.json ci_node)
         run: /usr/bin/python3 scripts/macos_ci.py node --dest "$AXIOSOZO_BUILD_ROOT/ci-tools" | tail -1 >> "$GITHUB_PATH"
 
       - name: Rust 1.99.1 (rustup, signed channel manifest)

@@ -36,7 +36,7 @@ See `docs/evidence/root-check-20260923-after-fetch.json`.
 The root coordinator builds with Rust 1.99.1 from the root `rust-toolchain.toml`
 (rustup); a toolchain change forces a coordinator rebuild. Firefox uses the
 pinned Rust 1.95.0 toolchain.
-Provider tests use the project-pinned Node 22.23.4; there is no separate global
+Provider tests use the project-pinned Node 22.23.5; there is no separate global
 Node installation requirement. The full Zen toolchain
 is now checksum-pinned and installed only on the T9-backed project volume,
 including cbindgen 0.29.4 and WASI SDK 34. See `patches/zen/toolchains.json` and

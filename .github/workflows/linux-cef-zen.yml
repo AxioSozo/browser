@@ -80,7 +80,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Pinned Node 24.14.0 (sha256 from upstreams.lock.json)
+      - name: Pinned Node 24.22.3 (sha256 from upstreams.lock.json)
         run: echo "$(python3 scripts/ci_tools.py node)" >> "$GITHUB_PATH"
       - name: Node unit tests (CEF adapter/presenter, Chromium UI and a11y, engine UX)
         run: |

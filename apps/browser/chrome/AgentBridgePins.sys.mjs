@@ -1,5 +1,5 @@
 // Fixed immutable bridge-bundle pins. Data only; never executes a bridge or client.
-export const AGENT_BRIDGE_BUNDLE_SHA256 = "7e3bc2f4aa1c034dacd1bb847461b01c2ef535ff1da4c8f2175e31261838bfda";
+export const AGENT_BRIDGE_BUNDLE_SHA256 = "0ab489c9f21e21656b752dba8eb601c3d72c80181d7a701fcb84e17f889f058a";
 export const AGENT_BRIDGE_SOURCE_NODE = "/Volumes/AxioSozoBuild/toolchains/zen/node/bin/node";
 export const AGENT_BRIDGE_FILES = Object.freeze([
   {
@@ -40,7 +40,7 @@ export const AGENT_BRIDGE_FILES = Object.freeze([
   },
   {
     "relative": "node",
-    "sha256": "2cc28a1880d0774616959f2210ee739bffa6ac695c887e8988a496a21271f6c0",
+    "sha256": "ff9365ccf73e95b7ac69867418124973addde63043650c0db96bd6a722c53cd8",
     "maxBytes": 134217728,
     "mode": 320
   }

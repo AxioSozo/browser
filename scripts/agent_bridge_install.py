@@ -31,12 +31,12 @@ NODE_SOURCE = storage.VOLUME / 'toolchains/zen/node/bin/node'
 # macOS values are the ones chrome pins (AgentBridgePins.sys.mjs). The Linux bundle
 # installs and verifies, but chrome's bridge stays macOS-only (fails closed on Linux).
 HOST_PINS = {
-    'linux-x86_64': ('94efd062ed066c1a0b332e18249859c905e920eeada5df55d24c99b919629a90',
-                     'b49a428ac414cfed7ea8e05f014fd6818e3187efff9c98f81093539d2fe1aee4'),
+    'linux-x86_64': ('2f822d544601dfff107f57d945b649d15c5bf6302595735a6bd9cdc7ee9669bd',
+                     '2454dcb8cf417774dc6b6bd0a35f2938a594ee6b92b5358d88c40f6dad1aaeac'),
 }
 NODE_SHA256, BUNDLE_SHA256 = HOST_PINS.get('linux-' + platform.machine() if storage.LINUX else None, (
-    '2cc28a1880d0774616959f2210ee739bffa6ac695c887e8988a496a21271f6c0',
-    '7e3bc2f4aa1c034dacd1bb847461b01c2ef535ff1da4c8f2175e31261838bfda'))
+    'ff9365ccf73e95b7ac69867418124973addde63043650c0db96bd6a722c53cd8',
+    '0ab489c9f21e21656b752dba8eb601c3d72c80181d7a701fcb84e17f889f058a'))
 MAX_SOURCE_BYTES = 64 * 1024
 MAX_NODE_BYTES = 128 * 1024 * 1024
 CHUNK_BYTES = 64 * 1024
