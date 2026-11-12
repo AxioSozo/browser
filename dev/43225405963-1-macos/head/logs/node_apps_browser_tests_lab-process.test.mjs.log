@@ -1,0 +1,21 @@
+✔ the supervisor runs the client in its own process group and escalates interrupt → TERM → KILL (2.682ms)
+✔ findOnPath takes the first executable file and skips relative or odd folders (1.634459ms)
+✔ launchFor runs a binary itself and a Node script with the Node it was installed for (1.775958ms)
+✔ readLines splits across chunks, keeps UTF-8 split across reads, skips an over-long line and stops a flood (3.664375ms)
+✔ startSupervised starts /bin/sh with the fixed script and the client's argv, environment not inherited (1.025584ms)
+✔ a run delivers lines, keeps a stderr tail and reports its exit (0.468084ms)
+✔ stop in pipe mode: the interrupt first, stdin closes, the supervisor is signalled only after the grace (9.650083ms)
+✔ stop in lease mode closes the lease at once; the kill is only a late fallback; kill() is immediate (2.45275ms)
+✔ too much output ends the run (1.497458ms)
+✔ runOnce closes stdin, collects both outputs and kills on timeout (1.949583ms)
+✔ scratch folders: 0700 per run, 0600 files, removed when done and on the next start (0.998792ms)
+✔ small helpers (6.386375ms)
+✔ an executable found through a symlink is reported as its PATH entry (0.18675ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 143.066666

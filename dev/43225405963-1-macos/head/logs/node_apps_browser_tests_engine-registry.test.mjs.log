@@ -1,0 +1,25 @@
+✔ the registry lists gecko, chromium and webkit with technical ids and separate labels (1.777834ms)
+✔ gecko is always available; chromium follows the web-mode flag; webkit says why it is unavailable here (0.719875ms)
+✔ webkit is hidden from menus unless the developer pref is set, then shown disabled with its reason (0.194959ms)
+✔ ids normalize: contract `firefox` reads as gecko, legacy values still restore, unknown ids are rejected (0.176792ms)
+✔ context-v1 mapping: gecko is the contract spelling, firefox a deprecated read alias, webkit cannot be stored yet (0.628125ms)
+✔ presenter factories are registered by the owning workstream, never built by the registry (0.621292ms)
+✔ with two available engines the tab menu is the single toggle item, as today (1.000042ms)
+✔ with more than two available engines the menu becomes an Open in submenu with the current engine checked (0.65775ms)
+✔ the developer pref lists webkit disabled in a submenu; it is never a selectable target (0.433917ms)
+✔ the tab menu installs one toggle item next to Reload and switches through setTabEngine (2.678ms)
+✔ the tab menu hides without a second engine and in private windows (0.844667ms)
+✔ with the developer pref the tab menu is an Open in submenu; the disabled engine and the current one do nothing (0.303541ms)
+✔ a failed switch from the menu is reported, not thrown (7.243125ms)
+✔ no tab menu, no installer (0.126833ms)
+✔ webkit availability names the reason: macOS, other platforms, pref, host, fixture page (0.620125ms)
+✔ three available engines: the tab menu is an Open in submenu and the glyph cycles gecko → chromium → webkit → gecko (0.852083ms)
+✔ a later tab-menu installer takes the menu over until it disposes; the earlier one is then in charge again (0.737125ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.500084
