@@ -1,0 +1,61 @@
++ ./mach package
+Creating the 'common' site at /home/runner/axiosozo-build/zen/mozbuild/srcdirs/engine-58c8d4c7ff1f/_virtualenvs/common
+/usr/bin/gmake -C . -j4 -s -w package
+gmake: Entering directory '/home/runner/axiosozo-build/zen/obj'
+gmake[1]: Entering directory '/home/runner/axiosozo-build/zen/obj/browser/installer'
+gmake[2]: Entering directory '/home/runner/axiosozo-build/zen/obj/browser/installer'
+gmake[3]: Entering directory '/home/runner/axiosozo-build/zen/obj/browser/installer'
+BUILDSTATUS@browser/installer START_file_generate multilocale.txt
+BUILDSTATUS@browser/installer START_locale_manifest --output locale-manifest.in --base-path @RESPATH@ --locales  en-US --locale-entries @RESPATH@/browser/chrome/ @RESPATH@/chrome/
+BUILDSTATUS@browser/installer START_make_sourcestamp_file --output ../../dist//axiosozo-dev-0.1a1.en-US.linux-x86_64.txt --buildid-header ../../buildid.h --source-repo-header ../../source-repo.h
+BUILDSTATUS@browser/installer END_locale_manifest --output locale-manifest.in --base-path @RESPATH@ --locales  en-US --locale-entries @RESPATH@/browser/chrome/ @RESPATH@/chrome/
+BUILDSTATUS@browser/installer END_file_generate multilocale.txt
+BUILDSTATUS@browser/installer END_make_sourcestamp_file --output ../../dist//axiosozo-dev-0.1a1.en-US.linux-x86_64.txt --buildid-header ../../buildid.h --source-repo-header ../../source-repo.h
+Generating XPT artifacts archive (axiosozo-dev-0.1a1.en-US.linux-x86_64.xpt_artifacts.zip)
+BUILDSTATUS@browser/installer START_zip axiosozo-dev-0.1a1.en-US.linux-x86_64.xpt_artifacts.zip
+BUILDSTATUS@browser/installer END_zip axiosozo-dev-0.1a1.en-US.linux-x86_64.xpt_artifacts.zip
+Compressing...
+BUILDSTATUS@browser/installer START_package XZ
+BUILDSTATUS@browser/installer END_package XZ
+gmake[3]: Leaving directory '/home/runner/axiosozo-build/zen/obj/browser/installer'
+gmake[3]: Entering directory '/home/runner/axiosozo-build/zen/obj/browser/locales'
+Making langpack
+gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/browser/locales'
+BUILDSTATUS@browser/locales START_l10n_stage --locale=en-US --manifest=../../l10n-manifest.json --merge-tree=/home/runner/axiosozo-build/zen/obj/browser/locales/merge-dir/en-US --dest=../../dist/xpi-stage/locale-en-US --topsrcdir=/home/runner/axiosozo-build/zen/source/engine --topobjdir=../..
+BUILDSTATUS@browser/locales END_l10n_stage --locale=en-US --manifest=../../l10n-manifest.json --merge-tree=/home/runner/axiosozo-build/zen/obj/browser/locales/merge-dir/en-US --dest=../../dist/xpi-stage/locale-en-US --topsrcdir=/home/runner/axiosozo-build/zen/source/engine --topobjdir=../..
+gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/browser/locales'
+gmake[4]: Entering directory '/home/runner/axiosozo-build/zen/obj/browser/locales'
+BUILDSTATUS@browser/locales START_package_langpack --locale=en-US --xpi-stage=../../dist/xpi-stage/locale-en-US --metadata=/home/runner/axiosozo-build/zen/source/engine/browser/locales/en-US/langpack-metadata.ftl --output=/home/runner/axiosozo-build/zen/obj/dist/linux-x86_64/xpi/axiosozo-dev-0.1a1.en-US.langpack.xpi --eid=langpack-en-US@firefox.mozilla.org --app-version=0.1a1 --max-app-ver=0.1a1 --app-name=AxioSozo Dev --l10n-basedir=/home/runner/axiosozo-build/zen/source/engine/browser/locales --include=chrome --include=localization --include=browser --include=manifest.json
+BUILDSTATUS@browser/locales END_package_langpack --locale=en-US --xpi-stage=../../dist/xpi-stage/locale-en-US --metadata=/home/runner/axiosozo-build/zen/source/engine/browser/locales/en-US/langpack-metadata.ftl --output=/home/runner/axiosozo-build/zen/obj/dist/linux-x86_64/xpi/axiosozo-dev-0.1a1.en-US.langpack.xpi --eid=langpack-en-US@firefox.mozilla.org --app-version=0.1a1 --max-app-ver=0.1a1 --app-name=AxioSozo Dev --l10n-basedir=/home/runner/axiosozo-build/zen/source/engine/browser/locales --include=chrome --include=localization --include=browser --include=manifest.json
+gmake[4]: Leaving directory '/home/runner/axiosozo-build/zen/obj/browser/locales'
+gmake[3]: Leaving directory '/home/runner/axiosozo-build/zen/obj/browser/locales'
+gmake[2]: Leaving directory '/home/runner/axiosozo-build/zen/obj/browser/installer'
+gmake[1]: Leaving directory '/home/runner/axiosozo-build/zen/obj/browser/installer'
+gmake: Leaving directory '/home/runner/axiosozo-build/zen/obj'
+Created package: /home/runner/axiosozo-build/zen/obj/dist/axiosozo-dev-0.1a1.en-US.linux-x86_64.tar.xz
+{
+  "version": 1,
+  "kind": "axiosozo-zen-linux-development-build",
+  "host": "linux-x86_64",
+  "archive": "axiosozo-dev-0.1a1.en-US.linux-x86_64.tar.xz",
+  "archive_sha256": "2647b6ae1aa2968d45bf7318b11c23425589754ea1ea69e04ff65d8d6ded41a5",
+  "archive_bytes": 99793604,
+  "executable": "axiosozo-dev/axiosozo-dev",
+  "remoting_name": "AxioSozoDev",
+  "zen_sha": "541ee55196395ee8082862b83c84c90ab41d9f6d",
+  "firefox_revision": "48a735cc74a7e6d730f9bf59c3de58f750287a23",
+  "fingerprint": "268c70c500e989b0339d005811e36c757ed940a385f52389703d22f1029fe633",
+  "repository_commit": "4be47fa496597675fbc512e20c04d8922eb64f39",
+  "repository_tracked_changes": false,
+  "sccache": true,
+  "packaged_utc": "2026-11-12T17:45:05+00:00",
+  "note": "Development build; unsigned; updater disabled. Not a release."
+}
+-rw-r--r--  1 runner runner      807 Nov 12 17:45 axiosozo-build-info.json
+drwxr-xr-x  6 runner runner     4096 Nov 12 17:42 axiosozo-dev
+-rw-r--r--  1 runner runner      802 Nov 12 17:45 axiosozo-dev-0.1a1.en-US.linux-x86_64.json
+-rw-r--r--  1 runner runner     1139 Nov 12 17:45 axiosozo-dev-0.1a1.en-US.linux-x86_64.mozinfo.json
+-rw-r--r--  1 runner runner 99793604 Nov 12 17:45 axiosozo-dev-0.1a1.en-US.linux-x86_64.tar.xz
+-rw-r--r--  1 runner runner      102 Nov 12 17:42 axiosozo-dev-0.1a1.en-US.linux-x86_64.txt
+-rw-r--r--  1 runner runner   266760 Nov 12 17:42 axiosozo-dev-0.1a1.en-US.linux-x86_64.xpt_artifacts.zip
+-rw-r--r--  1 runner runner       23 Nov 12 17:45 axiosozo-dev-0.1a1.en-US.linux-x86_64_info.txt
