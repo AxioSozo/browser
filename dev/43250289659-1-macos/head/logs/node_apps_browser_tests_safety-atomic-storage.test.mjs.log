@@ -1,0 +1,19 @@
+✔ construction is inert, rejects untrusted/relative roots, and owns one closed leaf (0.913458ms)
+✔ explicit provisioning requests private mode and verifies existing directory permissions (0.61425ms)
+✔ missing closed leaf under verified root returns null without reading other files (0.184459ms)
+✔ bounded regular-file read decodes exact fatal UTF-8 and parses through JsonStore (0.568917ms)
+✔ nonregular/broken-symlink metadata and known oversize leaves never reach content read (0.706125ms)
+✔ read failure after regular-file stat is surfaced even if named NotFoundError (0.1595ms)
+✔ growth after stat and invalid UTF-8 fail without accepting an empty document (0.163334ms)
+✔ write ACK requests same-directory overwrite with file flushing and exact UTF-8 byte count (0.18775ms)
+✔ write failures are not swallowed and JsonStore retains its last acknowledged record (0.486ms)
+✔ corrupt owner data never causes an overwrite through the composed store (0.286125ms)
+✔ native byte views from another realm remain valid bounded UTF-8 input (0.749458ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57.128209
