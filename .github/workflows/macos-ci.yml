@@ -46,12 +46,23 @@ jobs:
 
       - name: Checkout under test
         id: target
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
         run: |
           if [ "${{ matrix.side }}" = base ]; then
-            git worktree add --detach "$RUNNER_TEMP/base" origin/dev
-            # dev has no macOS CI build root: give the throwaway worktree the same
-            # mode (docs/MACOS_CI.md "Baseline shim") so every gate compares like for like.
-            /usr/bin/python3 scripts/macos_ci.py base-shim --checkout "$RUNNER_TEMP/base"
+            # A push to dev compares with the commit it replaced; branches and PRs with dev.
+            base=origin/dev
+            if [ "$EVENT" = push ] && [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] && [ "$BEFORE" != 0000000000000000000000000000000000000000 ] \
+               && git cat-file -e "$BEFORE^{commit}" 2>/dev/null && [ "$(git rev-parse origin/dev)" = "$GITHUB_SHA" ]; then
+              base="$BEFORE"
+            fi
+            git worktree add --detach "$RUNNER_TEMP/base" "$base"
+            # A base from before the macOS CI mode gets the same mode through the shim
+            # (docs/MACOS_CI.md "Baseline shim") so every gate compares like for like.
+            if ! grep -q AXIOSOZO_MACOS_CI "$RUNNER_TEMP/base/scripts/storage.py"; then
+              /usr/bin/python3 scripts/macos_ci.py base-shim --checkout "$RUNNER_TEMP/base"
+            fi
             dir="$RUNNER_TEMP/base"
           else
             dir="$GITHUB_WORKSPACE"

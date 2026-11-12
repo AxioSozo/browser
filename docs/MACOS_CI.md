@@ -57,7 +57,10 @@ previous code, and with it the scripts refuse to start. Unit tests:
 
 ### Baseline shim
 
-`origin/dev` predates the mode. `macos_ci.py base-shim` (base job only, on a
+The base is `origin/dev` for branches and pull requests, and the replaced commit
+(`github.event.before`) for a push to `dev` itself. A base that predates the mode
+(no `AXIOSOZO_MACOS_CI` in its `storage.py`) gets the shim; one that has it runs
+unchanged. `macos_ci.py base-shim` (base job only, on a
 throwaway worktree) applies the equivalent edits to dev's `storage.py`, `dev.py`,
 `cli.mjs` and `src/storage.mjs`, each anchored on exact text so a changed baseline
 fails loudly, and copies this branch's `probe.py` (its macOS functions are dev's
