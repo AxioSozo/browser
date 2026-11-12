@@ -1,0 +1,18 @@
+2026-11-12T13:14:57Z apt bootstrap
+2026-11-12T13:15:06Z pinned WPE packages (probe.py setup --apt)
+2026-11-12T13:15:41Z Zen runtime + GUI packages, CEF build/runtime packages
+2026-11-12T13:15:51Z CEF host (probe.py setup, pinned + sha256-checked)
+2026-11-12T13:16:55Z cef setup exit 2 (the Chromium tab will be BLOCKED_ENV)
+2026-11-12T13:16:55Z cef check exit 2
+2026-11-12T13:16:55Z unpack the Linux Zen app
+2026-11-12T13:17:03Z TEST-ONLY chrome overlay of the prebuilt app
+2026-11-12T13:17:06Z soak native: 10 min, transport memfd at 1x
+{"component": "pixel-path-soak", "status": "FAIL", "reason": "AssertionError: switch to chromium failed: {'ok': False, 'ms': 204.97865400000092, 'error': 'CEF_PROTOCOL_OR_EOF'}", "problems": []}
+# Pixel-path soak: FAIL (native)
+
+0 cycles over None min; test prefs: {"axiosozo.engines.linux.memfd_frames": true}; RSS growth (cycle 2 -> last): None MB; host fds: null
+
+| Engine tab (median over cycles) | rAF fps | rAF p99 ms | rAF CPU % | parent CPU % | draw ms | scroll fps | scroll p99 ms | static nav->visible ms | key->frame ms | transport |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+
+Problems: none
