@@ -166,17 +166,15 @@ observed through the page title).
 ### Software WebRender and Zen's backdrop patch
 
 On runners without a GPU, Gecko uses software WebRender (SWGL) on llvmpipe.
-Zen's pinned `src/external-patches/firefox/allow_backdrop_to_work_on_transparency.patch`
-(a backport of Mozilla bug 2036640, pref `gfx.webrender.opaque-backdrop-fallback`,
-default true) clears a captured backdrop's alpha with `glColorMask`. SWGL does
-not implement `color_mask` (it is a bare `panic!()`), so every backdrop-filter
-(for example Zen's urlbar after Return) used to crash the parent's Renderer
-thread. The `gfx/webrender_bindings/WebRenderAPI.cpp` record in
-`patches/zen/firefox-native.json` turns the fallback on only when the
-renderer is not SWGL. GPU WebRender, including macOS, is unchanged. If a Zen
-update changes that file, the record fails with `PATCH_CONFLICT`. Rerun the
-source probe with `patched|gfx/webrender_bindings/WebRenderAPI.cpp` to get the
-new post-import hash.
+Zen 1.22's backport of Mozilla bug 2036640 (pref
+`gfx.webrender.opaque-backdrop-fallback`) cleared a captured backdrop's alpha
+with `glColorMask`, which SWGL does not implement (a bare `panic!()`), so every
+backdrop-filter (for example Zen's urlbar after Return) crashed the parent's
+Renderer thread; a `firefox-native.json` record disabled it under SWGL. Zen
+1.23.4b / Firefox 158 replaced that fallback with cross-slice backdrop filters
+(`zen.theme.acrylic-*`), which WebRender already turns off for software
+rendering (`backdrop_reads_lower_slices` requires `!is_software`), so the record
+was retired. GPU WebRender, including macOS, is unchanged.
 
 Engine plug-ins live in `scripts/gui_engines/<name>.py` and export
 `ENGINE = <GuiEngine subclass>()` with `browser_environment`, `prepare`,
