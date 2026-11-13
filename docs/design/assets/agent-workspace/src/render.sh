@@ -8,7 +8,7 @@ capture=$1; shift
 here=$(cd "$(dirname "$0")" && pwd)
 out=$(dirname "$here")
 tmp=$(mktemp -d)
-mocks=${*:-a-agent-tabs b-login-needed c-login-status d-takeover e-watch f-mixed-window g-identities h-account-link}
+mocks=${*:-a-agent-tabs b-login-needed c-login-status d-takeover e-watch f-linked-indicator g-identities h-account-link i-linked-view j-linked-takeover}
 for mock in $mocks; do
   for theme in light dark; do
     url="file://$here/$mock.html"
