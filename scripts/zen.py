@@ -645,6 +645,12 @@ export MOZ_APP_REMOTINGNAME=AxioSozoDev
     # turn compiler warnings into errors; distribution clang differs from Mozilla's
     # pinned clang, so keep warnings visible but not fatal. No runtime effect.
     config += 'ac_add_options --disable-warnings-as-errors\n'
+    # Zen's configs/linux/mozconfig (merged before this file) exports
+    # MOZ_STDCXX_COMPAT=1 for release builds made against Mozilla's old-libstdc++
+    # sysroot. With the system libstdc++ 14 headers, stdc++compat.cpp no longer
+    # compiles (std::thread::_State is private). This development build runs on the
+    # host that built it, so the old-distro compatibility shim is not needed.
+    config += 'unset MOZ_STDCXX_COMPAT\n'
     libclang = linux_libclang_dir()
     if libclang:
         config += f'ac_add_options --with-libclang-path={libclang}\n'
