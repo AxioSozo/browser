@@ -1,0 +1,14 @@
++ codesign --verify --deep --strict /Users/runner/axiosozo-build/cef/AxioCEFProbe.app
+# designated => cdhash H"090103e45ee4c963ecb0d0076825e3ef14e77e59"
+signing: ad hoc (no AXIOSOZO_CODESIGN_IDENTITY); macOS Keychain will ask about "Chromium Safe Storage" again after every rebuild. See README, "Stable local signing identity".
+{"component": "cef", "status": "PASS", "action": "native_build_check", "version": "156.0.7+g47dbc1d+chromium-156.0.8078.17", "signing": "adhoc", "signing_name": null, "designated_requirement": "# designated => cdhash H\"090103e45ee4c963ecb0d0076825e3ef14e77e59\""}
++ /usr/bin/env env TMPDIR=/Users/runner/axiosozo-build/cef/tmp CLANG_MODULE_CACHE_PATH=/Users/runner/axiosozo-build/cef/clang-cache xcrun clang++ -std=c++20 -fobjc-arc -arch arm64 -mmacosx-version-min=14.5 -Wall -Wextra /Users/runner/work/browser/browser/native/chromium-host/tests/surface_receiver.mm -framework Foundation -framework CoreGraphics -framework ImageIO -framework IOSurface -framework UniformTypeIdentifiers -lbsm -o /Users/runner/axiosozo-build/cef/surface-receiver
+{"case": "surface-internal-60", "status": "PASS", "failures": []}
+{"case": "surface-external-60", "status": "PASS", "failures": []}
+{"case": "surface-internal-120", "status": "PASS", "failures": []}
+{"case": "surface-external-120", "status": "PASS", "failures": []}
+{"case": "surface-zero-copy-inuse-60", "status": "PASS", "failures": []}
+{"case": "pipe-60-baseline", "status": "PASS", "failures": []}
+{"case": "negative-no-connected", "status": "PASS", "failures": []}
+{"case": "negative-bogus-release", "status": "PASS", "failures": []}
+{"status": "PASS", "evidence": "/Users/runner/work/browser/browser/docs/evidence/cef-surface-d9bifzj6"}

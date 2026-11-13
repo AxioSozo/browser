@@ -1,0 +1,29 @@
+error: no matching package named `serde` found
+location searched: crates.io index
+required by package `browser-core v0.1.0 (/Users/runner/work/browser/browser/crates/browser-core)`
+note: offline mode (via `--offline`) can sometimes cause surprising resolution failures
+help: if this error is too confusing you may wish to retry without `--offline`
+    Updating crates.io index
+ Downloading crates ...
+  Downloaded quote v1.0.47
+  Downloaded serde_json v1.0.149
+  Downloaded itoa v1.0.18
+  Downloaded serde_derive v1.0.228
+  Downloaded unicode-ident v1.0.27
+  Downloaded zmij v1.0.23
+  Downloaded serde v1.0.228
+  Downloaded serde_core v1.0.228
+  Downloaded proc-macro2 v1.0.107
+  Downloaded memchr v2.8.3
+  Downloaded syn v2.0.119
++ /usr/bin/curl --fail --location --retry 3 --continue-at - --output /Users/runner/axiosozo-build/toolchains/zen/downloads/node-v22.23.5-darwin-arm64.tar.xz.partial https://nodejs.org/dist/v22.23.5/node-v22.23.5-darwin-arm64.tar.xz
+BLOCKED_ENV: [Errno 2] No such file or directory: '/Users/wout/.local/bin/dev-external'
+BLOCKED_ENV: pinned Node /Users/runner/axiosozo-build/toolchains/zen/node/bin/node is missing; run ./dev setup
+BLOCKED_ENV: pinned Node /Users/runner/axiosozo-build/toolchains/zen/node/bin/node is missing; run ./dev setup
+SETUP gate summary (Darwin arm64):
+  PASS        exit=0   cargo fetch --locked
+  FAIL        exit=20  scripts/zen_toolchain.py fetch
+  BLOCKED_ENV exit=2   packages/provider-host/cli.mjs setup
+  BLOCKED_ENV exit=2   packages/provider-host/cli.mjs keychain-positive-setup
+SETUP: 1 PASS, 1 FAIL, 2 BLOCKED_ENV
+SETUP: incomplete; see component results

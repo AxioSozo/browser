@@ -1,0 +1,29 @@
+✔ harbor-suite: all four reader phases match the core draft and preserve native-only directories (39.748416ms)
+✔ inkline: all four reader phases match the core draft and preserve native-only directories (21.62725ms)
+✔ inventory lists the planned hidden worktree directory but never its content (0.958542ms)
+✔ outside inventory/document links and a domains.md-to-env link are rejected before content access (0.963875ms)
+✔ inventory child symlinks do not imply native platforms or authorize documentation (0.770584ms)
+✔ documentation limits bytes and strict UTF-8 and does not open arbitrary markdown (3.381958ms)
+✔ a source that grows after stat is read through the hard cap and refused (3.925041ms)
+✔ post-read target changes discard the captured content (1.347708ms)
+✔ post-list changes discard the listing and prevent document reads (2.57025ms)
+✔ canonical root changes invalidate the whole scan (5.98775ms)
+✔ legacy ordinary listing is not a capability requirement when a secure listing reader is supplied (2.031041ms)
+✔ invalid roots fail before any arbitrary path access (0.4665ms)
+✔ documentation visits only the first eight named child directories (3.357ms)
+✔ inventory snapshots cap a misbehaving listing seam rather than counting unlimited worktrees (3.081583ms)
+✔ a leaf symlink swap between checked metadata and content open refuses before any outside content open (0.950667ms)
+✔ a ancestor symlink swap between checked metadata and content open refuses before any outside content open (0.65575ms)
+✔ a root symlink swap between checked metadata and content open refuses before any outside content open (0.551917ms)
+✔ a missing secure reader fails explicitly before filesystem access and never falls back to ordinary read (0.111791ms)
+✔ missing exact inode provenance refuses before any content read (0.14975ms)
+✔ a directory swap before inventory listing opens no outside directory names (0.877958ms)
+✔ a root swap before inventory listing opens no outside directory names (0.948125ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 171.794833
