@@ -1,19 +1,53 @@
 # Agent workspace: the agent browser, built into AxioSozo
 
-Status: **design only** (12 November 2026). No product code has changed. Each
-phase in §9 is a separate task. Nothing here is READY (see
-[setup status](../SETUP_STATUS.md)), and nothing replaces the real macOS E1/E2
-gates (AGENTS.md, [ADR 002](../adr/002-dual-engine.md)).
+Status: **design only** (12 November 2026, revised 13 November 2026 after the
+owner's review). No product code has changed. Each phase in §9 is a separate
+task. Nothing here is READY (see [setup status](../SETUP_STATUS.md)), and
+nothing replaces the real macOS E1/E2 gates (AGENTS.md,
+[ADR 002](../adr/002-dual-engine.md)).
 
 The mocks in §5 are HTML and CSS built on the browser's real Lab kit
 stylesheet (`apps/browser/chrome/lab/lab.css`) and presence stylesheet
-(`lab/presence/presence.css`), with Zen's theme tokens filled in by hand.
-`src/render.sh` renders them in a headless browser at 1280×800, in light and
-dark. These surfaces have no chrome modules yet, and the headless-Gecko
-harness used for [projects](projects.md) is not in the repository, so the
-mocks are not drawn by real modules and are not screenshots of a built Zen
-window. Sources and renders are in
+(`lab/presence/presence.css`), with Zen's theme tokens and Firefox's container
+colours filled in by hand. `src/render.sh` renders them in a headless browser
+at 1280×800, in light and dark. These surfaces have no chrome modules yet, and
+the headless-Gecko harness used for [projects](projects.md) is not in the
+repository, so the mocks are not drawn by real modules and are not
+screenshots of a built Zen window. Sources and renders are in
 [`assets/agent-workspace/`](assets/agent-workspace/).
+
+## 0. Key decisions
+
+1. **Two places for agent tabs, one model.** (A) The **agent workspace** is a
+   separate profile with its own sign-ins, for unattended background work.
+   (B) **Agent tabs in your own window** are marked in place next to your
+   tabs, for "help me with this page". Recommendation: build A first (it
+   replaces the agent Chrome), then B. Agents work in A unless you hand them
+   a tab (§3.1).
+2. **Every tab has exactly one owner**: you, one agent session, or the
+   browser. The browser enforces it in both places. An agent sees, reads and
+   drives only its own tabs (§3.6, §6.3).
+3. **Identities: several accounts per site, all signed in at once.** Each
+   identity is a Gecko container plus its own Chromium request context. The
+   call, the opener tab, a remembered link rule, the agent's default or the
+   site's default chooses it. If none of these settles it, the browser asks
+   and never guesses (§3.4).
+4. **Agent tabs are headless by default.** Watching is on demand and costs
+   rendering. The browser shows that cost while you watch, and stopping
+   returns the tab to headless (§3.7).
+5. **Signing in is human-only and never blocks you.** One prompt per site and
+   identity, however many agents wait. It opens the right identity's sign-in
+   page, and agents resume without a restart. Agents never type credentials
+   (§5.4, §6.1).
+6. **Account-aware links.** A caller says "open this URL as identity X".
+   Without that, a remembered rule, an opt-in lookup or a chooser picks the
+   identity. A link never opens in the wrong account silently, and nobody
+   signs out and back in (§5.8).
+7. **Safety rules are browser behaviour**: owner checks, credential refusal,
+   per-class grants for posting, reacting, following and messaging, an
+   endpoint that is off until Settings and local only, and an egress rule for
+   the agent profile only. The old agent Chrome stays as the fallback until
+   the last phase (§6, §8).
 
 ## 1. What this replaces
 
@@ -27,17 +61,16 @@ share it at once.
 
 This works, but it needs a second browser, a debugging port that any local
 process can use, a root-installed proxy policy, and a restart whenever the
-human logs in. It also enforces ownership only by convention: "never touch
-another agent's page" is a written rule, not something the browser stops.
+human logs in. It holds one account per site. It also enforces ownership only
+by convention: "never touch another agent's page" is a written rule, not
+something the browser stops.
 
-This design does all of that inside AxioSozo: a separate **agent profile** in
-the same Zen/Gecko application, with both engines, one tool surface, and the
-safety rules enforced by the browser. The existing P4 agent bridge
-([agent-channel-v1](../../contracts/agent-channel-v1.md),
-`AgentBridgeRuntime`) remains how a coding agent works with the user's
-*personal* profile, with an Allow-once confirmation for every action. The
-agent workspace is a second mode of the same channel, running in the agent
-profile only.
+This design does all of that inside AxioSozo, with both engines, one tool
+surface, and the safety rules enforced by the browser. The existing P4 agent
+bridge ([agent-channel-v1](../../contracts/agent-channel-v1.md),
+`AgentBridgeRuntime`) is the base for both places: the personal profile's
+endpoint becomes the home of option B, and the agent profile's endpoint runs
+the workspace mode of option A.
 
 ## 2. Capability inventory and mapping (A1–A12)
 
@@ -47,47 +80,98 @@ gate), **extend** (an existing module grows), **new** (nothing exists yet) or
 
 | # | Today (agent Chrome) | Native in AxioSozo | Builds on | Status |
 | --- | --- | --- | --- | --- |
-| A1 | **Separate agent profile.** Its own user-data directory with its own logins on several sites. Copying cookies from the personal browser was tried and retired: an identity provider revoked a session shared between two browsers, in both of them. | A separate Gecko **profile** with role `agent`, run as a second instance of the same app (§3.2). Its own cookie jar, storage, password store and history, plus its own Chromium profile, because the CEF host keeps one Chromium profile per Zen profile ([cef-v1](../../contracts/cef-v1.md) "Process and authentication"). There is no import, copy or sync from any other profile, and no tool exposes cookies. | Gecko profiles; `CEFEngineAdapter` (one host per Zen profile, `<session>/chromium` beside `<session>/gecko`); `ProjectContainers` (not used for isolation, see §3.2) | **extend** (profile role, launcher and Settings are new; the cookie separation per Zen profile exists) |
-| A2 | **Egress proxy.** A loopback HTTP/CONNECT proxy re-resolves names over DNS-over-HTTPS when the system resolver answers with a hosts-file block. Local names, the mesh VPN suffix and private and CGNAT ranges bypass it. It logs only errors. A root script installs a mandatory proxy policy for the agent Chrome. | **Per-profile egress rule** (§3.3). An opt-in setting of the agent profile makes Gecko resolve hosts-blocked names through DoH (stock TRR prefs) and makes the agent profile's CEF host do the same (Chromium secure DNS, with a profile-owned resolver child as fallback). Personal profiles keep the system block, and the setting does not exist there. | Gecko TRR (`network.trr.*`); `CEFEngineAdapter` request context; `ProjectRunner` pipe lease (for the fallback child) | **new** |
-| A3 | **Always-on headless instance.** A login item keeps it running with a debugging port on loopback, restarts it when it dies, and loads an AI-assistant extension. | The agent profile instance is a **login item of the app itself** (user-visible, restarted on crash) and runs without a window until a human needs one (§3.6). There is no debugging port: agents reach it through the profile's own Unix-socket agent endpoint. | `AgentChannelService` (endpoint states), `AgentChannelConfig` (`agentProfileSocketPath`: one socket per profile), `AgentSocketLease` | **extend** (persisted enablement for the agent role and the login item are new) |
-| A4 | **MCP server** (a third-party DevTools MCP server on the debugging port): pages, navigation, snapshot, input, upload, dialogs, waits, screenshots, script, console and network listing, emulation, resize, performance trace and insights, audit, heap snapshot, screencast. Several agents share it; each opens its own page and keeps its page id. Some sites never finish loading, so agents snapshot again. | **Workspace mode of `packages/agent-bridge`.** The tool names and arguments match one to one (§7.1). Each agent session sees, reads and drives only its own tabs, and the browser enforces this (§3.4). Gecko tabs run through in-process WebDriver BiDi, Chromium tabs through CEF's in-process DevTools messages (§3.5). A navigation that never finishes returns `still_loading` instead of hanging. | `packages/agent-bridge` (MCP stdio server), `AgentTabRegistry`, `GeckoAgentTools`, `GeckoBiDiReadSession`, `AgentActionRuntime`/`AgentActBoundary`, `AgentCaptureRuntime`, `ConsoleErrorsService`, CEF host | **extend** (channel, bridge and BiDi seams exist; owner sessions, the full tool set and the CEF DevTools path are new) |
-| A5 | **Input guard.** Whenever human keyboard or mouse input reaches the agent Chrome (frontmost, under the pointer, or through screen sharing), every one of its processes is hidden. A pause of up to 15 minutes allows human use. | The **takeover rule** (§5.4), per tab: native human input in an agent-owned tab hands that tab to the human. Its agent is paused there (`HUMAN_IN_CONTROL`), no reads or input reach it, and every other agent keeps working. **Give back** returns it. Nothing is hidden, because the agent profile runs without windows by default. | `AgentTabRegistry` (owner field), `AgentActionRuntime` (navigation and invalidation hooks), `CEFPresenter` (knows which input came from the OS) | **new** |
-| A6 | **Login flow.** A script pauses the guard, stops the headless instance and opens the same profile in a window at the site's login page. When the human quits it, the headless instance restarts and an auth check runs. Agents lose the browser meanwhile. Agents never log in; they ask the human to run the script. | The **login-needed flow** (§5.2). An agent calls `request_human_login`. The human gets a notification in the personal window, signs in inside a **human-owned** tab of the agent profile that no agent can see, and clicks *I'm signed in*. The waiting agent resumes. Nothing restarts and other agents keep running. | `AgentStatusRuntime` (window notifications, "Go to project"), `AxioSozoToast`, login status (A7) | **new** |
-| A7 | **Auth watch.** A login item visits each configured site every 4 hours in a background tab (which also keeps sessions warm), decides signed-in or signed-out per site, stores the state, notifies on a logout (at most daily) and prints the last state without starting a browser. It never prints cookie values. | **Per-site login status** (§5.3). The same four fields per site (probe URL, login URL, signed-in marker, signed-out marker) live in the agent profile. A browser-owned probe tab, owned by `system` and invisible to agents, runs every 4 hours and on demand. Agent tabs also report passively when they hit a site's login page. There is a Settings table, a daily-at-most notification and a read API (§7.2) that answers without loading any page. | `JsonStore` (atomic profile-local JSON), `AxioSozoToast`, about:axiosozo Settings | **new** |
+| A1 | **Separate agent profile.** Its own user-data directory with its own logins on several sites, one account per site. Copying cookies from the personal browser was tried and retired: an identity provider revoked a session shared between two browsers, in both of them. | A separate Gecko **profile** with role `agent`, run as a second instance of the same app (§3.3). It has its own cookie jar, storage, password store and history, plus its own Chromium profile, because the CEF host keeps one Chromium profile per Zen profile ([cef-v1](../../contracts/cef-v1.md) "Process and authentication"). Inside it, **identities** (§3.4) hold several accounts per site at once. There is no import, copy or sync from any other profile, and no tool exposes cookies. | Gecko profiles; `CEFEngineAdapter` (one host per Zen profile); `ProjectContainers`/`ProjectAccountRuntime` (containers, identity colours) | **extend** (profile role, launcher and identities are new; the cookie separation per Zen profile exists) |
+| A2 | **Egress proxy.** A loopback HTTP/CONNECT proxy re-resolves names over DNS-over-HTTPS when the system resolver answers with a hosts-file block. Local names, the mesh VPN suffix and private and CGNAT ranges bypass it. It logs only errors. A root script installs a mandatory proxy policy for the agent Chrome. | **Per-profile egress rule** (§3.5). An opt-in setting of the agent profile makes Gecko resolve hosts-blocked names through DoH (stock TRR prefs) and makes the agent profile's CEF host do the same (Chromium secure DNS, with a profile-owned resolver child as fallback). Personal profiles keep the system block, and the setting does not exist there. | Gecko TRR (`network.trr.*`); `CEFEngineAdapter` request context; `ProjectRunner` pipe lease (for the fallback child) | **new** |
+| A3 | **Always-on headless instance.** A login item keeps it running with a debugging port on loopback, restarts it when it dies, and loads an AI-assistant extension. | The agent profile instance is a **login item of the app itself** (user-visible, restarted on crash). It runs **headless by default**, with no window until a human watches, signs in or takes over (§3.7, §3.9). There is no debugging port: agents reach it through the profile's own Unix-socket agent endpoint. | `AgentChannelService` (endpoint states), `AgentChannelConfig` (`agentProfileSocketPath`: one socket per profile), `AgentSocketLease` | **extend** (persisted enablement for the agent role and the login item are new) |
+| A4 | **MCP server** (a third-party DevTools MCP server on the debugging port): pages, navigation, snapshot, input, upload, dialogs, waits, screenshots, script, console and network listing, emulation, resize, performance trace and insights, audit, heap snapshot, screencast. Several agents share it; each opens its own page and keeps its page id. Some sites never finish loading, so agents snapshot again. | **Workspace mode of `packages/agent-bridge`.** The tool names and arguments match one to one (§7.1), and `new_page` gains an optional `identity`. Each agent session sees, reads and drives only its own tabs, and the browser enforces this (§3.6). Gecko tabs run through in-process WebDriver BiDi, Chromium tabs through CEF's in-process DevTools messages (§3.8). A navigation that never finishes returns `still_loading` instead of hanging. | `packages/agent-bridge` (MCP stdio server), `AgentTabRegistry`, `GeckoAgentTools`, `GeckoBiDiReadSession`, `AgentActionRuntime`/`AgentActBoundary`, `AgentCaptureRuntime`, `ConsoleErrorsService`, CEF host | **extend** (channel, bridge and BiDi seams exist; owner sessions, the full tool set and the CEF DevTools path are new) |
+| A5 | **Input guard.** Whenever human keyboard or mouse input reaches the agent Chrome (frontmost, under the pointer, or through screen sharing), every one of its processes is hidden. A pause of up to 15 minutes allows human use. | **Watch and takeover, per tab** (§3.7, §5.6, §5.7). The human watches any agent tab on demand. The first native input in an agent-owned tab hands that tab to the human; that input is not delivered to the page. The tab's agent is paused there (`HUMAN_IN_CONTROL`), no reads or input reach it, and every other agent keeps working. **Give back** returns it. Nothing needs hiding, because agent tabs are headless until watched. | `AgentTabRegistry` (owner field), `AgentActionRuntime` (navigation and invalidation hooks), `CEFPresenter` (knows which input came from the OS) | **new** |
+| A6 | **Login flow.** A script pauses the guard, stops the headless instance and opens the same profile in a window at the site's login page. When the human quits it, the headless instance restarts and an auth check runs. Agents lose the browser meanwhile. Agents never log in; they ask the human to run the script. | The **sign-in prompt** (§5.4). An agent calls `request_human_login`, or the browser detects an expired session mid-task. The human gets one non-blocking prompt per site and identity, signs in inside a **human-owned** tab of the right identity that no agent can see, and the waiting agents resume. Nothing restarts and other agents keep running. | `AgentStatusRuntime` (window notifications), `AxioSozoToast`, Lab kit card, sign-in status (A7) | **new** |
+| A7 | **Auth watch.** A login item visits each configured site every 4 hours in a background tab (which also keeps sessions warm), decides signed-in or signed-out per site, stores the state, notifies on a logout (at most daily) and prints the last state without starting a browser. It never prints cookie values. | **Sign-in status per site and identity** (§5.5). The same four probe fields per site (probe URL, login URL, signed-in marker, signed-out marker) live in the agent profile. A browser-owned probe tab, owned by `system` and invisible to agents, checks every site in every identity every 4 hours and on demand. Agent tabs also report passively when they hit a login page. There is a Settings table, a daily-at-most notification and a read API (§7.2) that answers without loading any page. | `JsonStore` (atomic profile-local JSON), `AxioSozoToast`, about:axiosozo Settings | **new** |
 | A8 | **AI-assistant extension** (the Codex extension) loaded unpacked into the agent profile, with a side panel. The desktop app's browser plugin drives the same browser. | First choice: the assistant attaches over the **workspace MCP endpoint**, which Codex supports natively (§7.3). Second: a Gecko build of the extension installed in the agent profile through the normal add-on path. Loading a Chrome extension into the CEF host is not relied on. | `packages/agent-bridge` (Codex config snippets exist), Gecko add-on manager | **extend** (MCP) / **migration** (extension) |
-| A9 | **Two Macs.** The same install on both, as a user half and a root half. A cookie sync between the Macs exists but is disabled. | The browser's own install on each Mac, each with **its own agent profile and its own logins**. Nothing syncs logins between Macs. The root half goes away because nothing needs a system proxy policy any more (§3.3). The **cookie sync is dropped**: synced sessions are what got revoked (A1). | `scripts/storage.py`/`./dev setup` (dev builds); release packaging for users | **exists** (install) / **drop** (root half, cookie sync) |
+| A9 | **Two Macs.** The same install on both, as a user half and a root half. A cookie sync between the Macs exists but is disabled. | The browser's own install on each Mac, each with **its own agent profile, identities and sign-ins**. Nothing syncs logins between Macs. The root half goes away because nothing needs a system proxy policy any more (§3.5). The **cookie sync is dropped**: synced sessions are what got revoked (A1). | `scripts/storage.py`/`./dev setup` (dev builds); release packaging for users | **exists** (install) / **drop** (root half, cookie sync) |
 | A10 | **Observability.** An external tool-call monitor tracks the speed and failures of agent browser calls. | The workspace endpoint keeps a **per-call metrics record** (method, engine, duration, outcome code; no URLs, arguments or page content) in RAM. An opt-in append-only file in the agent profile lets the external monitor read it. The bridge also reports which backend served a call (§8). | `AgentChannelCore` (bounded per-request lifecycle, error codes), `ProjectAgentActivity` (bounded RAM history pattern) | **new** |
-| A11 | **Consumers in flight.** A marketing-platform table needs the login status per platform and lets agents post, reply and message through the agent browser. Its needs define the login-status API and the action grants. | The **login-status read API** (§7.2) and **action grants** (§6.2): post, react, follow and message, each granted explicitly by the human per class, site and count. The consumer reads status without driving a page. | Login status (A7), action grants (new), `AgentChannelCore` codes | **new** |
-| A12 | **Policy.** Agents post, like, follow or message only when the human asked. They never touch other agents' pages, never work around the hosts block in other apps, and never copy cookies between browsers. | **Browser behaviour instead of written policy** (§6): action-class grants, owner-only tab access, an egress rule scoped to one profile and no cookie-export tool. Agents never enter credentials, and the browser refuses when they try. | `AgentActBoundary` (one-shot dispatch gate), `AgentTabRegistry`, `isSensitiveHost` | **extend** |
+| A11 | **Consumers in flight.** A marketing-platform table needs the login status per platform and lets agents post, reply and message through the agent browser. Its needs define the login-status API and the action grants. | The **sign-in status read API** (§7.2, per site and identity), **action grants** (§6.2: post, react, follow and message, each granted by the human per class, site and count) and **open as identity** (§7.4) for callers that know which account owns a page. The consumer reads status without driving a page. | Sign-in status (A7), action grants (new), identities (new), `AgentChannelCore` codes | **new** |
+| A12 | **Policy.** Agents post, like, follow or message only when the human asked. They never touch other agents' pages, never work around the hosts block in other apps, and never copy cookies between browsers. | **Browser behaviour instead of written policy** (§6): action-class grants, owner-only tab access, identities an agent may use only when the human allows it, an egress rule scoped to one profile and no cookie-export tool. Agents never enter credentials, and the browser refuses when they try. | `AgentActBoundary` (one-shot dispatch gate), `AgentTabRegistry`, `isSensitiveHost` | **extend** |
+
+The owner's review (13 November) added five requirements. Where each is
+designed:
+
+| Requirement | Design | Mock | Phase |
+| --- | --- | --- | --- |
+| R1 Per-tab agent ownership, also in the human's own window; separate space vs in place | §3.1 (comparison, recommendation), §3.6, §5.2 | (f), (a) | 6, 13 |
+| R2 Several accounts per site, all signed in at once | §3.4, §5.3 | (g) | 7, 8 |
+| R3 Agents drive headless; the human watches on demand and takes over | §3.7, §5.6, §5.7 | (e), (d) | 6, 11 |
+| R4 Sign-in needed or session expired: non-blocking prompt, agents resume | §5.4, §5.5 | (b), (c) | 9 |
+| R5 Account-aware links: open a URL as the identity that owns it | §5.8, §7.4 | (h) | 12 |
 
 ## 3. Architecture
 
-### 3.1 Processes, profiles and the agent channel
+### 3.1 Where agent tabs live: two options
+
+| | (A) Agent workspace | (B) Agent tabs in your window |
+| --- | --- | --- |
+| Where | A separate profile, run as a second instance of the app. Its window appears only when you watch, sign in or take over | Your personal profile and window, next to your own tabs |
+| Sign-ins | Its own identities, which you sign in to once. Never your personal sessions | A tab you hand over keeps its identity (your sign-in). Tabs the agent opens get a **scratch identity** that holds none of your sign-ins, unless you make one of your identities available |
+| Runs when | Always, from login. Also while your personal browser is closed | Only while your personal browser runs |
+| How you see it | Agents panel, the Agents entry in your window, watch on demand | In place: an agent badge on the tab, a folder per agent task, an agent bar on the page |
+| Rendering | Headless; watching costs (§3.7) | Agent tabs are background tabs and don't paint; selecting one is watching |
+| Blocked sites | The opt-in egress rule (§3.5) | Never; the system block stays |
+| Prompts | None for ordinary actions; grants for post, react, follow and message (§6.2) | The P4 confirmation, with a new *Allow on this tab until done* choice; the same grants as A |
+| Main risk | Low: the agent is never near your own sessions | Higher: a tab you hand over acts with your sign-in |
+| Best for | Unattended and scheduled work, many agents at once, several accounts of one site, blocked sites | "Help me with this page", short supervised tasks, work that needs your own session |
+
+**Recommendation: both, with one ownership model, built A first.**
+
+- An agent that opens pages on its own works in **A**. That is the default,
+  and A is what replaces the agent Chrome, so it comes first (phases 1–12).
+- **B** applies only when you start it: you hand a tab to an agent (tab
+  menu *Let Codex use this tab*) or you ask an agent for help from a page.
+  An agent can never put tabs into your window by itself. Its new tabs for
+  that task go into a folder in your window, in a scratch identity. B comes
+  in phase 13 and reuses the owner field, identities, watch and takeover from
+  A.
+- The marks are the same in both places: an agent badge says *who drives*,
+  and the identity colour says *as whom*. A tab can show both.
+- B changes one P4 rule: today every act needs *Allow once*. B adds *Allow on
+  this tab until done*, for one tab and one session, revoked by *Stop*, by
+  takeover or when the session ends. Grants (§6.2) and the credential rule
+  (§6.1) still apply. This is a change to agent-channel-v1 §4.2, owned by the
+  integration lead.
+
+### 3.2 Processes, profiles, identities and the agent channel
 
 ```mermaid
 flowchart LR
   subgraph personal["AxioSozo · personal profile (role personal)"]
-    PZ["Zen/Gecko parent"]
-    PC["CEF host<br/>Chromium profile (personal)"]
-    PE["P4 agent endpoint<br/>Allow-once per action"]
-    PZ --- PC
+    PZ["Zen/Gecko parent<br/>your tabs + agent tabs in place (B)"]
+    PI["Identities<br/>Work · Client A · scratch per agent task"]
+    PC["CEF host<br/>one request context per identity"]
+    PE["P4 endpoint<br/>Allow once / Allow on this tab"]
+    PZ --- PI
+    PI --- PC
     PZ --- PE
   end
-  subgraph agent["AxioSozo · agent profile (role agent) · login item"]
-    AZ["Zen/Gecko parent<br/>AgentTabRegistry with owners"]
+  subgraph agent["AxioSozo · agent profile (role agent) · login item · headless"]
+    AZ["Zen/Gecko parent<br/>AgentTabRegistry: one owner per tab"]
+    AI["Identities<br/>several accounts per site, all signed in"]
     AB["WebDriver BiDi<br/>in-process, no listener"]
-    AC["CEF host<br/>Chromium profile (agent)<br/>DevTools messages over the private pipe"]
-    AE["Workspace endpoint<br/>Unix socket 0600, loopback only"]
-    AD["Egress rule<br/>DoH for hosts-blocked names"]
-    AZ --- AB
-    AZ --- AC
+    AC["CEF host<br/>one request context per identity<br/>DevTools messages over the private pipe"]
+    AE["Workspace endpoint<br/>Unix socket 0600, local only"]
+    AD["Egress rule (opt-in)<br/>DoH for hosts-blocked names"]
+    AZ --- AI
+    AI --- AB
+    AI --- AC
     AZ --- AE
     AZ --- AD
   end
   M1["Agent 1<br/>agent-bridge --workspace"] -->|"session s_1"| AE
   M2["Agent 2<br/>agent-bridge --workspace"] -->|"session s_2"| AE
-  X["External monitor /<br/>marketing table"] -->|"status.read only"| AE
-  AE -.->|"summary: agents, hosts, states"| PZ
+  M3["Agent 3 (handed a tab)"] -->|"P4 session"| PE
+  X["Status consumer"] -->|"status.read"| AE
+  D["Dashboard / CLI<br/>open URL as identity"] -->|"links.open"| AE
+  D -->|"links.open"| PE
+  AE -.->|"summary + sign-in prompts<br/>(hosts, states, no content)"| PZ
+  H(("Human")) -->|"signs in, watches,<br/>takes over, grants"| AZ
   M1 -.->|"fallback until the last phase"| L["Legacy agent Chrome"]
 ```
 
@@ -100,38 +184,108 @@ The same diagram as an image:
   profile directory, cookie, cache, password store, add-on or preference.
 - **One channel, two modes.** Both run the same `AgentChannelService`, each on
   its own profile socket (`<profile>/.a/s`, agent-channel-v1 §1). The personal
-  endpoint keeps the P4 rules unchanged. The agent endpoint serves the
-  workspace tools (§7.1) under the rules of §6.
+  endpoint keeps the P4 rules, plus option B (§3.1). The agent endpoint serves
+  the workspace tools (§7.1) under the rules of §6.
 - **A summary goes from the agent instance to the personal one**, never the
-  reverse. The personal window shows how many agents work, on which hosts and
-  in which state, and can bring the agent window forward (§5.1). The summary
+  reverse. The personal window shows how many agents work, on which hosts,
+  in which state, and any open sign-in prompt (§5.4). It can bring the agent
+  window forward. The summary carries hosts, identity names and states. It
   carries no URLs beyond the host, no page content and no cookies.
 
-### 3.2 The agent profile (A1)
+### 3.3 The agent profile (A1)
 
 - **Created once from Settings.** about:axiosozo → Agents → *Set up the agent
   workspace* creates a new Gecko profile through the profile service. Its
   `axiosozo/profile-role.json` file says `{"role":"agent"}` and is written only
   by that privileged action. Prefs, pages and agents cannot create or change a
   role. A profile without the file is `personal`.
-- **Why a profile and not a container or a space.** Containers
-  (`ProjectContainers`) separate cookies, but they share the password store,
-  history, add-ons, network prefs (DoH is per profile) and the CEF host, which
-  is per Zen profile. A Zen space only groups tabs. A1's requirement, that a
+- **Why a profile and not only containers.** Containers separate cookies, but
+  they share the password store, history, add-ons and network prefs (DoH is
+  per profile), and the CEF host is per Zen profile. A1's requirement, that a
   session never lives in both browsers, needs the whole profile apart, and
-  only a profile can carry its own egress rule (§3.3).
-- **Logins come only from the human signing in** (§5.2). The agent profile
+  only a profile can carry its own egress rule (§3.5). Inside the profile,
+  identities (§3.4) separate accounts from each other.
+- **Logins come only from the human signing in** (§5.4). The agent profile
   turns password autofill on page load off (`signon.autofillForms=false`), so a
   saved login is never filled into a page an agent opened. The human can still
   fill one by hand.
 - **No import, copy or sync.** No cookie, storage or password import from
   another profile or browser is offered. Firefox Sync's login and history
-  engines are off in the agent profile, and Settings explains why.
-- **Containers inside the agent profile** stay available. One use is a second
-  account on the same site for a different project. They do not replace the
-  profile boundary.
+  engines are off in the agent profile, and Settings explains why. The same
+  account may be signed in in both profiles, but only through two separate
+  sign-ins, so the two sessions are separate. A session is never copied.
 
-### 3.3 Per-profile egress rule (A2)
+### 3.4 Identities: several accounts per site (R2)
+
+An **identity** is one signed-in persona: a name and colour the human chose,
+with its own cookies, storage and cache in both engines. Five accounts of one
+web app are five identities, all signed in at once.
+
+- **What an identity is underneath.**
+  - Gecko: one contextual identity (a container, `userContextId`). Gecko
+    already keys cookies, storage and cache by it.
+  - Chromium: one CEF request context with its own `cache_path` under the
+    profile's Chromium directory (`<session>/chromium/identities/<key>`).
+    workstation-v1 §3 already requires one request context per Gecko
+    container, with no fallback to a shared jar. This design builds that. A
+    request context is created when the identity's first Chromium tab opens
+    and released when its last one closes.
+  - A record `{key, name, color, icon, sites, agents, aliases, last_used}` in
+    `<profile>/axiosozo/identities.json` (`JsonStore`). Callers and agents use
+    the `key` (`i_…`) or an alias, never the numeric `userContextId`. This is
+    the same rule `ProjectContainers` follows ("no actor-facing method
+    accepts an ID").
+  - Project containers (P2) are identities that belong to a project. They
+    show in the same list, and their routing stays as workstation-v1 §3
+    defines it.
+- **Identities are per profile.** The personal profile and the agent profile
+  each have their own. If the same account is needed in both, the human signs
+  in twice, and the two sessions are separate (A1).
+- **Scratch identities.** In option B, each agent task gets a temporary
+  identity. It holds none of the human's sign-ins and is deleted, data
+  included, when the task's session ends. The workspace (A) uses them too,
+  when an agent asks for a clean identity.
+- **How an identity is chosen.** The first rule that applies wins:
+  1. *Named in the call.* `new_page({url, identity})`, `links.open({url,
+     identity})`, by key or alias. The caller must be allowed to use it
+     (§6.5).
+  2. *Opener.* A link or pop-up opened from a tab stays in that tab's
+     identity. Gecko already does this, and the CEF side inherits the
+     request context.
+  3. *Link rule.* A remembered `{URL pattern → identity}` rule, from the
+     chooser's *Remember* or a caller's mapping (§5.8).
+  4. *Agent default.* The session's default identity, set by the human in the
+     Agents panel. An agent may propose one in `hello`; it applies only if
+     the agent may use that identity.
+  5. *Site default.* "New tabs: Work" or "New tabs: Ask", per site.
+  6. *Otherwise:* a site with one identity uses it. A site with several opens
+     the chooser for a human (mock h) and returns `IDENTITY_REQUIRED
+     {candidates}` to an agent, and nothing opens. A site with none uses the
+     profile's default identity (in B, an agent gets its scratch identity).
+- **Never:** change the identity of a loaded tab (another identity means a new
+  tab, as `ProjectAccountRuntime` already requires), guess from page content,
+  or read an account name from a page. Identity names are labels the human
+  typed.
+- **How it shows.** A colour stripe on the tab (Firefox's container colours),
+  an identity chip in the URL bar, the name in the tab tooltip, next to each
+  tab in the Agents panel, and in every sign-in prompt.
+- **Managing** (about:axiosozo → Identities, mock g). Identities are grouped by
+  site and listed with their sign-in state and the agents using them. The
+  page offers:
+  - *New identity* and inline *Rename* and *Colour*.
+  - An *Agents* switch per identity (off for new identities in the personal
+    profile).
+  - *Sign out*, which clears that identity's cookies and storage in both
+    engines and keeps the identity.
+  - *Remove…*, which asks for confirmation, then closes the identity's tabs,
+    deletes its data in both engines and deletes its link rules. Agents
+    using it get `IDENTITY_REMOVED` on their next call.
+  - Aliases, the names callers use (§5.8).
+
+  Each instance shows its own identities. The segmented control switches to
+  the other instance's page, and no data crosses.
+
+### 3.5 Per-profile egress rule (A2)
 
 The loopback proxy and its root-installed policy are replaced by a setting of
 the agent profile: **"Let agents reach sites blocked on this Mac"** (off by
@@ -146,24 +300,24 @@ default, shown only when the role is `agent`).
   `network.trr.allow-rfc1918=false` keeps private answers out. Personal
   profiles never get these prefs.
 - **Chromium (agent profile's CEF host).** The host starts with Chromium's
-  secure DNS in `secure` mode and the same template, set on the request
-  context. Whether Chromium on macOS still applies the hosts file before secure
-  DNS is **unverified**. If it does, the agent instance starts a
+  secure DNS in `secure` mode and the same template, set on every identity's
+  request context. Whether Chromium on macOS still applies the hosts file
+  before secure DNS is **unverified**. If it does, the agent instance starts a
   profile-owned resolver child for its CEF host only: the same rule as today's
   proxy (system answer first, DoH only when the answer is a block), on a
   loopback port with a random token. Its pipe is the lease, as in
-  `ProjectRunner`, so the child dies with the instance. The CEF request context
-  points at it. It is never a system-wide policy.
+  `ProjectRunner`, so the child dies with the instance. The request contexts
+  point at it. It is never a system-wide policy.
 - **What stays the same.** The system hosts block is not touched. Other apps
-  and the personal profile keep it. Errors only are logged, and no
-  per-request log of names is kept.
+  and the personal profile keep it, including agent tabs in option B. Only
+  errors are logged, and no per-request log of names is kept.
 - **Opt-in, scoped, visible.** The setting is per profile, needs a trusted
   click, and shows in the agent window's identity panel ("This profile uses DNS
   over HTTPS").
 
-### 3.4 The agent endpoint for several agents (A3, A4)
+### 3.6 The agent endpoint and tab ownership (A3, A4, R1)
 
-- **Off until Settings turns it on, loopback only.** As today, every process
+- **Off until Settings turns it on, local only.** As today, every process
   starts with the endpoint off, and only the explicit Settings action in a
   normal window enables it (agent-channel-v1 §1). The transport stays a Unix
   socket (mode 0600, directory 0700, no TCP listener). **The only change, for
@@ -180,27 +334,78 @@ default, shown only when the role is `agent`).
   Agents panel (§5.1) with *Disconnect*. Settings offers *Ask before a new
   agent connects* (off by default). Limits rise from 8 to 16 connections; each
   session may own at most 24 tabs.
-- **Every tab has one owner.** `AgentTabRegistry` gains an `owner` field: a
-  session id `s_…`, `human`, or `system` (the login probe). `new_page` creates
-  a tab owned by the caller. A pop-up inherits its opener's owner. Every read
-  and every input checks `owner === session` before anything else runs, and
-  fails with `NOT_OWNER` otherwise. `list_pages` returns only the caller's tabs
-  plus a count of tabs it cannot see. The rule "keep your page id and never
-  touch another agent's page" is now enforced by the browser.
+- **Every tab has one owner, in both profiles.** `AgentTabRegistry` gains an
+  `owner` field: a session id `s_…`, `human`, or `system` (the sign-in probe
+  and link lookup). `new_page` creates a tab owned by the caller. A pop-up
+  inherits its opener's owner. Every read and every input checks `owner ===
+  session` before anything else runs, and fails with `NOT_OWNER` otherwise.
+  `list_pages` returns only the caller's tabs plus a count of tabs it cannot
+  see. In option B the same field marks the agent tabs in your window, and
+  each agent's tabs can belong to a different agent.
 - **Resuming.** The bridge receives a resume token in `welcome` and keeps it
   in memory. When a session's connection drops, its tabs become **parked** for
   10 minutes: still owned, but visible to no one. A reconnect with the token
   within that time takes them back. After that, parked tabs close unless the
-  human adopts them in the Agents panel.
-- **Human hand-over.** The human can give one of their own agent-profile tabs
-  to an agent (*Give to…*), take one (§5.4), or close any tab. Agents can
-  never give tabs to each other.
+  human adopts them in the Agents panel. In option B, a dropped session's
+  handed tabs go straight back to the human.
+- **Human hand-over.** The human can give one of their own tabs to an agent
+  (*Let … use this tab*), take one (§5.7), or close any tab. Agents can never
+  give tabs to each other.
 
-### 3.5 One tool surface over two engines
+### 3.7 Headless by default, watch on demand (R3)
+
+The browser belongs to the agents while they work: their tabs have no visible
+view. A human who wants to see one attaches a view, and that view costs
+rendering.
+
+- **Headless means "not painted", not "not run".**
+  - *Gecko.* An agent tab without a visible view is an inactive docshell.
+    Nothing is painted or composited, and `requestAnimationFrame` is paused.
+    Layout, script and network run normally. A snapshot reads the
+    accessibility tree, which needs no painting. A screenshot paints one
+    frame offscreen on request (`captureScreenshot`).
+  - *Background throttling.* Firefox slows timers in background tabs, which
+    would slow agents. Agent-owned tabs are exempt from background timeout
+    throttling. Whether the pinned Gecko has a per-tab switch for that
+    without a patch is an open question (§10).
+  - *Chromium.* A CEF windowless target marked hidden produces no frames, and
+    the host sends nothing to Zen's surface. `Page.captureScreenshot` renders
+    on request; that this works for a hidden windowless target is to be
+    verified (§10).
+- **Attach a view (Watch).** *Watch* sits in the Agents panel and in the tab's
+  menu. In option B, selecting the agent's tab is watching. In the workspace,
+  the agent window comes forward with that tab selected. The instance becomes
+  a regular app while one of its windows shows. The tab becomes active and
+  paints at the display's rate. A Chromium tab streams frames to Zen's
+  surface (engine-surface-v1).
+- **The resource note.** While watching, the agent bar shows **LIVE** and the
+  measured cost of that tab's processes: CPU share and memory, from the same
+  per-process data about:processes uses, and the CEF host's process list for
+  Chromium tabs. Nothing is estimated. If a value cannot be measured, the bar
+  shows none.
+- **Detach.** These all return the tab to headless:
+  - *Stop watching*
+  - closing or minimising the window
+  - selecting another tab
+  - the screen locking
+  - 10 minutes without human activity
+
+  Painting stops and the Chromium frame stream stops. The agent sees no
+  difference: calls in flight go on, and nothing is lost or replayed.
+- **What it does to performance.** Unwatched tabs cost no painting or
+  compositing. Each watched tab costs its own rendering, so the Agents panel
+  shows "watching N" and the footer counts them. The Agents panel's per-tab
+  preview is a still screenshot taken on request, never a live stream.
+  Watching never changes the agent's input path, so it never slows the agent
+  beyond the shared CPU.
+- **Watching is read-only.** Input is takeover (§5.7).
+
+### 3.8 One tool surface over two engines
 
 | Layer | Gecko tabs | Chromium tabs |
 | --- | --- | --- |
 | Transport into the engine | In-process WebDriver BiDi sessions without a listener, as `GeckoBiDiReadSession`/`AgentActionRuntime` build them today: RemoteAgent and Marionette stay off and no port opens | CEF's in-process DevTools message API (`SendDevToolsMessage` and a message observer) inside the host, reached through new cef-v1 messages `devtools.attach`/`devtools.send`/`devtools.event` on the existing authenticated stdin/stdout pipe. No debugging port, no WebSocket |
+| Identity | `userContextId` of the tab (`browsingContext.create` with a user context) | The identity's request context, chosen when the target is created |
 | Snapshot (`take_snapshot`) | The Gecko accessibility tree of the tab's document, read in the parent, with stable `uid`s per node and document | The CEF accessibility tree that `engine-accessibility.md` already streams to Zen, or `Accessibility.getFullAXTree` |
 | Input | BiDi `input.performActions`, `input.setFiles` | CDP `Input.dispatch*`, `DOM.setFileInputFiles` |
 | Script | BiDi `script.callFunction` in a sandbox realm | CDP `Runtime.callFunctionOn` in an isolated world |
@@ -209,171 +414,354 @@ default, shown only when the role is `agent`).
 | Only one engine has it | — | performance trace and insights, audit, heap snapshot (CDP domains) |
 
 The browser filters both paths the same way before anything is dispatched:
-the owner check (§3.4), the takeover state (§5.4), the credential rule
-(§6.1), action grants (§6.2), private and sensitive hosts (`isSensitiveHost`)
-and the bounds already in `AgentChannelCore` (`CHANNEL_LIMITS`). The CEF host
-accepts only an allowlist of DevTools methods per attached target, keyed by
-the browser-issued target identity and generation (cef-v1). A tab that
-switches engine keeps its `tab_id` and owner, and a call in flight during the
-switch fails with `UNAVAILABLE` and is never replayed.
 
-### 3.6 Lifecycle: always available (A3)
+- the owner check (§3.6)
+- the takeover state (§5.7)
+- the credential rule (§6.1)
+- action grants (§6.2)
+- identity permission (§6.5)
+- private and sensitive hosts (`isSensitiveHost`)
+- the bounds already in `AgentChannelCore` (`CHANNEL_LIMITS`)
+
+The CEF host accepts only an allowlist of DevTools methods per attached
+target, keyed by the browser-issued target identity and generation (cef-v1).
+A tab that switches engine keeps its `tab_id`, owner and identity. A call in
+flight during the switch fails with `UNAVAILABLE` and is never replayed.
+
+### 3.9 Lifecycle: always available (A3)
 
 - **Login item.** Settings registers the agent instance as a login item of the
   app, so it is visible in the system's login items. It starts the app with
   the agent profile and without a window, and it restarts after a crash. On
   macOS the instance stays an accessory app (no Dock icon) until it shows a
-  window for sign-in, takeover or the Agents panel.
+  window for watching, sign-in, takeover or the Agents panel.
 - **Quitting** the agent instance from its menu or the Agents panel stops it
   until the next login or *Start agent workspace*. Agents then get the
   fallback of §8.
-- **Shutdown** follows the existing rules: the endpoint and its sessions close
-  first, owned children (CEF host, resolver child) get their pipes closed, and
-  only this instance's process groups are touched.
+- **Shutdown** follows the existing rules. The endpoint and its sessions close
+  first. Owned children (CEF host, resolver child) get their pipes closed.
+  Scratch identities are deleted. Only this instance's process groups are
+  touched.
 
-### 3.7 Two Macs (A9) and observability (A10)
+### 3.10 Two Macs (A9) and observability (A10)
 
-- Each Mac sets up its own agent profile and signs in on its own. Nothing in
-  this design moves cookies or sessions between Macs.
+- Each Mac sets up its own agent profile and identities and signs in on its
+  own. Nothing in this design moves cookies or sessions between Macs.
 - Metrics: one record per call `{at, session, method, engine, ms, code}` in a
   RAM ring of 2,048 entries. With *Share tool metrics* on, records are
   appended to `axiosozo/agent-metrics.jsonl` in the agent profile, rotated at
-  1 MiB. Nothing in it names a URL, an argument or page content.
+  1 MiB. Nothing in it names a URL, an argument, an identity or page content.
 
 ## 4. What the human sees at a glance
 
 | Place | What it shows |
 | --- | --- |
-| Personal window, sidebar footer | An **Agents** entry when the agent workspace runs: a ring while agents work, amber when one needs you (sign-in, grant), red when the endpoint failed. Click → the Agents panel in the agent window |
-| Agent window, sidebar | Tabs grouped **by owner**: one section per agent session (agent name, task title, state), then *You* (human-owned tabs), then *Parked* |
-| Agent window, Agents panel | Every session: agent, task, tabs, last call and its result, *Disconnect*; the endpoint state; the grants in force |
-| about:axiosozo → Agents (Settings) | Workspace on/off, endpoint on/off, the egress setting, the per-site sign-in table, grants and their history, metrics sharing |
+| Personal window, sidebar footer | An **Agents** entry when agents work: a ring while they work, amber with a count when one needs you (sign-in, grant), red when the endpoint failed. Click → the Agents panel |
+| Personal window, tabs (option B) | Agent badge on handed tabs, a folder per agent task, the identity stripe, the agent bar on the page (mock f) |
+| Personal window, bottom right | Non-blocking sign-in prompts (mock b) |
+| Agent window, sidebar | Tabs grouped **by owner**: one section per agent session (agent name, task title, state), then *You* (human-owned tabs), then *Parked*. Identity stripes on every tab |
+| Agent window, Agents panel | Every session: agent, task, tabs, last call and its result, *Watch*, *Disconnect*; the endpoint state; the grants in force |
+| about:axiosozo → Agents (Settings) | Workspace on/off, endpoint on/off, the egress setting, sign-in status per site and identity, grants and their history, metrics sharing |
+| about:axiosozo → Identities | Identities per site: state, agents using them, the *Agents* switch, rename, colour, sign out, remove, aliases |
 
-## 5. Native UI: the four flows
+## 5. Native UI: the flows
 
-All four use Zen's own material: the sidebar, the notification bar
-(`notificationbox`), the doorhanger and toast (`AxioSozoToast`), and the Lab
-kit card (`lab.css`). Text is set as text, never markup. Each mock comes in
-light and dark.
+All flows use Zen's own material: the sidebar, tab folders, the notification
+bar (`notificationbox`), the doorhanger and toast (`AxioSozoToast`), sheets
+and menus, and the Lab kit card (`lab.css`). Text is set as text, never
+markup. Each mock comes in light and dark.
 
-### 5.1 (a) Which tabs agents own and what they do
+### 5.1 (a) Which tabs agents own in the agent workspace
 
 ![Agent workspace window, light](assets/agent-workspace/a-agent-tabs-light.png)
 ![Agent workspace window, dark](assets/agent-workspace/a-agent-tabs-dark.png)
 
-- The agent window's sidebar groups tabs by owner. Each agent section shows
-  the agent's name and icon, the task title it gave in `hello` (or "Untitled
-  task"), and its state: working (a slow ring, as in the Lab presence
-  experiment), waiting for you (amber), idle, or paused by you.
-- A tab row carries a small owner badge. A tab an agent is acting on right now
-  shows the current action in its tooltip ("Typing into Search").
+- The agent window's sidebar groups tabs by owner. Each agent section shows:
+  - the agent's name and icon
+  - the task title it gave in `hello` (or "Untitled task")
+  - its state: working (a slow ring, as in the Lab presence experiment),
+    waiting for you (amber), idle, or paused by you
+- A tab row carries the identity stripe and a small owner badge. A tab an
+  agent is acting on right now shows the current action in its tooltip
+  ("Typing into Search").
 - The **Agents panel** (a Lab-kit card over the content, top right) lists every
-  session: the agent, its task, how many tabs it owns, its last call and the
-  result code, and how long ago it ran. *Disconnect* closes the session and
-  parks its tabs. The header shows the endpoint state ("On · this Mac only ·
-  2 agents") and the egress setting when it is on.
+  session:
+  - the agent and its task
+  - how many tabs it owns
+  - its last call and the result code, and how long ago it ran
+  - *Watch* (§3.7) and *Disconnect*, which closes the session and parks its
+    tabs
+
+  The header shows the endpoint state ("On · this Mac only · 2 agents") and
+  the egress setting when it is on.
 - In the personal window, the **Agents** entry shows the same summary in one
   line and opens this panel.
 
-### 5.2 (b) Sign-in needed
+### 5.2 Agent tabs in your own window (option B, R1)
+
+![Agent tabs in your window, light](assets/agent-workspace/f-mixed-window-light.png)
+![Agent tabs in your window, dark](assets/agent-workspace/f-mixed-window-dark.png)
+
+- **One window, several owners.** Your tabs, a tab you handed to one agent
+  and a folder of tabs another agent opened sit side by side. Each agent tab
+  is marked in place:
+  - the agent's badge next to the favicon
+  - a state mark: a ring while it works, amber when it needs you
+  - the identity stripe
+- **Handed tab.** The tab stays where it is. An agent bar on top of the page
+  shows the agent and what it is doing ("Reading the plans table"), with
+  *Stop* (the agent's use ends and the tab is yours again) and *Take over*
+  (§5.7). Selecting the tab is watching it.
+- **Tabs the agent opens** go into a Zen tab folder named after the agent and
+  its task, after the tab you handed over. They use the task's scratch
+  identity, so none of your sign-ins are in them. A sign-in the agent needs
+  there goes through §5.4. Closing the folder ends the agent's use of those
+  tabs.
+- **Your other tabs** are invisible to the agent (§6.3).
+
+### 5.3 Identities: choose, show, manage (R2)
+
+![Identities, light](assets/agent-workspace/g-identities-light.png)
+![Identities, dark](assets/agent-workspace/g-identities-dark.png)
+
+- **One row per identity, grouped by site.** Each row shows the colour, the
+  name, the sign-in state, the agents using it now, the *Agents* switch, and a
+  menu: *Open new tab*, *Rename*, *Colour*, *Sign out*, *Remove…*. Rename
+  edits in place.
+- **Per site:** "New tabs: Ask" or a default identity (§3.4 rule 5).
+- **New tab in an identity:** long-press or right-click the new-tab button
+  for the identity menu, as Firefox does for containers.
+- **Remove** asks for confirmation in a sheet. Its consequences are listed
+  in §3.4.
+
+### 5.4 (b) Sign-in needed or session expired (R4)
 
 ![Sign-in needed, light](assets/agent-workspace/b-login-needed-light.png)
 ![Sign-in needed, dark](assets/agent-workspace/b-login-needed-dark.png)
 
-1. An agent that hits a login wall, or whose call returns
-   `LOGIN_REQUIRED` (§6.1), calls `request_human_login({site, reason})`. The
-   call returns at once with `{request_id, state:"waiting"}`. The agent can
-   call `wait_for_login({request_id, timeout})` or keep working elsewhere.
-2. The browser shows **one** request per site, however many agents ask: a
-   toast in the personal window ("Codex needs you to sign in to
-   social.example · in the agent workspace") with *Open sign-in*. If no
-   personal window is open, a system notification appears instead. The
-   Agents entry turns amber.
-3. *Open sign-in* brings the agent window forward with a new **human-owned**
-   tab at the site's login URL. No agent can list, read, screenshot or drive
-   it. A notification bar says: "Signing in for agents. Agents can't see this
-   tab. Your personal browser's sign-ins are not used." with *I'm signed in*
-   and *Cancel*.
-4. The human signs in however they like (typing, their own password manager,
-   a passkey, two-factor). The browser never gives an agent anything typed
-   here.
-5. *I'm signed in* (or the site's signed-in marker, §5.3) closes the tab and
-   sets the site to *Signed in*. Waiting agents get `{state:"signed_in"}` and
-   carry on. Nothing restarts, and no other agent was interrupted.
-6. *Cancel* or 30 minutes without an answer resolves the request as
-   `{state:"declined"}`.
+**How it starts.**
 
-### 5.3 (c) Sign-in status per site
+- *An agent asks.* `request_human_login({site, identity?, reason})`. The
+  identity defaults to the one of the agent's tab on that site. The call
+  returns at once with `{request_id, state:"waiting"}`.
+- *The browser detects it mid-task.* Any of these counts:
+  - a navigation in an agent tab lands on the site's login URL
+  - the site's signed-out marker appears
+  - a top-level response is 401
+  - the probe (§5.5) finds the identity signed out
+
+  The browser marks that site and identity *Signed out* and remembers the
+  URL the tab was on before the redirect (the return URL). The agent's
+  current call returns `LOGIN_REQUIRED {site, identity, request_id}`. The
+  tab stays usable for reading, but the credential rule (§6.1) refuses any
+  typing into the login form.
+
+**One request per site and identity.** The key is (profile, identity, site).
+A second agent hitting the same wall joins the open request ("2 agents
+waiting"). Two identities of the same site are two requests.
+
+**The prompt does not block.**
+
+- A Lab-kit card appears at the bottom right of the personal window. It
+  takes no focus and has no modal layer. It shows:
+  - the waiting agents' icons
+  - *Session expired* or *Sign-in needed*
+  - the site and the identity chip
+  - how many agents wait
+  - *Later* and *Sign in*
+- If no personal window is in front, one system notification with *Sign in*
+  appears instead.
+- The Agents entry turns amber with the count.
+
+**Signing in.**
+
+- *Sign in* opens a **human-owned** tab in the right profile and identity, at
+  the site's login URL (or the URL the agent hit). In the workspace, the
+  agent window comes forward. In option B, the tab opens in your window.
+- A notification bar says "Sign in as Client B. Agents can't see this tab. 2
+  waiting." with *Done* and *Cancel*.
+- The human signs in however they like: typing, their own password manager,
+  a passkey, two-factor. No agent can list, read, screenshot or drive this
+  tab.
+
+**Resuming.**
+
+- The site's signed-in marker in that tab, or *Done*, sets the identity to
+  *Signed in* and closes the tab. If the human browsed elsewhere in it, the
+  tab stays as theirs.
+- Every waiting agent gets `{state:"signed_in"}`.
+- Waiting tabs that sit on the login page go back to their return URL. That
+  is one navigation, never a replay of an earlier action.
+- Nothing restarts, and no other agent was interrupted.
+
+**When the human ignores it.**
+
+- *Later* hides the card. The request stays open in the Agents panel (amber),
+  and no new card appears for that key for 1 hour. Waiting agents get
+  `{state:"deferred", retry_after}`.
+- An unanswered card stays until dismissed. A system notification fires at
+  most once per key per hour and three times per key per day.
+- Agents never hang. `wait_for_login({request_id, timeout})` waits 5 minutes
+  by default (at most 60) and then returns `{state:"waiting"}`. The agent can
+  work elsewhere or tell its own user that it is blocked on a sign-in.
+- *Cancel* or the card's close button resolves the request as
+  `{state:"declined"}`. Detections of the same key in the next hour only
+  update the amber entry and raise no card.
+- After 24 hours an open request closes as `{state:"expired"}`. A new
+  detection opens a new one.
+
+### 5.5 (c) Sign-in status per site and identity
 
 ![Sign-in status, light](assets/agent-workspace/c-login-status-light.png)
 ![Sign-in status, dark](assets/agent-workspace/c-login-status-dark.png)
 
-- about:axiosozo → Agents → **Sign-ins**: one row per site with its state
-  (*Signed in*, *Signed out*, *Not checked*, *Checking…*), when it was last
-  checked, and *Sign in…* (the flow of §5.2) or *Check now*. *Add site…* takes
-  the four fields of a probe. Rows show no cookie names or values.
-- **The probe.** Every 4 hours, and on *Check now*, a `system`-owned
-  background tab in the agent profile loads each site's probe URL and decides:
-  the signed-out marker means signed out, the signed-in marker means signed
-  in, and anything else (an error, a timeout, neither marker) means *unknown*,
-  never signed in. The probe runs one site at a time, keeps sessions warm as
-  today, and never runs while that site's sign-in tab is open.
-- **Passive updates.** When an agent tab lands on a site's login URL or
-  signed-out marker, that site turns *Signed out* immediately.
-- **Notification.** A change to *Signed out* raises at most one notification
-  per site per day.
-- The same section holds **Action grants** (§6.2) and the endpoint and egress
+- about:axiosozo → Agents → **Sign-ins** has one row per site and identity:
+  - the state: *Signed in*, *Signed out* (with how many agents wait),
+    *Checking…* or *Unknown*
+  - when it was last checked
+  - *Sign in* (the flow of §5.4) or *Check*
+
+  *Add site…* takes the four fields of a probe. Rows show no cookie names or
+  values.
+- **The probe.** Every 4 hours, and on *Check*, a `system`-owned background
+  tab in the agent profile loads each site's probe URL in each of that site's
+  identities, one at a time. It decides:
+  - the signed-out marker means signed out
+  - the signed-in marker means signed in
+  - anything else (an error, a timeout, neither marker) means *unknown*,
+    never signed in
+
+  The probe keeps sessions warm as today, and it never runs while that
+  identity's sign-in tab is open.
+- **Passive updates** come from the detections of §5.4.
+- **Notification.** A change to *Signed out* with no agent waiting raises at
+  most one notification per site and identity per day. With agents waiting,
+  §5.4 applies instead.
+- The same page holds **Action grants** (§6.2) and the endpoint and egress
   switches, so the Agents settings page is the one place for agent safety.
 
-### 5.4 (d) Takeover: a human types into an agent's tab
+### 5.6 Watch live (R3)
+
+![Watch live, light](assets/agent-workspace/e-watch-light.png)
+![Watch live, dark](assets/agent-workspace/e-watch-dark.png)
+
+- The watched tab shows an eye in the sidebar. The agent bar on the page
+  shows:
+  - **LIVE**
+  - the agent and its current action
+  - the measured cost (§3.7)
+  - *Stop watching* and *Take over*
+- The agent's pointer shows as a ring where it clicks, so the human can follow
+  input. The ring is drawn by the chrome, never by the page.
+- The values in the mock are samples. The real bar shows measured values or
+  none.
+
+### 5.7 (d) Takeover: a human types into an agent's tab
 
 ![Takeover, light](assets/agent-workspace/d-takeover-light.png)
 ![Takeover, dark](assets/agent-workspace/d-takeover-dark.png)
 
-- **Trigger.** Native human input in the content of an agent-owned tab:
-  keyboard, click, wheel, or touch, including input that arrives through
-  screen sharing or a shared keyboard. Gecko tells this apart from automation
-  in the parent: the BiDi input dispatcher marks its own events, while human
-  events arrive from the widget (to be checked against the pinned Gecko in
-  phase 6). For Chromium tabs, `CEFPresenter` forwards OS events itself, so it
-  knows which input is human. Hovering, scrolling the sidebar or focusing the
-  window is not a takeover.
-- **Effect, at once and per tab.** The tab's owner becomes `human`, with the
-  previous agent remembered. That agent's pending input on the tab is
-  cancelled. An effect already dispatched may finish, and nothing is replayed
-  (agent-channel-v1 §4.2). Every further call on the tab, reads included, gets
-  `HUMAN_IN_CONTROL` with `retry_after`. Reads are paused too, so an agent
-  never sees what the human types. Other tabs and other agents are not
-  affected.
-- **What the human sees.** A notification bar: "You took over this tab from
-  Codex. Codex is paused here; its other tabs keep working." with *Give back
-  to Codex*. The tab's badge changes to *You*.
-- **Ending it.** *Give back* returns the tab to the agent. The tab also goes
-  back by itself 15 minutes after the last human input (today's pause limit),
-  but never while a password or one-time-code field has focus. Closing the tab
-  ends it too. A tab returned with a different document (the human navigated)
-  gets a new document id, so the agent's old `uid`s are stale and it must
-  snapshot again.
+- **Trigger.** Native human input in the content of an agent-owned tab, or the
+  *Take over* button. Input means keyboard, click, wheel or touch, including
+  input that arrives through screen sharing or a shared keyboard.
+  - *Gecko* tells human input from automation in the parent: the BiDi input
+    dispatcher marks its own events, while human events arrive from the
+    widget. This is to be checked against the pinned Gecko in phase 6.
+  - *Chromium:* `CEFPresenter` forwards OS events itself, so it knows which
+    input is human.
+  - These are not a takeover: hovering, scrolling the sidebar, or focusing
+    the window.
+- **The first input is not delivered.** The event that triggers the takeover
+  goes to the browser, not the page. A stray click never presses a button the
+  agent was about to press, and keys never interleave with the agent's
+  typing. From the next event on, the human uses the tab normally.
+- **Effect, at once and per tab.**
+  - The tab's owner becomes `human`, with the previous agent remembered.
+  - That agent's pending input on the tab is cancelled. An effect already
+    dispatched may finish, and nothing is replayed (agent-channel-v1 §4.2).
+  - Every further call on the tab, reads included, gets `HUMAN_IN_CONTROL`
+    with `retry_after`. Reads are paused too, so an agent never sees what the
+    human types.
+  - Other tabs and other agents are not affected.
+- **What the human sees.** A notification bar: "You took over from Codex. It
+  can't read or type here. Its other tabs keep working." with *Give back*.
+  The tab's badge changes to *You*.
+- **Ending it.**
+  - *Give back* returns the tab to the agent.
+  - The tab also goes back by itself 15 minutes after the last human input
+    (today's pause limit), but never while a password or one-time-code field
+    has focus.
+  - Closing the tab ends it too.
+  - In option B, *Stop* ends the agent's use for good.
+  - A tab returned with a different document (the human navigated) gets a
+    new document id, so the agent's old `uid`s are stale and it must
+    snapshot again.
+
+### 5.8 Account-aware links (R5)
+
+![Account-aware link, light](assets/agent-workspace/h-account-link-light.png)
+![Account-aware link, dark](assets/agent-workspace/h-account-link-dark.png)
+
+A link to a session in a web app, for example an AI coding session that only
+one of several accounts of that service can see, must open as the account
+that owns it. Nobody signs out and back in.
+
+**How the owning identity is known**, in this order:
+
+1. **The caller says it.** The caller passes `identity` (a key or an alias)
+   with the URL. A caller that started the session usually knows which
+   account it used. An **alias** is the caller's own name for an account,
+   attached by the human to one identity. The human attaches it in Settings →
+   Identities, or the first time a caller uses an unknown alias, in a small
+   sheet: "Which identity is *client-a* for runs.example?". The answer is
+   remembered.
+2. **A mapping the caller provides.** A caller may register URL rules once,
+   such as "everything under this workspace path belongs to alias X"
+   (`links.map({pattern, alias})`). The human confirms them, and they are
+   stored as link rules (§3.4 rule 3).
+3. **Lookup, only when allowed.** *Try each* loads the URL in a hidden
+   `system` tab in each signed-in identity of that site, one at a time. It
+   takes the first one that does not show the site's no-access marker (an
+   optional fifth probe field), stops there and remembers the rule. Lookup
+   is off by default and allowed per site, because it sends a request as
+   each account.
+4. **Fallback: ask.** If nothing matches, a sheet lists the site's identities
+   (last used first, with their sign-in state) and offers *Remember for links
+   from this caller to this path*, *Try each* (only where lookup is
+   allowed), *Cancel* and *Open*.
+   - An agent caller gets `IDENTITY_REQUIRED {candidates}` instead.
+   - The link never opens silently in the default identity.
+   - If the owning identity is signed out, the tab opens and §5.4 starts
+     for that identity.
+
+The API callers use ("open this URL as identity X") is in §7.4.
 
 ## 6. Agent-safety rules as browser behaviour
 
-These rules apply in the agent profile. The personal profile keeps every P4
-rule (agent-channel-v1 §4), which is stricter.
+These rules apply wherever an agent owns a tab: in the agent profile and, for
+option B, in the personal profile. The personal profile also keeps every P4
+rule (agent-channel-v1 §4), with the single *Allow on this tab until done*
+extension of §3.1.
 
 ### 6.1 Agents never enter credentials
 
 - `fill`, `fill_form`, `type_text`, `press_key` and `upload_file` are refused
   with `CREDENTIALS_HUMAN_ONLY` when the target, or the focused element for
-  key input, is a password field; has `autocomplete` `current-password`,
-  `new-password` or `one-time-code`; is a field Gecko's login-form detection
-  marks as a username or password field; or is a Chromium node exposed as a
-  secure text field (the engine-accessibility tree). The browser then raises
-  §5.2 for that site.
+  key input, is any of these:
+  - a password field
+  - a field with `autocomplete` `current-password`, `new-password` or
+    `one-time-code`
+  - a field Gecko's login-form detection marks as a username or password
+    field
+  - a Chromium node exposed as a secure text field (the engine-accessibility
+    tree)
+
+  The browser then raises §5.4 for that site and identity.
 - `click` on the submit control of a form that contains a password field is
   refused the same way. So are `handle_dialog` with text for an HTTP
   authentication prompt, and any WebAuthn or passkey prompt, which only a
   human can answer.
-- A saved login is never filled on load (§3.2). No tool returns cookie values
+- A saved login is never filled on load (§3.3). No tool returns cookie values
   or authentication headers: network listings redact `Cookie`, `Set-Cookie`,
   `Authorization` and `Proxy-Authorization`. No cookie-store tool exists.
 - Limit, stated plainly: `evaluate_script` runs in a sandbox realm, and that
@@ -383,33 +771,39 @@ rule (agent-channel-v1 §4), which is stricter.
 
 ### 6.2 Posting, reacting, following and messaging need a human grant
 
-- **Classes:** `post` (publish, reply, comment, repost), `react` (like,
-  upvote, reaction), `follow` (follow, connect, subscribe) and `message`
-  (direct message, chat, mail send).
-- **Grant.** A grant is `{session, site, class, count, expires}` and comes only
-  from a trusted click in browser UI. An agent asks with
-  `request_grant({site, class, count, reason})`, which shows a doorhanger in
-  the agent window and a toast in the personal one: "Codex wants to **post**
-  on social.example **once**: Reply to a launch thread." with *Allow* and
-  *Deny*. The human can also grant ahead of time in Settings ("Codex may post
-  on social.example 3 times in the next hour"). Each grant is used up per
-  action, ends with its session, and can be revoked at once.
+- **Classes:**
+  - `post`: publish, reply, comment, repost
+  - `react`: like, upvote, reaction
+  - `follow`: follow, connect, subscribe
+  - `message`: direct message, chat, mail send
+- **Grant.** A grant is `{session, site, identity, class, count, expires}`
+  and comes only from a trusted click in browser UI.
+  - An agent asks with `request_grant({site, class, count, reason})`. This
+    shows a doorhanger in the agent window and a card in the personal one:
+    "Codex wants to **post** on social.example as **Brand**, **once**: Reply
+    to a launch thread." with *Allow* and *Deny*.
+  - The human can also grant ahead of time in Settings ("Codex may post on
+    social.example as Brand 3 times in the next hour").
+  - Each grant is used up per action, ends with its session, and can be
+    revoked at once.
 - **Enforcement, two layers.**
-  1. *Before dispatch.* Each site with grants rules (a bundled, editable
-     `action-rules.json`) lists, per class, the controls and form targets
-     that perform it, by role and accessible name, by form action, or by
-     request URL pattern. A `click`, `press_key` (Enter) or form submission
-     whose target matches a class without a live grant fails with
-     `GRANT_REQUIRED {site, class}`, and nothing is dispatched.
-  2. *At the network.* In the agent profile, a non-GET request to a guarded
-     site's first-party origins that follows an agent action in that tab
-     (input, evaluate_script, or navigation, within 5 seconds) is held. Gecko
-     catches it in `http-on-modify-request`, Chromium in the host's resource
-     request handler. If it matches a class, it needs that class's grant. If
-     it matches a known harmless write (an analytics beacon, a draft
-     autosave), it passes. **Otherwise it is held as `post`**, the strictest
-     class, and the human can allow it once from the doorhanger. Fail closed:
-     an unknown write on a guarded site never goes out unseen.
+  1. *Before dispatch.* A bundled, editable `action-rules.json` lists, per
+     guarded site and class, the controls and form targets that perform it:
+     by role and accessible name, by form action, or by request URL pattern.
+     A `click`, `press_key` (Enter) or form submission whose target matches a
+     class without a live grant fails with `GRANT_REQUIRED {site, class}`, and
+     nothing is dispatched.
+  2. *At the network.* A non-GET request to a guarded site's first-party
+     origins is held when it follows an agent action in that tab: input,
+     `evaluate_script` or navigation, within 5 seconds. Gecko catches it in
+     `http-on-modify-request`, Chromium in the host's resource request
+     handler, per identity's request context.
+     - If it matches a class, it needs that class's grant.
+     - If it matches a known harmless write (an analytics beacon, a draft
+       autosave), it passes.
+     - **Otherwise it is held as `post`**, the strictest class, and the human
+       can allow it once from the doorhanger. Fail closed: an unknown write
+       on a guarded site never goes out unseen.
 - **Not guarded:** sites without rules. This design does not claim that the
   browser recognises every social action on every site. It guards the sites
   the human lists. Adding a site is one Settings action, and an unknown site
@@ -417,21 +811,46 @@ rule (agent-channel-v1 §4), which is stricter.
 
 ### 6.3 Agents read and drive only their own tabs
 
-Owner checks happen in the parent before any engine call (§3.4). `NOT_OWNER`
-reveals nothing about the other tab, not even whether it exists. The login
-probe's `system` tabs and the human's tabs are never listed to an agent.
-`list_pages` counts them only as "tabs you can't see: N".
+Owner checks happen in the parent before any engine call (§3.6). `NOT_OWNER`
+reveals nothing about the other tab, not even whether it exists. These tabs
+are never listed to an agent:
+
+- the human's own tabs, in both profiles
+- sign-in tabs
+- the probe's and lookup's `system` tabs
+
+`list_pages` counts them only as "tabs you can't see: N". In option B an
+agent sees only the tab you handed it and its own folder.
 
 ### 6.4 The endpoint stays off until Settings, and stays on this Mac
 
-- Default off, and only a trusted Settings click enables it (§3.4). No pref,
-  environment variable, page or agent can turn it on. It is loopback only, and
-  stricter than a loopback port: a local Unix socket that only the same user
-  can open. There is no TCP listener, no debugging port and no WebSocket. The fallback resolver
-  child of §3.3 listens on loopback for the CEF host only, with a random
-  token, and serves no agent.
-- The endpoint never exists in a profile whose role is not `agent` in
-  workspace mode, and the personal endpoint never serves workspace tools.
+- Default off, and only a trusted Settings click enables it (§3.6). No pref,
+  environment variable, page or agent can turn it on.
+- It is local only, and stricter than a loopback port: a Unix socket that
+  only the same user can open. There is no TCP listener, no debugging port
+  and no WebSocket.
+- The fallback resolver child of §3.5 listens on loopback for the CEF host
+  only, with a random token, and serves no agent.
+- The workspace tools exist only in a profile whose role is `agent`. The
+  personal endpoint serves P4 and option B only.
+
+### 6.5 Identities agents may use
+
+- In the workspace, an agent may use identities whose *Agents* switch is on,
+  plus its own scratch identities. In option B, it may use only the
+  identity of the tab you handed it and its task's scratch identity.
+  - Any other identity named in a call fails with `IDENTITY_NOT_ALLOWED`.
+  - `list_identities` shows only the allowed ones, with key, name, sites
+    and sign-in state.
+- `links.open` callers (§7.4) are registered once by a human click ("Allow
+  runs.example to open links as your identities"), per caller and revocable.
+  A tab opened this way is owned by the human. The caller learns only
+  `opened`, `chooser` or `refused`, and never anything about the page.
+- A web page can never choose an identity by itself. The in-page form of §7.4
+  works only on origins the human granted, and only for aliases that already
+  exist.
+- Removing an identity deletes its data in both engines (§3.4). No identity
+  data is exported.
 
 ## 7. What consumers get
 
@@ -441,13 +860,17 @@ The workspace mode of `packages/agent-bridge` (`--workspace`) offers **the same
 tool names and the same arguments** as the DevTools MCP server version that
 agents use today (1.12, with the options the current setup passes). An agent's
 MCP entry changes its command, and nothing in its prompts or skills changes.
-Differences in behaviour are the safety rules themselves: other agents' pages
-are invisible, credentials are refused, and gated actions ask for a grant.
+Differences in behaviour are the safety rules themselves:
+
+- other agents' pages are invisible
+- credentials are refused
+- gated actions ask for a grant
+- sites with several identities may answer `IDENTITY_REQUIRED`
 
 | Tool (same name) | Gecko tab | Chromium tab | Status |
 | --- | --- | --- | --- |
-| `list_pages` | registry, own tabs only | same | extend (`tabs.list`) |
-| `new_page` | BiDi `browsingContext.create`, owned by the caller; engine per site preference (`EnginePreference`) or optional `engine` | Zen tab in Chromium (`EngineTabs`) | extend (`tabs.open`, gated `false` today) |
+| `list_pages` | registry, own tabs only, with identity | same | extend (`tabs.list`) |
+| `new_page` | BiDi `browsingContext.create` in the chosen identity (§3.4), owned by the caller; engine per site preference (`EnginePreference`) or optional `engine`; optional `identity` | Zen tab in Chromium (`EngineTabs`) in the identity's request context | extend (`tabs.open`, gated `false` today) |
 | `select_page` | bridge-side current page; `bringToFront` never steals focus from the human | same | new |
 | `close_page` | own tabs only | same | new |
 | `navigate_page` (url, back, forward, reload, `initScript`) | BiDi `navigate`/`traverseHistory`/`reload`, `script.addPreloadScript`; returns `still_loading` after the timeout | CDP `Page.navigate`, `Page.addScriptToEvaluateOnNewDocument` | extend (`tabs.navigate`) |
@@ -457,7 +880,7 @@ are invisible, credentials are refused, and gated actions ask for a grant.
 | `fill`, `fill_form`, `type_text`, `press_key` | BiDi input + §6.1 checks | CDP `Input.insertText`/`dispatchKeyEvent` + §6.1 | extend (`page.type`) |
 | `upload_file` | BiDi `input.setFiles`; only files under the workspace's uploads folder | CDP `DOM.setFileInputFiles`, same folder rule | new |
 | `handle_dialog` | BiDi `browsingContext.handleUserPrompt` (never for HTTP authentication) | CDP `Page.handleJavaScriptDialog` | new |
-| `take_screenshot` | BiDi `captureScreenshot` (`AgentCaptureRuntime`) | CDP `Page.captureScreenshot` | extend (`tabs.screenshot`) |
+| `take_screenshot` | BiDi `captureScreenshot` (`AgentCaptureRuntime`), works headless | CDP `Page.captureScreenshot` | extend (`tabs.screenshot`) |
 | `evaluate_script` | BiDi `script.callFunction`, sandbox realm | CDP `Runtime.callFunctionOn`, isolated world | new |
 | `list_console_messages`, `get_console_message` | `ConsoleErrorsService`, every level | CDP `Runtime`/`Log` | extend (`console.errors`) |
 | `list_network_requests`, `get_network_request` | BiDi `network` events and data collection, credential headers redacted | CDP `Network`, same redaction | new |
@@ -470,9 +893,12 @@ are invisible, credentials are refused, and gated actions ask for a grant.
 | `screencast_start`, `screencast_stop` | periodic `captureScreenshot` frames | CDP `Page.startScreencast` | new |
 | extension, PWA, WebMCP and DevTools-comment tools, `click_at`, `get_tab_id`, the heap-analysis family, slim mode | — | — | drop (off in today's setup; can be added later) |
 
-New tools beyond the DevTools MCP server's set, which an agent that does not
-know them never calls: `request_human_login`, `wait_for_login`,
-`login_status`, `request_grant`, `list_grants`.
+There are new tools beyond the DevTools MCP server's set. An agent that does
+not know them never calls them:
+
+- `request_human_login`, `wait_for_login`, `login_status`
+- `request_grant`, `list_grants`
+- `list_identities`
 
 For Chromium-only tools on a Gecko tab, the error text says so and suggests
 `new_page` with `engine:"chromium"`. The bridge runs the audit and trace
@@ -484,24 +910,29 @@ never against a port.
 
 The consumer today reads a state file that the auth watch writes. Natively:
 
-- **Channel method** `status.read` with `{}` (client name `workspace-status`,
-  read-only, no session approval, no tab access). It returns
-  `[{site, state: "signed_in"|"signed_out"|"unknown"|"checking", since, checked_at, notified_at}]`,
-  the same fields as today's state file, plus `checking`.
+- **Channel method** `status.read` with `{}`, as client name
+  `workspace-status`: read-only, with no session approval and no tab access.
+  It returns
+  `[{site, identity: {key, name}, state: "signed_in"|"signed_out"|"unknown"|"checking", since, checked_at, notified_at, waiting}]`.
+  These are today's fields per site, plus the identity, `checking` and the
+  number of waiting agents.
 - **CLI** `axiosozo-agent status --sign-ins [--json]` prints the same data
   from the profile's `agent-signins.json` without starting a browser, as
   today's `status` command does.
-- **No cookie names or values, no account names**, only the site key the
-  human chose.
-- **Migration:** the consumer switches its reader from the state file to the
-  CLI or `status.read`. The field names stay the same, so the table's logic
-  does not change. Its posting and messaging steps move to the grant flow of
-  §6.2. That is a behaviour change by design: every post now needs a grant.
+- **No cookie names or values, and no account names read from a page.** Only
+  the site key and the identity name the human chose.
+- **Migration:**
+  - The consumer switches its reader from the state file to the CLI or
+    `status.read`. A consumer that knows one account per site reads the
+    row of the identity it uses. The field names stay the same, so the
+    table's logic does not change.
+  - Its posting and messaging steps move to the grant flow of §6.2. That is
+    a behaviour change by design: every post now needs a grant.
 
 ### 7.3 Attaching the AI-assistant extension or its successor (A8): migration
 
 1. **Preferred:** the assistant's desktop app and its coding agent connect to
-   the workspace MCP endpoint like any other agent (Codex supports MCP;
+   the workspace MCP endpoint like any other agent (Codex supports MCP, and
    `packages/agent-bridge` already writes its config). This loses the side
    panel inside the agent browser, and the assistant gets the same tools as
    other agents.
@@ -515,27 +946,60 @@ The consumer today reads a state file that the auth watch writes. Natively:
 Until one of these is verified, the extension stays on the legacy agent
 Chrome (§8).
 
+### 7.4 Open a URL as an identity (R5): new, migration for callers
+
+Nothing like this exists today, since the agent Chrome has one account per
+site. A caller such as an automation dashboard gets:
+
+- **Channel method** `links.open {url, identity? | alias?, profile?, reason?}`
+  as client `links`. It needs the one-time caller registration of §6.5. It
+  returns `{state: "opened"|"chooser"|"refused", identity?: {key, name}}`.
+  - `profile` is `personal` (default) or `agent`. An alias is unique within
+    a profile.
+  - The tab opens in the profile that holds the identity, owned by the
+    human, in front only if that profile's window is in front.
+  - `links.map {pattern, alias}` registers a mapping (§5.8 step 2) and
+    waits for the human's confirmation.
+- **CLI** `axiosozo-agent open --as <alias|key> [--profile personal|agent] <url>`
+  over the same socket, so the same user only. This is the easiest
+  switch for a dashboard that runs outside the browser.
+- **MCP** `new_page({url, identity})` for agents (§7.1).
+- **Web dashboards inside the browser.** On an origin the human granted
+  *Open links as identity*, a link with `data-identity="<alias>"` opens as
+  that alias. On every other origin the attribute is ignored.
+- **Fallback when nothing matches:** the chooser for a human and
+  `IDENTITY_REQUIRED` for an agent (§5.8). An unknown alias asks the human
+  once. A caller without registration gets `refused`. No custom URL scheme
+  is registered with the system, because any app or page could call one.
+
 ## 8. When the AxioSozo agent workspace is not there
 
 Until the last phase lands, every agent keeps working through **one MCP
 entry**: the workspace bridge runs as a router.
 
-- On each new session the bridge tries the agent profile socket. If the
-  socket is missing, the endpoint is off, or the instance does not answer
-  within 2 seconds, it starts the legacy DevTools MCP server as a stdio child
-  (`--fallback-command`, set in the agent's MCP config) and forwards every
-  call to it. Because the tool names match (§7.1), the agent does not notice.
+- **Choosing a backend.** On each new session the bridge tries the agent
+  profile socket. It falls back if the socket is missing, the endpoint is
+  off, or the instance does not answer within 2 seconds. It then starts the
+  legacy DevTools MCP server as a stdio child (`--fallback-command`, set in
+  the agent's MCP config) and forwards every call to it. Because the tool
+  names match (§7.1), the agent does not notice.
 - **The backend stays fixed for a session**, so page ids never mix. A session
   started on the legacy browser stays there until its pages are closed or the
   session ends.
 - Every result says which backend served it (`_meta.backend`), and the
-  metrics of §3.7 count fallback calls. Phase 12 uses that count as its exit
+  metrics of §3.10 count fallback calls. Phase 16 uses that count as its exit
   check.
-- On the legacy backend, `request_human_login` answers with text telling the
-  agent to ask the human to use today's sign-in helper. The grant tools answer
-  `UNAVAILABLE`, and today's written policy (A12) still applies.
+- **On the legacy backend:**
+  - `request_human_login` answers with text telling the agent to ask the
+    human to use today's sign-in helper.
+  - The grant tools answer `UNAVAILABLE`, and today's written policy (A12)
+    still applies.
+  - A `new_page` with an `identity` other than the legacy browser's single
+    one answers `UNAVAILABLE: identities need the AxioSozo browser`.
+  - `links.open` and its CLI need a running AxioSozo browser. Without one,
+    the CLI says so and opens nothing.
 - With neither backend available: `UNAVAILABLE: no agent browser is running`.
-- **The legacy agent Chrome is retired only in the final phase (13), never
+- **The legacy agent Chrome is retired only in the final phase (17), never
   earlier.**
 
 ## 9. Phases
@@ -543,38 +1007,61 @@ entry**: the workspace bridge runs as a router.
 Each phase is one task. It ends with its own check, and with real macOS E1/E2
 where an engine path is involved. Nothing is called READY without real macOS
 E1/E2 (AGENTS.md). The legacy agent Chrome keeps running alongside until
-phase 13.
+phase 17.
 
 | # | Phase | Acceptance check | E1/E2 relevance |
 | --- | --- | --- | --- |
 | 1 | **Agent profile role.** Settings action *Set up the agent workspace*, `profile-role.json`, a second instance launched with that profile, autofill on load off, sync engines off. | Unit tests: the role is only written by the trusted action and ignored when forged by a pref. A native run on the loopback fixture: a cookie set in the personal profile is absent in the agent profile and the reverse, for a Gecko tab **and** a Chromium tab. | E1: a Chromium tab renders in the second instance (its own CEF host). E2: none. |
-| 2 | **Egress rule.** The opt-in setting; TRR prefs for Gecko; secure DNS for the agent CEF host; the resolver child if Chromium applies the hosts file first. | Unit tests with an injected resolver (a block answer goes to DoH; local, private and mesh-suffix names stay on the system resolver). The personal profile never has the prefs. Hosts-file behaviour checked by hand by the owner, never by editing system files from a task. | E1: Chromium tabs load through the rule. E2: killing the resolver child fails closed (the tab shows a network error) and does not reveal the blocked name to the system resolver. |
+| 2 | **Egress rule.** The opt-in setting; TRR prefs for Gecko; secure DNS for the agent CEF host; the resolver child if Chromium applies the hosts file first. | Unit tests with an injected resolver: a block answer goes to DoH; local, private and mesh-suffix names stay on the system resolver. The personal profile never has the prefs. Hosts-file behaviour is checked by hand by the owner, never by editing system files from a task. | E1: Chromium tabs load through the rule. E2: killing the resolver child fails closed (the tab shows a network error) and does not reveal the blocked name to the system resolver. |
 | 3 | **Workspace endpoint and owners.** Persisted enablement for the `agent` role (agent-channel-v1 §1 change), sessions without a prompt, 16 connections, `owner` in `AgentTabRegistry`, parking and resume. | Fake-channel tests: two sessions never see or touch each other's tabs (`NOT_OWNER`). Parked tabs return with the token and close after 10 minutes. Personal profiles still start disabled. | None (no engine path). |
 | 4 | **Workspace MCP and router.** `agent-bridge --workspace` with every mapped tool name; `--fallback-command` routing; `_meta.backend`. | `tools/list` matches a pinned name and argument list of the DevTools MCP server. The fallback is tested against a fake legacy MCP child, with sticky sessions. | None. |
 | 5 | **Gecko tools.** Pages, navigation (`still_loading`), snapshot, input, upload folder, dialogs, waits, screenshots, script, console, network, resize, emulate; the credential rule (§6.1). Lift the literal `false` gates for the agent role only, after ordinary-profile proof. | Fixture tests per tool. Credential refusals for every field kind. An ordinary agent-profile run on fixtures, recorded as evidence. | Gecko only; the macOS run is the ordinary-profile proof. |
-| 6 | **Takeover and the agents sidebar** (§5.1, §5.4). Owner groups, badges, the Agents panel, the takeover bar, *Give back*, the 15-minute return. | Native input on an agent tab gives `HUMAN_IN_CONTROL` and synthetic BiDi input does not. Screenshots match the mocks in light and dark. | E1: takeover over a Chromium tab uses the real OS input path (`CEFPresenter`). E2: a host crash during takeover leaves the tab human-owned. |
-| 7 | **Sign-in needed and sign-in status** (§5.2, §5.3, §7.2). The probe, passive detection, the daily notification, `status.read`, the CLI. | State machine tests (an unknown result never counts as signed in). One request per site. Agents resume after *I'm signed in* without any restart. Probe tabs are invisible to agents. | E1: a sign-in in a Chromium tab of the agent profile (only if a site's engine preference is Chromium). |
-| 8 | **Action grants** (§6.2). `action-rules.json`, the grant UI, both enforcement layers in both engines. | On a fixture "social" site, an unauthorised post is blocked before dispatch and at the network, in Gecko and Chromium. A grant of one allows exactly one. An unknown write is held as `post`. | E1 for Chromium (request handler in the host). E2: a host crash with a held request never lets it through. |
-| 9 | **Chromium tool parity.** cef-v1 `devtools.*` messages and the method allowlist; every tool of §7.1 on Chromium tabs, including trace, audit, heap snapshot and screencast. | Host tests with real CEF on fixtures; the allowlist refuses everything else. No port is opened (checked with the system's open-socket listing). | **High.** E1: tools work while the tab renders in Zen. E2: a host kill during a call gives `UNAVAILABLE`, the tab recovers (the Chromium-stopped panel or Gecko), and nothing is replayed. |
-| 10 | **Assistant attach** (§7.3). Codex config through MCP; the Gecko extension path if a build exists. | The assistant lists and drives its own pages in the agent profile. | None (Gecko) unless the extension uses Chromium tabs. |
-| 11 | **Login item, metrics and two Macs** (§3.6, §3.7). Registration, crash restart, accessory mode, the metrics file, install notes for a second Mac. | Killing the instance brings it back. Metrics hold no URLs (test). A second Mac's setup needs no root step. | E2: a restart after a crash restores endpoint state and parks tabs correctly. |
-| 12 | **Consumers switch, shadow period.** Agents' MCP entries point at the router. The marketing table reads `status.read`/CLI. | The router metrics show no fallback calls for 7 days while the agent workspace runs. Every inventory item A1–A12 is checked against §2 on the real Mac. | Real macOS E1/E2 for Chromium in the agent profile must pass before phase 13. |
-| 13 | **Retire the legacy agent Chrome.** Remove `--fallback-command` from configs; owner removes the old login items, proxy, policy and profile outside this repo. Agents' instructions drop the legacy sign-in helper. | Phases 1–12 accepted. Real macOS E1/E2 passed. No fallback call in the shadow period. | Final gate: no READY claim without real macOS E1/E2. |
+| 6 | **Headless agent tabs, the agents sidebar, watch and takeover (Gecko)** (§3.7, §5.1, §5.6, §5.7). Inactive agent tabs, the background-throttling exemption, owner groups, badges, the Agents panel, *Watch* with the measured resource note, takeover with the first input withheld, *Give back*, the 15-minute return. | Unwatched agent tabs paint no frames (paint counter stays flat) while BiDi calls and screenshots work. Native input on an agent tab gives `HUMAN_IN_CONTROL`, the first event does not reach the page, and synthetic BiDi input does not take over. Screenshots match mocks (a), (d) and (e) in light and dark. | Gecko only. |
+| 7 | **Identities in Gecko** (§3.4, §5.3). `identities.json`, keys and aliases, the choosing order, scratch identities, the Identities page, the *Agents* switch, sign out and remove. | Unit tests: the choosing order (call, opener, rule, agent default, site default, `IDENTITY_REQUIRED`); `IDENTITY_NOT_ALLOWED`; a loaded tab never changes identity; remove deletes data and rules. A native fixture run: five identities of one fixture site hold five different session cookies at once. Screenshots match mock (g). | None (Gecko only). |
+| 8 | **Identities in Chromium.** One CEF request context per identity with its own `cache_path` (workstation-v1 §3), created lazily, released when unused, deleted on remove; the egress rule on each. | Host tests with real CEF on the loopback fixture: two identities' Chromium tabs hold different cookies at once; no shared-jar fallback exists; remove deletes the directory. | **High.** E1: Chromium tabs of two identities render side by side in Zen. E2: after a host crash every tab recovers in its own identity, never in another. |
+| 9 | **Sign-in prompt and status per identity** (§5.4, §5.5, §7.2). Detection mid-task, one request per profile, identity and site, the non-blocking card, the sign-in tab, return URLs, *Later*/decline/expiry, notification limits, the probe per identity, `status.read`, the CLI. | State machine tests: an unknown result never counts as signed in; two agents share one request; *Later* suppresses cards for an hour; agents resume after *Done* without any restart; sign-in and probe tabs are invisible to agents. Screenshots match mocks (b) and (c). | E1: a sign-in in a Chromium tab of the right identity (if a site's engine preference is Chromium). |
+| 10 | **Action grants** (§6.2). `action-rules.json`, the grant UI, both enforcement layers in both engines, per identity. | On a fixture "social" site, an unauthorised post is blocked before dispatch and at the network, in Gecko and Chromium. A grant of one allows exactly one. An unknown write is held as `post`. | E1 for Chromium (request handler in the host). E2: a host crash with a held request never lets it through. |
+| 11 | **Chromium tool parity, watch and takeover on Chromium.** cef-v1 `devtools.*` messages and the method allowlist; every tool of §7.1 on Chromium tabs, including trace, audit, heap snapshot and screencast; hidden targets produce no frames; takeover through `CEFPresenter`. | Host tests with real CEF on fixtures; the allowlist refuses everything else. No port is opened (checked with the system's open-socket listing). A hidden Chromium agent tab sends no frames and still answers `take_screenshot`. | **High.** E1: tools work while the tab renders in Zen; watching attaches and detaches the frame stream. E2: a host kill during a call gives `UNAVAILABLE`, the tab recovers (the Chromium-stopped panel or Gecko), and nothing is replayed. |
+| 12 | **Account-aware links** (§5.8, §7.4). `links.open`, `links.map`, caller registration, aliases, link rules, opt-in lookup, the chooser, the CLI, the in-page attribute on granted origins. | Unit tests: alias and rule resolution; lookup off by default, stops at the first match, never runs for an unregistered caller; no match gives the chooser or `IDENTITY_REQUIRED`; an unregistered caller is refused. A native fixture run: the CLI opens one URL in identity X while identity Y holds a different session. Screenshot matches mock (h). | E1: when the site prefers Chromium, the tab opens in the identity's request context. |
+| 13 | **Agent tabs in your window (option B)** (§3.1, §5.2). Owner field in the personal registry, *Let … use this tab*, the agent bar, folders, scratch identity per task, *Allow on this tab until done* (agent-channel-v1 §4.2 change, integration lead). | Fake-channel and fixture tests: an agent in B never lists or reads a human tab; its scratch identity holds none of the human's cookies and is deleted with the session; *Stop* and a dropped session return the tab. Screenshots match mock (f). | E1: a handed Chromium tab is driven through CEF in place. E2: a host crash with a handed tab returns it to the human. |
+| 14 | **Assistant attach** (§7.3). Codex config through MCP; the Gecko extension path if a build exists. | The assistant lists and drives its own pages in the agent profile. | None (Gecko) unless the extension uses Chromium tabs. |
+| 15 | **Login item, metrics and two Macs** (§3.9, §3.10). Registration, crash restart, accessory mode, the metrics file, install notes for a second Mac. | Killing the instance brings it back. Metrics hold no URLs or identities (test). A second Mac's setup needs no root step. | E2: a restart after a crash restores endpoint state and parks tabs correctly. |
+| 16 | **Consumers switch, shadow period.** Agents' MCP entries point at the router. The marketing table reads `status.read`/CLI. Dashboards call `links.open`. | The router metrics show no fallback calls for 7 days while the agent workspace runs. Every inventory item A1–A12 and requirement R1–R5 is checked against §2 on the real Mac. | Real macOS E1/E2 for Chromium in the agent profile must pass before phase 17. |
+| 17 | **Retire the legacy agent Chrome.** Remove `--fallback-command` from configs. The owner removes the old login items, proxy, policy and profile outside this repo. Agents' instructions drop the legacy sign-in helper. | Phases 1–16 accepted. Real macOS E1/E2 passed. No fallback call in the shadow period. | Final gate: no READY claim without real macOS E1/E2. |
 
 ## 10. Open questions and risks
 
-- **Gecko automation marking** (§5.4): whether the pinned Gecko lets the
+- **Gecko automation marking** (§5.7): whether the pinned Gecko lets the
   parent tell BiDi-dispatched input from widget input without a patch. If it
   does not, a small patch adds a chrome-only flag. Zen workstream, phase 6.
-- **Chromium and the hosts file under secure DNS** (§3.3): decides whether the
+- **Background throttling for headless agent tabs** (§3.7): whether the
+  pinned Gecko can exempt one tab from background timeout throttling without
+  a patch. Phase 6.
+- **Hidden windowless CEF targets** (§3.7): whether `Page.captureScreenshot`
+  renders a frame for a target marked hidden, or needs a brief unhide. Phase
+  11.
+- **Chromium and the hosts file under secure DNS** (§3.5): decides whether the
   resolver child is needed. Phase 2.
+- **Many identities in Chromium**: each active request context costs memory
+  and its own cookie store. Lazily created contexts limit this. A cap per
+  profile, if one is needed, is set from measurements in phase 8, not
+  guessed here.
+- **Option B's *Allow on this tab until done*** relaxes P4's per-action
+  confirmation for one handed tab. That is the owner's product decision, and
+  the change to agent-channel-v1 belongs to the integration lead. Phase 13 does
+  not start without it.
+- **Lookup** (§5.8) sends a request as each identity. It stays opt-in per
+  site. Whether to offer it at all is the owner's choice. Rules and aliases
+  cover the common case without it.
 - **Two instances of one app on macOS**: the second instance's Dock and window
   behaviour, and single-instance handling for links the OS opens (links always
-  go to the personal profile). Phase 1.
+  go to the personal profile unless `links.open` names the agent profile).
+  Phase 1.
 - **Action rules age**: site markup changes. The network layer fails closed,
   so a stale rule over-blocks and never under-blocks, but the human then sees
   more prompts. The rules file is editable and versioned.
 - **Lifted gates**: capture and act stay literal `false` in the personal
-  profile. The agent role needs its own ordinary-profile evidence before its
-  gates open (phase 5). That evidence is for the agent role only, and the
-  personal profile's gates do not move.
+  profile until option B's phase. The agent role needs its own
+  ordinary-profile evidence before its gates open (phase 5). That evidence is
+  for the agent role only, and the personal profile's gates move only in
+  phase 13 with their own evidence.

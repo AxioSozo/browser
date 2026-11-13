@@ -5,7 +5,7 @@
 One line per engine × platform; labels as in docs/CLOUD_PROGRAM_SUMMARY.md (PASS = a cited run,
 EXPERIMENTAL = works but fixture-only or behind a developer gate, NOT_VERIFIED = not run). Not READY.
 Final-round run ids on one integration head: docs/handoff/final-review.md.
-Planned agent workspace (agent profile, both engines, one tool surface; design only): docs/design/agent-workspace.md.
+Planned agent workspace (agent profile, agent tabs in your window, identities per account, both engines, one tool surface; design only): docs/design/agent-workspace.md.
 
 | Engine | macOS (Apple silicon) | Linux x86_64 (Xvfb, software WebRender) |
 | --- | --- | --- |

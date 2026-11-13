@@ -140,7 +140,7 @@ and `#settings` redirect):
 
 ## Send to an agent
 
-Agents working in their own profile (planned): [agent workspace](design/agent-workspace.md).
+Agents working in their own profile or in your window, with several accounts per site (planned): [agent workspace](design/agent-workspace.md).
 
 - **Send to Agent…** in the page context menu or ⌥⌘A, on web pages of normal
   windows only (never private windows, password pages or sensitive sites).

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. https://mozilla.org/MPL/2.0/ -->
-<!-- Mock (c): per-site sign-in status in about:axiosozo → Agents. docs/design/agent-workspace.md §5.3 -->
+<!-- Mock (c): sign-in status per site and identity. docs/design/agent-workspace.md §5.5 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -23,7 +23,7 @@
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 8a5 5 0 1 1-1.5-3.5M13 3v3h-3"/></svg>
     </div>
     <div class="urlbar"><b>about:axiosozo</b>#agents</div>
-    <span class="profile-chip">Agent profile</span>
+    <span class="profile-chip">Agent workspace</span>
     <div class="section-head">You<span class="count">1</span></div>
     <div class="tab selected"><span class="favicon" style="background:var(--agent-profile)">A</span><span class="title">Agents · AxioSozo</span></div>
     <div class="agent-head"><span class="agent-icon cx">Cx</span>Codex<span class="task">· Draft launch reply</span><span class="ring"></span></div>
@@ -34,31 +34,39 @@
   <main class="content">
     <div class="settings">
       <h1>Agents</h1>
-      <p class="lead">This profile is the agent workspace. Its sign-ins are its own; nothing is shared with your personal profile.</p>
+      <p class="lead">Its own sign-ins. Nothing shared with your personal profile.</p>
 
-      <div class="switch-row"><div class="main"><b>Agent endpoint</b><div class="sub">On · this Mac only (local socket, no network port) · 1 agent connected</div></div><span class="switch on"></span></div>
-      <div class="switch-row"><div class="main"><b>Let agents reach sites blocked on this Mac</b><div class="sub">DNS over HTTPS for this profile only. Your personal profile and other apps keep the block.</div></div><span class="switch"></span></div>
+      <div class="switch-row"><div class="main"><b>Agent endpoint</b><div class="sub">On · this Mac only · 1 agent</div></div><span class="switch on"></span></div>
+      <div class="switch-row"><div class="main"><b>Let agents reach sites blocked on this Mac</b><div class="sub">DNS over HTTPS, this profile only.</div></div><span class="switch"></span></div>
 
       <h2>Sign-ins</h2>
       <table class="signins">
-        <thead><tr><th>Site</th><th>Status</th><th>Last checked</th><th></th></tr></thead>
+        <thead><tr><th>Site</th><th>Identity</th><th>Status</th><th>Checked</th><th></th></tr></thead>
         <tbody>
           <tr><td><span class="favicon" style="display:inline-grid;background:rgb(30 30 34);vertical-align:-3px;margin-right:8px">S</span>social.example</td>
+            <td><span class="id-chip" style="--c:var(--id-blue)">Brand</span></td>
             <td><span class="state"><span class="dot green"></span>Signed in</span></td><td class="when">12 min ago</td>
-            <td class="act"><button class="axiosozo-lab-button quiet">Check now</button></td></tr>
-          <tr><td><span class="favicon" style="display:inline-grid;background:rgb(36 120 90);vertical-align:-3px;margin-right:8px">C</span>code.example</td>
-            <td><span class="state out"><span class="dot amber"></span>Signed out</span></td><td class="when">since 09:40 · notified</td>
-            <td class="act"><button class="axiosozo-lab-button primary">Sign in…</button></td></tr>
-          <tr><td><span class="favicon" style="display:inline-grid;background:rgb(0 110 190);vertical-align:-3px;margin-right:8px">W</span>work.example</td>
+            <td class="act"><button class="axiosozo-lab-button quiet">Check</button></td></tr>
+          <tr><td><span class="favicon" style="display:inline-grid;background:rgb(214 92 40);vertical-align:-3px;margin-right:8px">A</span>app.example</td>
+            <td><span class="id-chip" style="--c:var(--id-green)">Client A</span></td>
+            <td><span class="state"><span class="dot green"></span>Signed in</span></td><td class="when">1 h ago</td>
+            <td class="act"><button class="axiosozo-lab-button quiet">Check</button></td></tr>
+          <tr><td></td>
+            <td><span class="id-chip" style="--c:var(--id-orange)">Client B</span></td>
+            <td><span class="state out"><span class="dot amber"></span>Signed out · 2 waiting</span></td><td class="when">since 09:40</td>
+            <td class="act"><button class="axiosozo-lab-button primary">Sign in</button></td></tr>
+          <tr><td></td>
+            <td><span class="id-chip" style="--c:var(--id-pink)">Client C</span></td>
             <td><span class="state checking"><span class="ring"></span>Checking…</span></td><td class="when">now</td>
             <td class="act"></td></tr>
           <tr><td><span class="favicon" style="display:inline-grid;background:rgb(110 110 120);vertical-align:-3px;margin-right:8px">M</span>mail.example</td>
-            <td><span class="state unknown"><span class="dot" style="background:currentColor;opacity:.5"></span>Unknown · no marker found</span></td><td class="when">3 h ago</td>
-            <td class="act"><button class="axiosozo-lab-button quiet">Check now</button></td></tr>
+            <td><span class="id-chip" style="--c:var(--id-yellow)">Default</span></td>
+            <td><span class="state unknown"><span class="dot" style="background:currentColor;opacity:.5"></span>Unknown</span></td><td class="when">3 h ago</td>
+            <td class="act"><button class="axiosozo-lab-button quiet">Check</button></td></tr>
         </tbody>
       </table>
       <p style="max-width:760px;margin:8px 0 0"><button class="axiosozo-lab-button">Add site…</button>
-        <span class="axiosozo-presence-meta" style="margin-left:10px">Checked every 4 hours. No cookie names or values are shown or stored here.</span></p>
+        <span class="axiosozo-presence-meta" style="margin-left:10px">Every 4 hours. No cookies shown or stored.</span></p>
 
       <h2>Action grants</h2>
       <div class="switch-row"><div class="main"><b>Codex may post on social.example</b><div class="sub">1 of 1 left · ends with this session · granted 14:52</div></div><button class="axiosozo-lab-button">Revoke</button></div>

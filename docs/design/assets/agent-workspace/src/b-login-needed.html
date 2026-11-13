@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. https://mozilla.org/MPL/2.0/ -->
-<!-- Mock (b): sign-in needed. docs/design/agent-workspace.md §5.2 -->
+<!-- Mock (b): sign-in needed or session expired. docs/design/agent-workspace.md §5.4 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -17,10 +17,10 @@
   .field label { display: block; font-size: 12px; color: var(--page-soft); margin-bottom: 4px; }
   .field .input { height: 36px; border-radius: 8px; border: 1px solid var(--zen-colors-border); padding: 0 10px; display: flex; align-items: center; }
   .field .input.focus { border: 1.5px solid var(--zen-primary-color); }
-  .wide-btn { height: 38px; border-radius: 8px; display: grid; place-items: center; font-weight: 600; color: white; background: rgb(36 120 90); margin-top: 6px; }
-  .inset { position: absolute; left: 24px; bottom: 26px; width: 410px; z-index: 6; }
+  .wide-btn { height: 38px; border-radius: 8px; display: grid; place-items: center; font-weight: 600; color: white; background: rgb(214 92 40); margin-top: 6px; }
+  .inset { position: absolute; right: 18px; bottom: 34px; width: 360px; z-index: 6; }
   .inset-label { font-size: 11px; font-weight: 600; color: var(--page-soft); margin: 0 0 6px 2px; }
-  .toast { position: static; }
+  .inset .axiosozo-lab-card { position: static; }
 </style>
 <script>if (location.hash === "#dark") document.documentElement.classList.add("dark");</script>
 </head>
@@ -35,33 +35,34 @@
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"/></svg>
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 8a5 5 0 1 1-1.5-3.5M13 3v3h-3"/></svg>
     </div>
-    <div class="urlbar">🔒 <b>code.example</b>/login</div>
-    <span class="profile-chip">Agent profile</span>
+    <div class="urlbar">🔒 <b>app.example</b>/login <span class="id-chip" style="--c:var(--id-orange)">Client B</span></div>
+    <span class="profile-chip">Agent workspace</span>
 
-    <div class="agent-head"><span class="agent-icon cx">Cx</span>Codex<span class="task">· Draft launch reply</span><span class="ring"></span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Compose · social.example</span></div>
+    <div class="agent-head"><span class="agent-icon cx">Cx</span>Codex<span class="task">· Weekly report</span><span class="dot amber"></span></div>
+    <div class="tab" data-id style="--c:var(--id-orange)"><span class="favicon" style="background:rgb(214 92 40)">A</span><span class="title">Usage · app.example</span><span class="badge amber">Waiting</span></div>
+    <div class="tab" data-id style="--c:var(--id-blue)"><span class="favicon" style="background:rgb(214 92 40)">A</span><span class="title">Usage · app.example</span><span class="ring"></span></div>
 
-    <div class="agent-head"><span class="agent-icon cc">CC</span>Claude Code<span class="task">· Check build dashboard</span><span class="dot amber"></span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Pipelines · code.example</span><span class="badge amber">Waiting</span></div>
+    <div class="agent-head"><span class="agent-icon cc">CC</span>Claude Code<span class="task">· Invoice check</span><span class="dot amber"></span></div>
+    <div class="tab" data-id style="--c:var(--id-orange)"><span class="favicon" style="background:rgb(214 92 40)">A</span><span class="title">Invoices · app.example</span><span class="badge amber">Waiting</span></div>
 
     <div class="section-head">You<span class="count">1</span></div>
-    <div class="tab selected"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Sign in · code.example</span><span class="badge you">You</span></div>
+    <div class="tab selected" data-id style="--c:var(--id-orange)"><span class="favicon" style="background:rgb(214 92 40)">A</span><span class="title">Sign in · app.example</span><span class="badge you">You</span></div>
 
-    <div class="footer"><span class="dot amber"></span> 1 agent waiting for you<span class="spaces"><i></i><i class="on"></i></span></div>
+    <div class="footer"><span class="dot amber"></span> 2 agents waiting for you<span class="spaces"><i></i><i class="on"></i></span></div>
   </aside>
 
   <main class="content">
     <div class="notification amber">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="7" width="10" height="7" rx="1.5"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2"/></svg>
-      <span class="msg"><b>Signing in for agents.</b> Agents can't see this tab. Your personal browser's sign-ins are not used. Claude Code is waiting.</span>
-      <button class="axiosozo-lab-button primary">I'm signed in</button>
+      <span class="msg"><b>Sign in as Client B.</b> Agents can't see this tab. 2 waiting.</span>
       <button class="axiosozo-lab-button quiet">Cancel</button>
+      <button class="axiosozo-lab-button primary">Done</button>
     </div>
     <div class="page">
       <div class="login">
-        <div class="site-logo" style="background:rgb(36 120 90)">C</div>
-        <h2>Sign in to code.example</h2>
-        <div class="field"><label>Email or username</label><div class="input focus"><span class="caret" style="display:inline-block;width:1.5px;height:15px;background:var(--toolbar-color)"></span></div></div>
+        <div class="site-logo" style="background:rgb(214 92 40)">A</div>
+        <h2>Your session expired</h2>
+        <div class="field"><label>Email</label><div class="input focus"><span class="caret" style="display:inline-block;width:1.5px;height:15px;background:var(--toolbar-color)"></span></div></div>
         <div class="field"><label>Password</label><div class="input"></div></div>
         <div class="wide-btn">Sign in</div>
         <p style="color:var(--page-soft);font-size:12px;margin-top:14px">Use a passkey · Forgot password?</p>
@@ -69,20 +70,21 @@
     </div>
 
     <div class="inset">
-      <p class="inset-label">Meanwhile, in your personal window:</p>
-      <section class="axiosozo-lab-card toast" aria-label="Sign-in needed">
+      <p class="inset-label">Before, in your personal window (doesn't block you):</p>
+      <section class="axiosozo-lab-card" aria-label="Sign-in needed">
         <div class="axiosozo-lab-card-head">
-          <span class="agent-icon cc">CC</span>
-          <span class="axiosozo-lab-card-title">Claude Code needs you to sign in to code.example</span>
+          <span style="display:inline-flex;flex:none"><span class="agent-icon cx">Cx</span><span class="agent-icon cc" style="margin-left:-4px;box-shadow:0 0 0 2px var(--zen-dialog-background)">CC</span></span>
+          <span class="axiosozo-lab-card-title">Session expired</span>
+          <button class="axiosozo-lab-card-close" aria-label="Close"></button>
         </div>
-        <p class="axiosozo-lab-card-text" style="color:var(--page-soft);font-size:12px">In the agent workspace. Agents never see what you type there.</p>
-        <div class="axiosozo-lab-card-actions">
-          <button class="axiosozo-lab-button quiet">Not now</button>
-          <button class="axiosozo-lab-button primary">Open sign-in</button>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12.5px">app.example <span class="id-chip" style="--c:var(--id-orange)">Client B</span><span style="color:var(--page-soft)">· 2 agents waiting</span></div>
+        <div class="axiosozo-lab-card-actions" style="justify-content:flex-end">
+          <button class="axiosozo-lab-button quiet">Later</button>
+          <button class="axiosozo-lab-button primary">Sign in</button>
         </div>
       </section>
     </div>
-    <span class="mock-label">Mock (b) · sign-in needed · design only</span>
+    <span class="mock-label" style="left:18px;right:auto">Mock (b) · sign-in needed · design only</span>
   </main>
 </div>
 </body>

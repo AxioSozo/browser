@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. https://mozilla.org/MPL/2.0/ -->
-<!-- Mock (d): takeover of an agent-owned tab. docs/design/agent-workspace.md §5.4 -->
+<!-- Mock (d): takeover, a human types into an agent-owned tab. docs/design/agent-workspace.md §5.7 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -22,16 +22,16 @@
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"/></svg>
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 8a5 5 0 1 1-1.5-3.5M13 3v3h-3"/></svg>
     </div>
-    <div class="urlbar">🔒 <b>social.example</b>/compose</div>
-    <span class="profile-chip">Agent profile</span>
+    <div class="urlbar">🔒 <b>social.example</b> <span class="id-chip" style="--c:var(--id-blue)">Brand</span></div>
+    <span class="profile-chip">Agent workspace</span>
 
     <div class="agent-head"><span class="agent-icon cx">Cx</span>Codex<span class="task">· Draft launch reply</span><span class="badge">Paused on 1 tab</span></div>
-    <div class="tab selected"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Compose · social.example</span><span class="badge you">You</span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Launch thread · social.example</span><span class="ring"></span></div>
+    <div class="tab selected" data-id style="--c:var(--id-blue)"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Compose · social.example</span><span class="badge you">You</span></div>
+    <div class="tab" data-id style="--c:var(--id-blue)"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Launch thread · social.example</span><span class="ring"></span></div>
 
     <div class="agent-head"><span class="agent-icon cc">CC</span>Claude Code<span class="task">· Check build dashboard</span><span class="ring"></span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Pipelines · code.example</span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Build #482 · code.example</span></div>
+    <div class="tab" data-id style="--c:var(--id-purple)"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Pipelines · code.example</span></div>
+    <div class="tab" data-id style="--c:var(--id-purple)"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Build #482 · code.example</span></div>
 
     <div class="footer"><span class="dot green"></span> 2 agents · 1 tab with you<span class="spaces"><i></i><i class="on"></i></span></div>
   </aside>
@@ -39,8 +39,8 @@
   <main class="content">
     <div class="notification">
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="5.5" r="2.5"/><path d="M3 14c.6-2.8 2.6-4.2 5-4.2s4.4 1.4 5 4.2"/></svg>
-      <span class="msg"><b>You took over this tab from Codex.</b> Codex is paused here; its other tabs keep working. It can't read or type here until you give it back.</span>
-      <button class="axiosozo-lab-button primary">Give back to Codex</button>
+      <span class="msg"><b>You took over from Codex.</b> It can't read or type here. Its other tabs keep working.</span>
+      <button class="axiosozo-lab-button primary">Give back</button>
     </div>
     <div class="page">
       <div class="site-head"><span class="site-logo" style="background:rgb(30 30 34)">S</span><span class="site-name">social.example</span>
@@ -53,7 +53,7 @@
       <div class="skeleton" style="width:58%;margin-top:22px"></div>
       <div class="skeleton" style="width:44%"></div>
     </div>
-    <div class="callout" style="left:560px;top:190px">Your keystroke here took the tab. Codex's calls on it now get <span class="code">HUMAN_IN_CONTROL</span>; it goes back on <i>Give back</i> or 15 min after your last input.</div>
+    <div class="callout" style="left:560px;top:190px">Your first click took the tab and did not reach the page. Codex now gets <span class="code">HUMAN_IN_CONTROL</span> here until <i>Give back</i>, or 15 min after your last input.</div>
     <span class="mock-label">Mock (d) · takeover · design only</span>
   </main>
 </div>

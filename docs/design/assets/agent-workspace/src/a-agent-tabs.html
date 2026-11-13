@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
    - License, v. 2.0. https://mozilla.org/MPL/2.0/ -->
-<!-- Mock (a): which tabs agents own and what they do. docs/design/agent-workspace.md §5.1 -->
+<!-- Mock (a): which tabs agents own and what they do, agent workspace. docs/design/agent-workspace.md §5.1 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -22,20 +22,20 @@
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 3 5 5-5 5"/></svg>
       <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 8a5 5 0 1 1-1.5-3.5M13 3v3h-3"/></svg>
     </div>
-    <div class="urlbar">🔒 <b>social.example</b>/compose</div>
-    <span class="profile-chip">Agent profile</span>
+    <div class="urlbar">🔒 <b>social.example</b> <span class="id-chip" style="--c:var(--id-blue)">Brand</span></div>
+    <span class="profile-chip">Agent workspace</span>
 
     <div class="agent-head"><span class="agent-icon cx">Cx</span>Codex<span class="task">· Draft launch reply</span><span class="ring" title="Working"></span></div>
-    <div class="tab selected"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Compose · social.example</span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Launch thread · social.example</span></div>
+    <div class="tab selected" data-id style="--c:var(--id-blue)"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Compose · social.example</span></div>
+    <div class="tab" data-id style="--c:var(--id-blue)"><span class="favicon" style="background:rgb(30 30 34)">S</span><span class="title">Launch thread · social.example</span></div>
 
     <div class="agent-head"><span class="agent-icon cc">CC</span>Claude Code<span class="task">· Check build dashboard</span><span class="dot amber" title="Waiting for you"></span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Pipelines · code.example</span><span class="badge amber">Sign-in</span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Build #482 · code.example</span></div>
+    <div class="tab" data-id style="--c:var(--id-purple)"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Pipelines · code.example</span><span class="badge amber">Sign-in</span></div>
+    <div class="tab" data-id style="--c:var(--id-purple)"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Build #482 · code.example</span></div>
     <div class="tab"><span class="favicon" style="background:rgb(90 90 210)">D</span><span class="title">Release notes · docs.example</span></div>
 
     <div class="section-head">You<span class="count">1</span></div>
-    <div class="tab"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Sign in · code.example</span><span class="badge you">You</span></div>
+    <div class="tab" data-id style="--c:var(--id-purple)"><span class="favicon" style="background:rgb(36 120 90)">C</span><span class="title">Sign in · code.example</span><span class="badge you">You</span></div>
 
     <div class="section-head">Parked<span class="count">10 min</span></div>
     <div class="tab dim"><span class="favicon" style="background:rgb(190 90 40)">J</span><span class="title">Openings · jobs.example</span><span class="badge">Codex</span></div>
@@ -67,16 +67,16 @@
           <div class="panel-row">
             <span class="agent-icon cx">Cx</span>
             <div class="main"><div class="name">Codex</div><div class="sub">2 tabs · <span class="code">type_text</span> ok · 2 s ago</div></div>
-            <button class="axiosozo-lab-button quiet">Disconnect</button>
+            <button class="axiosozo-lab-button quiet">Watch</button>
           </div>
           <div class="panel-row">
             <span class="agent-icon cc">CC</span>
-            <div class="main"><div class="name">Claude Code</div><div class="sub" style="color:var(--amber)">Waiting for you to sign in to code.example</div></div>
+            <div class="main"><div class="name">Claude Code</div><div class="sub" style="color:var(--amber)">Sign in to code.example · Bot</div></div>
             <button class="axiosozo-lab-button primary">Open sign-in</button>
           </div>
           <div class="panel-row">
             <span class="agent-icon sys">↻</span>
-            <div class="main"><div class="name">Sign-in check</div><div class="sub">Next run in 3 h 12 min · no tabs visible to agents</div></div>
+            <div class="main"><div class="name">Sign-in check</div><div class="sub">Next in 3 h 12 min</div></div>
           </div>
         </div>
         <p class="axiosozo-presence-meta">Grants in force: Codex may <b>post</b> on social.example · 1 left</p>

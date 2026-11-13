@@ -1,14 +1,15 @@
 #!/bin/sh
 # Renders the agent-workspace mocks to PNG, light and dark, 1280x800.
-# Usage: render.sh <capture-command>
-# The capture command takes: <url> --name <name> --viewport 1280x800 --dir <dir>
+# Usage: render.sh <capture-command> [mock ...]
+# The capture command takes: web <url> --name <name> --viewport 1280x800 --dir <dir>
 # (headless Chrome screenshot helper). Output lands next to this folder.
 set -eu
-capture=$1
+capture=$1; shift
 here=$(cd "$(dirname "$0")" && pwd)
 out=$(dirname "$here")
 tmp=$(mktemp -d)
-for mock in a-agent-tabs b-login-needed c-login-status d-takeover; do
+mocks=${*:-a-agent-tabs b-login-needed c-login-status d-takeover e-watch f-mixed-window g-identities h-account-link}
+for mock in $mocks; do
   for theme in light dark; do
     url="file://$here/$mock.html"
     [ "$theme" = dark ] && url="$url#dark"
