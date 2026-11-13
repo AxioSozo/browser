@@ -1,0 +1,281 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. https://mozilla.org/MPL/2.0/ */
+
+/* Design mocks for docs/design/agent-workspace.md. The window frame stands in
+ * for Zen's chrome with Zen's own token names (filled in by hand here, since
+ * no Zen theme is loaded); cards, buttons and chips come from the browser's
+ * real Lab kit stylesheet (apps/browser/chrome/lab/lab.css) and presence
+ * stylesheet, linked by each mock page. Light and dark follow
+ * `color-scheme`, set from the page's #dark fragment. */
+
+:root {
+  color-scheme: light;
+  /* Zen tokens (approximate values of Zen's default light/dark theme). */
+  --zen-primary-color: light-dark(rgb(64 104 196), rgb(140 170 255));
+  --zen-squircle-value: 1;
+  --zen-dialog-background: light-dark(rgb(250 250 250), rgb(43 43 46));
+  --zen-main-browser-background: light-dark(rgb(232 232 234), rgb(28 28 30));
+  --zen-colors-border: light-dark(rgb(0 0 0 / 0.1), rgb(255 255 255 / 0.1));
+  --zen-colors-input-bg: light-dark(rgb(0 0 0 / 0.05), rgb(255 255 255 / 0.07));
+  --toolbar-color: light-dark(rgb(28 28 30), rgb(238 238 240));
+  --tab-min-height: 36px;
+  --tab-border-radius: 8px;
+  --tab-background-color-hover: light-dark(rgb(0 0 0 / 0.05), rgb(255 255 255 / 0.06));
+  --tab-selected-bgcolor: light-dark(rgb(255 255 255 / 0.95), rgb(255 255 255 / 0.11));
+  --button-background-color-primary: light-dark(rgb(64 104 196), rgb(120 154 245));
+  --button-text-color-primary: light-dark(white, rgb(16 20 32));
+  --content-bg: light-dark(white, rgb(36 36 39));
+  --page-soft: light-dark(rgb(0 0 0 / 0.55), rgb(255 255 255 / 0.6));
+  --amber: light-dark(rgb(150 95 0), rgb(255 190 70));
+  --amber-fill: light-dark(rgb(255 196 0 / 0.16), rgb(255 190 70 / 0.14));
+  --red: light-dark(rgb(200 0 30), rgb(255 132 128));
+  --green: light-dark(rgb(22 128 60), rgb(110 210 140));
+  --agent-profile: light-dark(rgb(118 70 196), rgb(186 150 255));
+}
+:root.dark { color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font: 13px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  color: var(--toolbar-color);
+  background: var(--zen-main-browser-background);
+  -webkit-font-smoothing: antialiased;
+}
+.axiosozo-lab-card { animation: none !important; }
+
+/* ---- Window -------------------------------------------------------------- */
+.window { position: relative; display: flex; height: 100vh; padding: 8px 8px 8px 0; }
+.sidebar { width: 268px; flex: none; display: flex; flex-direction: column; padding: 4px 8px 8px; gap: 2px; }
+.toolbar { display: flex; align-items: center; gap: 14px; height: 32px; padding: 0 6px; color: var(--page-soft); }
+.toolbar svg { width: 15px; height: 15px; }
+.toolbar .spacer { flex: 1; }
+.urlbar {
+  display: flex; align-items: center; gap: 8px; height: 36px; margin: 4px 0 6px; padding: 0 10px;
+  border-radius: 10px; background: var(--zen-colors-input-bg); color: var(--page-soft); font-size: 12.5px;
+  white-space: nowrap; overflow: hidden;
+}
+.urlbar b { color: var(--toolbar-color); font-weight: 500; }
+.profile-chip {
+  display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin: 2px 6px 6px;
+  padding: 2px 9px 2px 7px; border-radius: 999px; font-size: 11.5px; font-weight: 600;
+  color: var(--agent-profile); background: color-mix(in srgb, var(--agent-profile) 13%, transparent);
+}
+.profile-chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.section-head {
+  display: flex; align-items: center; gap: 8px; margin: 10px 6px 2px; font-size: 11.5px; font-weight: 600;
+  color: var(--page-soft);
+}
+.section-head .count { margin-left: auto; font-weight: 500; font-variant-numeric: tabular-nums; }
+.tab {
+  display: flex; align-items: center; gap: 9px; min-height: var(--tab-min-height); padding: 0 10px;
+  border-radius: var(--tab-border-radius); white-space: nowrap; overflow: hidden;
+}
+.tab .title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.tab.selected { background: var(--tab-selected-bgcolor); box-shadow: 0 1px 3px rgb(0 0 0 / 0.12); }
+.tab.dim { opacity: 0.55; }
+.favicon { width: 16px; height: 16px; flex: none; border-radius: 4px; display: grid; place-items: center;
+  font-size: 9.5px; font-weight: 700; color: white; outline: 1px solid light-dark(transparent, rgb(255 255 255 / 0.28)); outline-offset: -1px; }
+.badge {
+  flex: none; display: inline-flex; align-items: center; gap: 4px; height: 18px; padding: 0 6px;
+  border-radius: 999px; font-size: 10.5px; font-weight: 600; background: var(--zen-colors-input-bg); color: var(--page-soft);
+}
+.badge.you { color: var(--zen-primary-color); background: color-mix(in srgb, var(--zen-primary-color) 14%, transparent); }
+.badge.amber { color: var(--amber); background: var(--amber-fill); }
+.agent-head {
+  display: flex; align-items: center; gap: 8px; min-height: 30px; margin-top: 8px; padding: 0 8px;
+  font-size: 12px; font-weight: 600;
+}
+.agent-head .task { font-weight: 400; color: var(--page-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+.agent-icon {
+  width: 18px; height: 18px; flex: none; border-radius: 5px; display: grid; place-items: center;
+  font-size: 9px; font-weight: 800; color: white;
+}
+.agent-icon.cc { background: rgb(201 100 66); }
+.agent-icon.cx { background: rgb(40 40 44); outline: 1px solid light-dark(transparent, rgb(255 255 255 / 0.3)); }
+.agent-icon.sys { background: rgb(120 120 128); }
+.ring { width: 12px; height: 12px; flex: none; border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--zen-primary-color) 30%, transparent); border-top-color: var(--zen-primary-color); }
+.dot { width: 8px; height: 8px; flex: none; border-radius: 50%; }
+.dot.amber { background: var(--amber); }
+.dot.green { background: var(--green); }
+.dot.red { background: var(--red); }
+.footer { margin-top: auto; display: flex; align-items: center; gap: 8px; padding: 6px 8px 0; color: var(--page-soft); font-size: 12px; }
+.footer .spaces { display: flex; gap: 6px; margin-left: auto; }
+.footer .spaces i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; opacity: 0.35; }
+.footer .spaces i.on { opacity: 1; background: var(--agent-profile); }
+
+/* ---- Content ------------------------------------------------------------- */
+.content {
+  position: relative; flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 10px; background: var(--content-bg); box-shadow: 0 0 0 0.5px var(--zen-colors-border), 0 2px 10px rgb(0 0 0 / 0.08);
+}
+.notification {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px; font-size: 12.5px;
+  background: light-dark(rgb(240 243 250), rgb(48 52 64)); border-bottom: 0.5px solid var(--zen-colors-border);
+}
+.notification.amber { background: light-dark(rgb(255 246 222), rgb(66 54 28)); }
+.notification .msg { flex: 1; min-width: 0; }
+.notification .msg b { font-weight: 600; }
+.notification svg { width: 16px; height: 16px; flex: none; }
+.page { flex: 1; padding: 28px 40px; overflow: hidden; }
+.site-head { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+.site-logo { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; color: white; font-weight: 800; }
+.site-name { font-size: 16px; font-weight: 700; }
+.site-nav { margin-left: auto; display: flex; gap: 18px; color: var(--page-soft); font-size: 12.5px; }
+.post { border: 1px solid var(--zen-colors-border); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; max-width: 520px; }
+.post .who { font-weight: 600; margin-bottom: 4px; }
+.post .who span { font-weight: 400; color: var(--page-soft); }
+.post p { margin: 0; }
+.composer { max-width: 520px; border: 1.5px solid var(--zen-primary-color); border-radius: 12px; padding: 12px 14px; }
+.composer .text { min-height: 52px; }
+.composer .caret { display: inline-block; width: 1.5px; height: 15px; background: var(--toolbar-color); vertical-align: -2px; }
+.composer .bar { display: flex; justify-content: flex-end; margin-top: 8px; }
+.fake-btn { padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: 12.5px; background: rgb(30 30 34); color: white; }
+.skeleton { height: 10px; border-radius: 5px; background: var(--zen-colors-input-bg); margin: 8px 0; }
+
+/* ---- Annotations (mock-only call-outs) ------------------------------------ */
+.callout {
+  position: absolute; z-index: 5; max-width: 230px; padding: 6px 9px; border-radius: 8px; font-size: 11.5px; line-height: 1.35;
+  background: light-dark(rgb(255 250 200), rgb(80 72 20)); color: light-dark(rgb(70 60 0), rgb(255 240 170));
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.18);
+}
+.mock-label { position: absolute; right: 18px; bottom: 14px; z-index: 5; font-size: 11px; color: var(--page-soft); }
+
+/* ---- Agents panel and settings ------------------------------------------ */
+.panel-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 0.5px solid var(--zen-colors-border); }
+.panel-row:first-child { border-top: none; }
+.panel-row .main { flex: 1; min-width: 0; }
+.panel-row .main .name { font-weight: 600; }
+.panel-row .main .sub { color: var(--page-soft); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.endpoint { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--page-soft); }
+.code { font: 11.5px ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+.settings { flex: 1; overflow: hidden; padding: 30px 48px; }
+.settings h1 { font-size: 22px; margin: 0 0 4px; }
+.settings .lead { color: var(--page-soft); margin: 0 0 20px; }
+.settings h2 { font-size: 14px; margin: 22px 0 8px; }
+.switch-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 0.5px solid var(--zen-colors-border); max-width: 760px; }
+.switch-row .main { flex: 1; }
+.switch-row .sub { color: var(--page-soft); font-size: 12px; }
+.switch { width: 32px; height: 18px; border-radius: 999px; background: var(--zen-colors-input-bg); position: relative; flex: none;
+  box-shadow: inset 0 0 0 1px var(--zen-colors-border); }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: white; box-shadow: 0 1px 2px rgb(0 0 0 / 0.3); }
+.switch.on { background: var(--zen-primary-color); box-shadow: none; }
+.switch.on::after { left: 16px; }
+table.signins { width: 100%; max-width: 760px; border-collapse: collapse; }
+table.signins th { text-align: left; font-size: 11.5px; font-weight: 600; color: var(--page-soft); padding: 6px 8px; }
+table.signins td { padding: 9px 8px; border-top: 0.5px solid var(--zen-colors-border); vertical-align: middle; }
+table.signins td.when { color: var(--page-soft); font-variant-numeric: tabular-nums; }
+table.signins td.act { text-align: right; }
+.state { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
+.state.out { color: var(--amber); }
+.state.unknown { color: var(--page-soft); }
+.state.checking .ring { width: 10px; height: 10px; }
+
+/* ---- Identities (containers), round 2 ------------------------------------ */
+/* Firefox's container colours (usercontext.css names), as Zen shows them. */
+:root {
+  --id-blue: rgb(55 173 255); --id-green: rgb(81 205 0); --id-orange: rgb(255 159 0);
+  --id-pink: rgb(255 75 218); --id-purple: rgb(175 81 245); --id-yellow: rgb(255 203 0);
+  --id-red: rgb(255 97 59); --id-cyan: rgb(0 199 222);
+}
+.tab { position: relative; }
+.tab[data-id]::before {
+  content: ""; position: absolute; left: 2px; top: 9px; bottom: 9px; width: 3px; border-radius: 2px; background: var(--c);
+}
+.tab .who { flex: none; width: 16px; height: 16px; border-radius: 50%; display: grid; place-items: center;
+  font-size: 7.5px; font-weight: 800; color: white; margin-left: -4px; }
+.tab .who.cc { background: rgb(201 100 66); }
+.tab .who.cx { background: rgb(40 40 44); outline: 1px solid light-dark(transparent, rgb(255 255 255 / 0.3)); }
+.tab .state-ico { flex: none; color: var(--page-soft); }
+.tab .state-ico svg { width: 13px; height: 13px; display: block; }
+.id-chip {
+  flex: none; display: inline-flex; align-items: center; gap: 5px; height: 20px; padding: 0 8px 0 6px; border-radius: 6px;
+  font-size: 11.5px; font-weight: 600; color: var(--toolbar-color);
+  background: color-mix(in srgb, var(--c) 18%, transparent);
+}
+.id-chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.urlbar .id-chip { margin-left: auto; }
+.folder {
+  display: flex; align-items: center; gap: 8px; min-height: 30px; margin-top: 6px; padding: 0 10px;
+  font-size: 12px; font-weight: 600;
+}
+.folder svg { width: 14px; height: 14px; color: var(--page-soft); flex: none; }
+.folder .task { font-weight: 400; color: var(--page-soft); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.indent { margin-left: 14px; }
+
+/* Agent bar: a thin strip at the top of an agent-owned tab's content. */
+.agentbar {
+  display: flex; align-items: center; gap: 9px; padding: 7px 10px 7px 12px; font-size: 12.5px;
+  background: light-dark(rgb(246 246 248), rgb(44 44 48)); border-bottom: 0.5px solid var(--zen-colors-border);
+}
+.agentbar .msg { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.agentbar .msg span { color: var(--page-soft); }
+.agentbar .meter { display: inline-flex; align-items: center; gap: 6px; color: var(--page-soft); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.agentbar .meter i { display: inline-block; width: 38px; height: 5px; border-radius: 3px; background: var(--zen-colors-input-bg); position: relative; overflow: hidden; }
+.agentbar .meter i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--amber); border-radius: 3px; }
+.live { display: inline-flex; align-items: center; gap: 5px; height: 18px; padding: 0 7px; border-radius: 999px; font-size: 10.5px; font-weight: 700;
+  color: white; background: rgb(214 48 49); }
+.live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: white; }
+.iconbtn { width: 26px; height: 26px; border-radius: 6px; display: grid; place-items: center; color: var(--page-soft); flex: none; }
+.iconbtn svg { width: 15px; height: 15px; }
+
+/* Non-blocking prompt card, bottom right of the content. */
+.prompt { right: 16px; bottom: 16px; width: 330px; }
+.prompt .avatars { display: inline-flex; }
+.prompt .avatars .agent-icon { margin-left: -4px; box-shadow: 0 0 0 2px var(--zen-dialog-background); }
+.prompt .avatars .agent-icon:first-child { margin-left: 0; }
+.prompt .line { display: flex; align-items: center; gap: 8px; color: var(--page-soft); font-size: 12px; }
+.prompt .axiosozo-lab-card-actions { justify-content: flex-end; }
+
+/* Sheet (chooser) over the content, macOS style. */
+.scrim { position: absolute; inset: 0; z-index: 4; background: rgb(0 0 0 / 0.18); }
+.sheet {
+  position: absolute; z-index: 5; left: 50%; top: 0; transform: translateX(-50%); width: 400px; padding: 16px 16px 14px;
+  border-radius: 0 0 12px 12px; background: var(--zen-dialog-background); box-shadow: 0 18px 50px -12px rgb(0 0 0 / 0.45);
+  outline: 0.5px solid light-dark(rgb(0 0 0 / 0.12), rgb(255 255 255 / 0.12));
+}
+.sheet h3 { margin: 0 0 2px; font-size: 14px; }
+.sheet .sub { margin: 0 0 12px; color: var(--page-soft); font-size: 12px; }
+.list { border-radius: 8px; overflow: hidden; outline: 0.5px solid var(--zen-colors-border); }
+.list .row { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 10px; border-top: 0.5px solid var(--zen-colors-border); }
+.list .row:first-child { border-top: none; }
+.list .row.sel { background: var(--zen-primary-color); color: white; }
+.list .row.sel .meta { color: rgb(255 255 255 / 0.85); }
+.list .row .meta { margin-left: auto; color: var(--page-soft); font-size: 12px; }
+.list .row .sw { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+.list .row.sel .sw { outline: 1.5px solid white; }
+.sheet .check { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; font-size: 12.5px; }
+.sheet .check i { width: 14px; height: 14px; border-radius: 4px; background: var(--zen-primary-color); display: grid; place-items: center; color: white; font-style: normal; font-size: 10px; }
+.sheet .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+
+/* Native-looking context menu. */
+.menu {
+  position: absolute; z-index: 6; width: 190px; padding: 5px; border-radius: 9px; font-size: 13px;
+  background: light-dark(rgb(246 246 246 / 0.97), rgb(48 48 52 / 0.97)); box-shadow: 0 12px 34px -8px rgb(0 0 0 / 0.4);
+  outline: 0.5px solid light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.14));
+}
+.menu div { padding: 4px 10px; border-radius: 5px; }
+.menu div.hl { background: var(--zen-primary-color); color: white; }
+.menu div.danger { color: var(--red); }
+.menu hr { border: none; border-top: 0.5px solid var(--zen-colors-border); margin: 4px 6px; }
+
+/* Settings list rows for identities. */
+.idgroup { max-width: 820px; margin-bottom: 18px; }
+.idgroup .ghead { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-weight: 600; }
+.idgroup .ghead .meta { font-weight: 400; color: var(--page-soft); font-size: 12px; }
+.idrow { display: grid; grid-template-columns: 18px 1fr 120px 90px 44px 26px; align-items: center; gap: 10px; min-height: 38px;
+  padding: 0 8px; border-top: 0.5px solid var(--zen-colors-border); }
+.idrow .sw { width: 10px; height: 10px; border-radius: 50%; background: var(--c); }
+.idrow .name { font-weight: 500; }
+.idrow .name input { font: inherit; width: 200px; padding: 3px 6px; border-radius: 5px; border: 1.5px solid var(--zen-primary-color);
+  background: var(--content-bg); color: var(--toolbar-color); }
+.idrow .users { display: inline-flex; gap: 3px; }
+.idrow .users .agent-icon { width: 16px; height: 16px; font-size: 7.5px; }
+.idrow .switch { justify-self: start; }
+.idhead { display: grid; grid-template-columns: 18px 1fr 120px 90px 44px 26px; gap: 10px; padding: 0 8px 4px;
+  font-size: 11.5px; font-weight: 600; color: var(--page-soft); }
+.seg { display: inline-flex; padding: 2px; border-radius: 7px; background: var(--zen-colors-input-bg); font-size: 12px; }
+.seg span { padding: 3px 12px; border-radius: 5px; color: var(--page-soft); }
+.seg span.on { background: var(--content-bg); color: var(--toolbar-color); box-shadow: 0 1px 2px rgb(0 0 0 / 0.15); font-weight: 600; }
