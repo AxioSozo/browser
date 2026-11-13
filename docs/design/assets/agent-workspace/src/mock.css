@@ -279,3 +279,43 @@ table.signins td.act { text-align: right; }
 .seg { display: inline-flex; padding: 2px; border-radius: 7px; background: var(--zen-colors-input-bg); font-size: 12px; }
 .seg span { padding: 3px 12px; border-radius: 5px; color: var(--page-soft); }
 .seg span.on { background: var(--content-bg); color: var(--toolbar-color); box-shadow: 0 1px 2px rgb(0 0 0 / 0.15); font-weight: 600; }
+
+/* ---- Linked view (option B): your window looking into the agent space ----- */
+/* A linked view is not a tab of your profile: its sidebar entry sits under its
+ * own "Agent space" heading, framed in the agent-profile colour. */
+.linked-head {
+  display: flex; align-items: center; gap: 7px; margin: 12px 6px 4px; padding-top: 10px; font-size: 11.5px; font-weight: 600;
+  color: var(--agent-profile); border-top: 0.5px solid var(--zen-colors-border);
+}
+.linked-head svg { width: 13px; height: 13px; flex: none; }
+.linked-head .count { margin-left: auto; font-weight: 500; color: var(--page-soft); }
+.tab.linked { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--agent-profile) 45%, transparent); }
+.tab.linked.selected { background: color-mix(in srgb, var(--agent-profile) 10%, var(--tab-selected-bgcolor));
+  box-shadow: inset 0 0 0 1.5px var(--agent-profile), 0 1px 3px rgb(0 0 0 / 0.12); }
+.content.linked { box-shadow: 0 0 0 2px var(--agent-profile), 0 2px 10px rgb(0 0 0 / 0.08); }
+.linkbar {
+  display: flex; align-items: center; gap: 9px; padding: 7px 10px 7px 12px; font-size: 12.5px;
+  background: color-mix(in srgb, var(--agent-profile) 9%, var(--content-bg)); border-bottom: 0.5px solid var(--zen-colors-border);
+}
+.linkbar .msg { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.linkbar .msg span { color: var(--page-soft); }
+.linkbar .meter { display: inline-flex; align-items: center; gap: 6px; color: var(--page-soft); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.linkbar .meter i { display: inline-block; width: 38px; height: 5px; border-radius: 3px; background: var(--zen-colors-input-bg); position: relative; overflow: hidden; }
+.linkbar .meter i::after { content: ""; position: absolute; inset: 0 auto 0 0; width: var(--w); background: var(--amber); border-radius: 3px; }
+.badge.ro { color: var(--agent-profile); background: color-mix(in srgb, var(--agent-profile) 13%, transparent); }
+.urlbar:has(.profile-chip) { gap: 6px; padding: 0 8px; }
+.urlbar .profile-chip { margin: 0; flex: none; align-self: center; padding: 1px 7px; font-size: 10.5px; }
+.urlbar .profile-chip::before { display: none; }
+.agents-entry {
+  display: flex; align-items: center; gap: 8px; margin-top: auto; padding: 7px 10px; border-radius: var(--tab-border-radius);
+  font-size: 12px; background: var(--tab-selected-bgcolor); box-shadow: 0 1px 3px rgb(0 0 0 / 0.12);
+}
+.agents-entry .name { font-weight: 600; }
+.agents-entry .sub { color: var(--page-soft); flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.agents-entry + .footer { margin-top: 0; }
+.toolbar .agents-dot { position: relative; color: var(--agent-profile); }
+.toolbar .agents-dot b { position: absolute; right: -7px; top: -6px; min-width: 13px; height: 13px; padding: 0 3px; border-radius: 999px;
+  font-size: 9px; line-height: 13px; text-align: center; color: white; background: var(--amber); }
+.popover { left: 12px; bottom: 12px; width: 440px; }
+.popover .panel-row .host { display: inline-flex; align-items: center; gap: 6px; }
+.popover .panel-row .id-chip { height: 17px; font-size: 10.5px; padding: 0 6px 0 5px; }
