@@ -1,41 +1,40 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="1000" height="700" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" font-size="12">
-  <title>Agent workspace: processes, profiles, identities and the agent channel</title>
-  <desc>Two instances of the AxioSozo app. The personal profile holds the human's tabs and, in option B, agent tabs marked in place. The agent profile (option A) runs headless as a login item. Each profile has identities: one Gecko container plus one CEF request context each, so several accounts per site are signed in at once. Agents connect over Unix-socket endpoints and own their tabs. Callers open URLs as an identity through links.open. Sign-in prompts go to the personal window. The legacy agent browser is the fallback until the final phase.</desc>
+  <title>Agent workspace: the agent space, the linked view from your window, identities and the agent channel</title>
+  <desc>Two instances of the AxioSozo app. The agent profile (option A, the agent space) runs headless as a login item and holds every agent tab. The personal profile holds only the human's own tabs and identities; it never holds agent-owned tabs or agent cookies. A private link (option B) joins the two windows: the agent space sends a summary, sign-in prompts and, only while a linked view is open, the frames of one tab; the personal window sends view requests and, only after an explicit Take over, the human's input. No profile data crosses. Each profile has identities: one Gecko container plus one CEF request context each, so several accounts per site are signed in at once. Agents connect only to the agent space's Unix-socket endpoint and own their tabs. Callers open URLs as an identity through links.open. The legacy agent browser is the fallback until the final phase.</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#555"/></marker>
     <marker id="arrow-soft" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#999"/></marker>
     <marker id="arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#c99a2e"/></marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#7646c4"/></marker>
   </defs>
   <rect width="1000" height="700" fill="#fbfbfc"/>
 
-  <!-- Personal instance (option B) -->
+  <!-- Personal instance: your tabs only; option B shows the agent space through the link -->
   <rect x="20" y="20" width="330" height="372" rx="12" fill="#eef2fb" stroke="#4068c4" stroke-width="1.2"/>
   <text x="36" y="44" font-weight="700" font-size="13" fill="#1c1c1e">AxioSozo · personal profile</text>
-  <text x="36" y="61" fill="#555">role personal · system hosts block kept</text>
+  <text x="36" y="61" fill="#555">role personal · your tabs only · hosts block kept</text>
   <rect x="36" y="74" width="298" height="96" rx="8" fill="#fff" stroke="#c9d3ec"/>
   <text x="48" y="94" fill="#1c1c1e">Zen/Gecko parent · your window</text>
-  <rect x="48" y="104" width="128" height="22" rx="5" fill="#f2f2f4"/><text x="56" y="119" fill="#333" font-size="11">your tabs</text>
-  <rect x="184" y="104" width="138" height="22" rx="5" fill="#f2f2f4"/><circle cx="196" cy="115" r="5" fill="#282828"/><text x="206" y="119" fill="#333" font-size="11">handed tab (B)</text>
-  <rect x="48" y="132" width="274" height="22" rx="5" fill="#f2f2f4"/><circle cx="60" cy="143" r="5" fill="#c96442"/><text x="70" y="147" fill="#333" font-size="11">agent folder (B) · scratch identity</text>
+  <rect x="48" y="104" width="274" height="22" rx="5" fill="#f2f2f4"/><text x="56" y="119" fill="#333" font-size="11">your tabs (no agent-owned tabs, no agent cookies)</text>
+  <rect x="48" y="132" width="274" height="22" rx="5" fill="#f4effc" stroke="#7646c4" stroke-dasharray="3 2"/><text x="56" y="147" fill="#4d2d86" font-size="11">linked views (B): frames from the agent space</text>
   <rect x="36" y="178" width="298" height="58" rx="8" fill="#fff" stroke="#c9d3ec"/>
-  <text x="48" y="198" fill="#1c1c1e">Identities</text>
+  <text x="48" y="198" fill="#1c1c1e">Identities (yours only)</text>
   <circle cx="54" cy="218" r="5" fill="#37adff"/><text x="63" y="222" fill="#555" font-size="11">Work</text>
   <circle cx="110" cy="218" r="5" fill="#51cd00"/><text x="119" y="222" fill="#555" font-size="11">Client A</text>
-  <circle cx="180" cy="218" r="5" fill="#ff9f00"/><text x="189" y="222" fill="#555" font-size="11">scratch (per task)</text>
   <rect x="36" y="244" width="298" height="40" rx="8" fill="#fff" stroke="#c9d3ec"/>
   <text x="48" y="268" fill="#1c1c1e">CEF host · one request context per identity</text>
-  <rect x="36" y="292" width="298" height="84" rx="8" fill="#fff" stroke="#c9d3ec"/>
-  <text x="48" y="312" fill="#1c1c1e">P4 endpoint · Unix socket</text>
-  <text x="48" y="330" fill="#555">Allow for this session; Allow once, or</text>
-  <text x="48" y="347" fill="#555">Allow on this tab until done (B)</text>
-  <text x="48" y="364" fill="#555">sign-in prompts and Agents entry shown here</text>
+  <rect x="36" y="292" width="298" height="34" rx="8" fill="#fff" stroke="#c9d3ec"/>
+  <text x="48" y="314" fill="#1c1c1e">P4 endpoint · unchanged (agent-channel-v1)</text>
+  <rect x="36" y="334" width="298" height="46" rx="8" fill="#fff" stroke="#7646c4"/>
+  <text x="48" y="353" font-weight="600" fill="#1c1c1e">Link client (B)</text>
+  <text x="48" y="370" fill="#555">Agents entry and list, linked views, prompts</text>
 
-  <!-- Agent instance (option A) -->
-  <rect x="380" y="20" width="400" height="470" rx="12" fill="#f4effc" stroke="#7646c4" stroke-width="1.4"/>
-  <text x="396" y="44" font-weight="700" font-size="13" fill="#1c1c1e">AxioSozo · agent workspace (login item)</text>
-  <text x="396" y="61" fill="#555">role agent · headless until watched · no import or sync</text>
+  <!-- Agent instance (option A, the agent space) -->
+  <rect x="380" y="20" width="400" height="530" rx="12" fill="#f4effc" stroke="#7646c4" stroke-width="1.4"/>
+  <text x="396" y="44" font-weight="700" font-size="13" fill="#1c1c1e">AxioSozo · agent space (login item)</text>
+  <text x="396" y="61" fill="#555">role agent · headless until viewed · no import or sync</text>
   <rect x="396" y="74" width="368" height="58" rx="8" fill="#fff" stroke="#d8c9ef"/>
-  <text x="408" y="96" fill="#1c1c1e">Zen/Gecko parent</text>
+  <text x="408" y="96" fill="#1c1c1e">Zen/Gecko parent · every agent tab lives here</text>
   <text x="408" y="114" fill="#555">AgentTabRegistry: one owner per tab (s_…, human, system)</text>
   <rect x="396" y="140" width="368" height="76" rx="8" fill="#fff" stroke="#d8c9ef"/>
   <text x="408" y="160" fill="#1c1c1e">Identities · several accounts per site, all signed in</text>
@@ -67,6 +66,9 @@
   <text x="598" y="428" fill="#555">probe per site and identity,</text>
   <text x="598" y="445" fill="#555">every 4 h; system tabs and</text>
   <text x="598" y="462" fill="#555">sign-in tabs agents never see</text>
+  <rect x="396" y="482" width="368" height="56" rx="8" fill="#fff" stroke="#7646c4"/>
+  <text x="408" y="503" font-weight="600" fill="#1c1c1e">Link endpoint (B) · Unix socket 0600 · not for agents</text>
+  <text x="408" y="521" fill="#555">accepts only your own browser (same user, same signed app)</text>
   <line x1="580" y1="132" x2="580" y2="140" stroke="#999"/>
   <line x1="485" y1="216" x2="485" y2="224" stroke="#999"/>
   <line x1="675" y1="216" x2="675" y2="224" stroke="#999"/>
@@ -96,38 +98,36 @@
   <path d="M880 80 V 15 H 290 V 19" fill="none" stroke="#555" stroke-width="1.1" marker-end="url(#arrow)"/>
   <text x="520" y="11" fill="#555" font-size="11">links.open into the personal profile</text>
 
-  <!-- Agent 3 in option B -->
-  <rect x="20" y="420" width="160" height="44" rx="8" fill="#fff" stroke="#888"/>
-  <text x="32" y="439" fill="#1c1c1e">Agent 3 (handed a tab)</text>
-  <text x="32" y="455" fill="#555">P4 session</text>
-  <path d="M100 420 L 100 378" fill="none" stroke="#555" stroke-width="1.3" marker-end="url(#arrow)"/>
-
-  <!-- Summary and prompts to personal -->
-  <path d="M396 340 C 366 340, 366 340, 336 340" fill="none" stroke="#c99a2e" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#arrow-amber)"/>
-  <text x="200" y="404" fill="#8a6a1e" font-size="11">summary + sign-in prompts</text>
-  <text x="200" y="418" fill="#8a6a1e" font-size="11">(hosts, identity names, states;</text>
-  <text x="200" y="432" fill="#8a6a1e" font-size="11">no URLs, content or cookies)</text>
+  <!-- The link (option B) -->
+  <path d="M396 500 C 364 500, 366 362, 336 360" fill="none" stroke="#c99a2e" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrow-amber)"/>
+  <path d="M336 372 C 356 376, 356 520, 396 524" fill="none" stroke="#7646c4" stroke-width="1.4" marker-end="url(#arrow-purple)"/>
+  <text x="36" y="406" fill="#8a6a1e" font-size="11">agent space → your window: summary (hosts,</text>
+  <text x="36" y="419" fill="#8a6a1e" font-size="11">identity names, states), sign-in prompts;</text>
+  <text x="36" y="432" fill="#8a6a1e" font-size="11">frames only while a view is open</text>
+  <text x="36" y="450" fill="#4d2d86" font-size="11">your window → agent space: open/close view,</text>
+  <text x="36" y="463" fill="#4d2d86" font-size="11">Give back; input only after explicit Take over</text>
+  <text x="36" y="481" fill="#555" font-size="11">never: cookies, storage, passwords, history</text>
 
   <!-- Legacy fallback -->
   <rect x="820" y="520" width="160" height="70" rx="8" fill="#fff" stroke="#bbb" stroke-dasharray="5 4"/>
   <text x="832" y="542" fill="#777">Legacy agent browser</text>
-  <text x="832" y="559" fill="#999">fallback until phase 17,</text>
+  <text x="832" y="559" fill="#999">fallback until phase 19,</text>
   <text x="832" y="576" fill="#999">then retired</text>
   <path d="M900 328 L 900 520" fill="none" stroke="#bbb" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#arrow-soft)"/>
   <text x="908" y="500" fill="#999" font-size="11">if endpoint off</text>
 
   <!-- Human -->
-  <rect x="20" y="490" width="330" height="120" rx="12" fill="#fff8e6" stroke="#c99a2e"/>
-  <text x="36" y="514" font-weight="700" fill="#1c1c1e">Human</text>
-  <text x="36" y="534" fill="#555">signs in per identity, only in the right profile</text>
-  <text x="36" y="552" fill="#555">watches on demand (costs rendering)</text>
-  <text x="36" y="570" fill="#555">takes over a tab; first input is withheld</text>
-  <text x="36" y="588" fill="#555">grants post / react / follow / message</text>
-  <path d="M350 540 L 396 470" fill="none" stroke="#c99a2e" stroke-width="1.3" marker-end="url(#arrow-amber)"/>
+  <rect x="20" y="500" width="330" height="120" rx="12" fill="#fff8e6" stroke="#c99a2e"/>
+  <text x="36" y="524" font-weight="700" fill="#1c1c1e">Human, in their own window</text>
+  <text x="36" y="544" fill="#555">sees which agents work and what they do</text>
+  <text x="36" y="562" fill="#555">opens a live read-only view (renders only while open)</text>
+  <text x="36" y="580" fill="#555">takes over explicitly; cookies stay in the agent space</text>
+  <text x="36" y="598" fill="#555">signs in as an agent-space identity; grants actions</text>
+  <path d="M326 500 L 326 384" fill="none" stroke="#c99a2e" stroke-width="1.3" marker-end="url(#arrow-amber)"/>
 
-  <text x="380" y="520" fill="#555">Never shared between the two instances: profile directory,</text>
-  <text x="380" y="537" fill="#555">cookies, storage, password store, add-ons, preferences,</text>
-  <text x="380" y="554" fill="#555">Chromium profile. Identities are per profile. No TCP</text>
-  <text x="380" y="571" fill="#555">listener, debugging port or WebSocket for agents.</text>
+  <text x="380" y="580" fill="#555">Never shared between the two instances: profile directory,</text>
+  <text x="380" y="597" fill="#555">cookies, storage, password store, add-ons, preferences,</text>
+  <text x="380" y="614" fill="#555">Chromium profile. Identities are per profile. No TCP</text>
+  <text x="380" y="631" fill="#555">listener, debugging port or WebSocket for agents.</text>
   <text x="20" y="680" fill="#999" font-size="11">docs/design/agent-workspace.md §3 · design only</text>
 </svg>

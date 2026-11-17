@@ -1,7 +1,9 @@
 # Agent workspace: the agent browser, built into AxioSozo
 
 Status: **design only** (12 November 2026, revised 13 November 2026 after the
-owner's review). No product code has changed. Each phase in §9 is a separate
+owner's review, and again on 13 November after the owner's decision on option
+B: agents always keep their own profile, and B is a live link from your own
+window into that agent space). No product code has changed. Each phase in §9 is a separate
 task. Nothing here is READY (see [setup status](../SETUP_STATUS.md)), and
 nothing replaces the real macOS E1/E2 gates (AGENTS.md,
 [ADR 002](../adr/002-dual-engine.md)).
@@ -18,27 +20,35 @@ screenshots of a built Zen window. Sources and renders are in
 
 ## 0. Key decisions
 
-1. **Two places for agent tabs, one model.** (A) The **agent workspace** is a
-   separate profile with its own sign-ins, for unattended background work.
-   (B) **Agent tabs in your own window** are marked in place next to your
-   tabs, for "help me with this page". Recommendation: build A first (it
-   replaces the agent Chrome), then B. Agents work in A unless you hand them
-   a tab (§3.1).
+1. **Agents always work in their own space; you look in from your window.**
+   (A) The **agent space** (the agent workspace) is a separate agent profile
+   with its own identities and sign-ins. Every agent tab lives there, always.
+   Your own profile never holds an agent-owned tab or an agent cookie. (B)
+   The **linked view** is how you look in: from your own window you see which
+   agents are active and what each one is doing, and you can open a live,
+   read-only view of an agent tab inside your window. The page keeps running
+   in the agent space, with the agent's identity. Taking over is an explicit
+   action, and its cookies stay in the agent space. Recommendation: both, as
+   one system. A is where agents work, B is how you look in (§3.1, §3.11).
 2. **Every tab has exactly one owner**: you, one agent session, or the
-   browser. The browser enforces it in both places. An agent sees, reads and
-   drives only its own tabs (§3.6, §6.3).
+   browser. The agent space enforces it for every tab it holds. Your own
+   profile holds only your tabs. An agent sees, reads and drives only its own
+   tabs (§3.6, §6.3).
 3. **Identities: several accounts per site, all signed in at once.** Each
    identity is a Gecko container plus its own Chromium request context. The
    call, the opener tab, a remembered link rule, the agent's default or the
    site's default chooses it. If none of these settles it, the browser asks
    and never guesses (§3.4).
 4. **Agent tabs are headless by default.** Watching is on demand and costs
-   rendering. The browser shows that cost while you watch, and stopping
-   returns the tab to headless (§3.7).
+   rendering. A linked view renders only while it is open and shown in your
+   window; otherwise the tab stays headless. The browser shows the cost while
+   you watch, and closing the view returns the tab to headless (§3.7, §3.11).
 5. **Signing in is human-only and never blocks you.** One prompt per site and
-   identity, however many agents wait. It opens the right identity's sign-in
-   page, and agents resume without a restart. Agents never type credentials
-   (§5.4, §6.1).
+   identity, however many agents wait. The prompt appears in your own window
+   through the same link. *Sign in* opens the agent space's sign-in page for
+   the right identity as a linked view in your window, so the sign-in is
+   stored in that agent-space identity and never in your profile. Agents
+   resume without a restart, and they never type credentials (§5.4, §6.1).
 6. **Account-aware links.** A caller says "open this URL as identity X".
    Without that, a remembered rule, an opt-in lookup or a chooser picks the
    identity. A link never opens in the wrong account silently, and nobody
@@ -68,9 +78,12 @@ something the browser stops.
 This design does all of that inside AxioSozo, with both engines, one tool
 surface, and the safety rules enforced by the browser. The existing P4 agent
 bridge ([agent-channel-v1](../../contracts/agent-channel-v1.md),
-`AgentBridgeRuntime`) is the base for both places: the personal profile's
-endpoint becomes the home of option B, and the agent profile's endpoint runs
-the workspace mode of option A.
+`AgentBridgeRuntime`) is the base: the agent profile's endpoint runs the
+workspace mode of option A. Option B adds no agent endpoint to your own
+profile. It is a private link between your browser and the agent space
+(§3.11) that carries a summary, the frames of a view you open, and your input
+only while you have taken a tab over. The personal profile's P4 endpoint stays
+exactly as agent-channel-v1 specifies it; this design adds nothing to it.
 
 ## 2. Capability inventory and mapping (A1–A12)
 
@@ -82,10 +95,10 @@ gate), **extend** (an existing module grows), **new** (nothing exists yet) or
 | --- | --- | --- | --- | --- |
 | A1 | **Separate agent profile.** Its own user-data directory with its own logins on several sites, one account per site. Copying cookies from the personal browser was tried and retired: an identity provider revoked a session shared between two browsers, in both of them. | A separate Gecko **profile** with role `agent`, run as a second instance of the same app (§3.3). It has its own cookie jar, storage, password store and history, plus its own Chromium profile, because the CEF host keeps one Chromium profile per Zen profile ([cef-v1](../../contracts/cef-v1.md) "Process and authentication"). Inside it, **identities** (§3.4) hold several accounts per site at once. There is no import, copy or sync from any other profile, and no tool exposes cookies. | Gecko profiles; `CEFEngineAdapter` (one host per Zen profile); `ProjectContainers`/`ProjectAccountRuntime` (containers, identity colours) | **extend** (profile role, launcher and identities are new; the cookie separation per Zen profile exists) |
 | A2 | **Egress proxy.** A loopback HTTP/CONNECT proxy re-resolves names over DNS-over-HTTPS when the system resolver answers with a hosts-file block. Local names, the mesh VPN suffix and private and CGNAT ranges bypass it. It logs only errors. A root script installs a mandatory proxy policy for the agent Chrome. | **Per-profile egress rule** (§3.5). An opt-in setting of the agent profile makes Gecko resolve hosts-blocked names through DoH (stock TRR prefs) and makes the agent profile's CEF host do the same (Chromium secure DNS, with a profile-owned resolver child as fallback). Personal profiles keep the system block, and the setting does not exist there. | Gecko TRR (`network.trr.*`); `CEFEngineAdapter` request context; `ProjectRunner` pipe lease (for the fallback child) | **new** |
-| A3 | **Always-on headless instance.** A login item keeps it running with a debugging port on loopback, restarts it when it dies, and loads an AI-assistant extension. | The agent profile instance is a **login item of the app itself** (user-visible, restarted on crash). It runs **headless by default**, with no window until a human watches, signs in or takes over (§3.7, §3.9). There is no debugging port: agents reach it through the profile's own Unix-socket agent endpoint. | `AgentChannelService` (endpoint states), `AgentChannelConfig` (`agentProfileSocketPath`: one socket per profile), `AgentSocketLease` | **extend** (persisted enablement for the agent role and the login item are new) |
+| A3 | **Always-on headless instance.** A login item keeps it running with a debugging port on loopback, restarts it when it dies, and loads an AI-assistant extension. | The agent profile instance is a **login item of the app itself** (user-visible, restarted on crash). It runs **headless by default** and needs no window of its own: the human watches, signs in and takes over through the linked view in their own window (§3.11). Its own window appears only when the human asks for it (§3.7, §3.9). There is no debugging port: agents reach it through the profile's own Unix-socket agent endpoint. | `AgentChannelService` (endpoint states), `AgentChannelConfig` (`agentProfileSocketPath`: one socket per profile), `AgentSocketLease` | **extend** (persisted enablement for the agent role and the login item are new) |
 | A4 | **MCP server** (a third-party DevTools MCP server on the debugging port): pages, navigation, snapshot, input, upload, dialogs, waits, screenshots, script, console and network listing, emulation, resize, performance trace and insights, audit, heap snapshot, screencast. Several agents share it; each opens its own page and keeps its page id. Some sites never finish loading, so agents snapshot again. | **Workspace mode of `packages/agent-bridge`.** The tool names and arguments match one to one (§7.1), and `new_page` gains an optional `identity`. Each agent session sees, reads and drives only its own tabs, and the browser enforces this (§3.6). Gecko tabs run through in-process WebDriver BiDi, Chromium tabs through CEF's in-process DevTools messages (§3.8). A navigation that never finishes returns `still_loading` instead of hanging. | `packages/agent-bridge` (MCP stdio server), `AgentTabRegistry`, `GeckoAgentTools`, `GeckoBiDiReadSession`, `AgentActionRuntime`/`AgentActBoundary`, `AgentCaptureRuntime`, `ConsoleErrorsService`, CEF host | **extend** (channel, bridge and BiDi seams exist; owner sessions, the full tool set and the CEF DevTools path are new) |
-| A5 | **Input guard.** Whenever human keyboard or mouse input reaches the agent Chrome (frontmost, under the pointer, or through screen sharing), every one of its processes is hidden. A pause of up to 15 minutes allows human use. | **Watch and takeover, per tab** (§3.7, §5.6, §5.7). The human watches any agent tab on demand. The first native input in an agent-owned tab hands that tab to the human; that input is not delivered to the page. The tab's agent is paused there (`HUMAN_IN_CONTROL`), no reads or input reach it, and every other agent keeps working. **Give back** returns it. Nothing needs hiding, because agent tabs are headless until watched. | `AgentTabRegistry` (owner field), `AgentActionRuntime` (navigation and invalidation hooks), `CEFPresenter` (knows which input came from the OS) | **new** |
-| A6 | **Login flow.** A script pauses the guard, stops the headless instance and opens the same profile in a window at the site's login page. When the human quits it, the headless instance restarts and an auth check runs. Agents lose the browser meanwhile. Agents never log in; they ask the human to run the script. | The **sign-in prompt** (§5.4). An agent calls `request_human_login`, or the browser detects an expired session mid-task. The human gets one non-blocking prompt per site and identity, signs in inside a **human-owned** tab of the right identity that no agent can see, and the waiting agents resume. Nothing restarts and other agents keep running. | `AgentStatusRuntime` (window notifications), `AxioSozoToast`, Lab kit card, sign-in status (A7) | **new** |
+| A5 | **Input guard.** Whenever human keyboard or mouse input reaches the agent Chrome (frontmost, under the pointer, or through screen sharing), every one of its processes is hidden. A pause of up to 15 minutes allows human use. | **Watch and takeover, per tab** (§3.7, §3.11, §5.2, §5.6, §5.7). The human watches any agent tab on demand, from their own window through the linked view or in the agent space's window. In the linked view only the explicit *Take over* hands the tab to the human; in the agent space's window the first native input does, and that input is not delivered to the page. The tab's agent is paused there (`HUMAN_IN_CONTROL`), no reads or input reach it, and every other agent keeps working. **Give back** returns it. Nothing needs hiding, because agent tabs are headless until watched. | `AgentTabRegistry` (owner field), `AgentActionRuntime` (navigation and invalidation hooks), `CEFPresenter` (knows which input came from the OS) | **new** |
+| A6 | **Login flow.** A script pauses the guard, stops the headless instance and opens the same profile in a window at the site's login page. When the human quits it, the headless instance restarts and an auth check runs. Agents lose the browser meanwhile. Agents never log in; they ask the human to run the script. | The **sign-in prompt** (§5.4). An agent calls `request_human_login`, or the browser detects an expired session mid-task. The human gets one non-blocking prompt per site and identity, signs in inside a **human-owned** tab of the right identity in the agent space, shown in their own window through the linked view, that no agent can see, and the waiting agents resume. The session lands in the agent space identity, never in the personal profile. Nothing restarts and other agents keep running. | `AgentStatusRuntime` (window notifications), `AxioSozoToast`, Lab kit card, sign-in status (A7) | **new** |
 | A7 | **Auth watch.** A login item visits each configured site every 4 hours in a background tab (which also keeps sessions warm), decides signed-in or signed-out per site, stores the state, notifies on a logout (at most daily) and prints the last state without starting a browser. It never prints cookie values. | **Sign-in status per site and identity** (§5.5). The same four probe fields per site (probe URL, login URL, signed-in marker, signed-out marker) live in the agent profile. A browser-owned probe tab, owned by `system` and invisible to agents, checks every site in every identity every 4 hours and on demand. Agent tabs also report passively when they hit a login page. There is a Settings table, a daily-at-most notification and a read API (§7.2) that answers without loading any page. | `JsonStore` (atomic profile-local JSON), `AxioSozoToast`, about:axiosozo Settings | **new** |
 | A8 | **AI-assistant extension** (the Codex extension) loaded unpacked into the agent profile, with a side panel. The desktop app's browser plugin drives the same browser. | First choice: the assistant attaches over the **workspace MCP endpoint**, which Codex supports natively (§7.3). Second: a Gecko build of the extension installed in the agent profile through the normal add-on path. Loading a Chrome extension into the CEF host is not relied on. | `packages/agent-bridge` (Codex config snippets exist), Gecko add-on manager | **extend** (MCP) / **migration** (extension) |
 | A9 | **Two Macs.** The same install on both, as a user half and a root half. A cookie sync between the Macs exists but is disabled. | The browser's own install on each Mac, each with **its own agent profile, identities and sign-ins**. Nothing syncs logins between Macs. The root half goes away because nothing needs a system proxy policy any more (§3.5). The **cookie sync is dropped**: synced sessions are what got revoked (A1). | `scripts/storage.py`/`./dev setup` (dev builds); release packaging for users | **exists** (install) / **drop** (root half, cookie sync) |
@@ -93,63 +106,88 @@ gate), **extend** (an existing module grows), **new** (nothing exists yet) or
 | A11 | **Consumers in flight.** A marketing-platform table needs the login status per platform and lets agents post, reply and message through the agent browser. Its needs define the login-status API and the action grants. | The **sign-in status read API** (§7.2, per site and identity), **action grants** (§6.2: post, react, follow and message, each granted by the human per class, site and count) and **open as identity** (§7.4) for callers that know which account owns a page. The consumer reads status without driving a page. | Sign-in status (A7), action grants (new), identities (new), `AgentChannelCore` codes | **new** |
 | A12 | **Policy.** Agents post, like, follow or message only when the human asked. They never touch other agents' pages, never work around the hosts block in other apps, and never copy cookies between browsers. | **Browser behaviour instead of written policy** (§6): action-class grants, owner-only tab access, identities an agent may use only when the human allows it, an egress rule scoped to one profile and no cookie-export tool. Agents never enter credentials, and the browser refuses when they try. | `AgentActBoundary` (one-shot dispatch gate), `AgentTabRegistry`, `isSensitiveHost` | **extend** |
 
-The owner's review (13 November) added five requirements. Where each is
-designed:
+The owner's review (13 November) added five requirements, and the owner's
+decision later that day settled R1: agents always keep their own profile, and
+the human's window is joined to it by a live link, not by agent tabs. Where
+each is designed:
 
 | Requirement | Design | Mock | Phase |
 | --- | --- | --- | --- |
-| R1 Per-tab agent ownership, also in the human's own window; separate space vs in place | §3.1 (comparison, recommendation), §3.6, §5.2 | (f), (a) | 6, 13 |
+| R1 Per-tab agent ownership; agents always in their own space; from your own window you see and follow their live work (the linked view) | §3.1 (comparison, recommendation), §3.6, §3.11, §5.2 | (f), (i), (j), (a) | 6, 13, 14, 15 |
 | R2 Several accounts per site, all signed in at once | §3.4, §5.3 | (g) | 7, 8 |
-| R3 Agents drive headless; the human watches on demand and takes over | §3.7, §5.6, §5.7 | (e), (d) | 6, 11 |
-| R4 Sign-in needed or session expired: non-blocking prompt, agents resume | §5.4, §5.5 | (b), (c) | 9 |
+| R3 Agents drive headless; the human watches on demand and takes over | §3.7, §3.11, §5.2, §5.6, §5.7 | (i), (j), (e), (d) | 6, 11, 14, 15 |
+| R4 Sign-in needed or session expired: non-blocking prompt, agents resume | §5.4, §5.5 | (b), (c) | 9, 15 |
 | R5 Account-aware links: open a URL as the identity that owns it | §5.8, §7.4 | (h) | 12 |
 
 ## 3. Architecture
 
-### 3.1 Where agent tabs live: two options
+### 3.1 Where agents work and how you look in
 
-| | (A) Agent workspace | (B) Agent tabs in your window |
+**Agents always work in their own agent profile, the agent space.** Every
+agent-owned tab lives there, with that space's identities and sign-ins. Your
+own profile never holds an agent-owned tab, an agent session's scratch
+identity or an agent cookie, and no agent can put a tab into your window.
+This is the owner's decision of 13 November: agent profiles stay separate,
+and an agent simply gets its own profile.
+
+What joins the two is a **link** from your own browser into the agent space.
+From your normal window you see which agents are active and what each one is
+doing, and you can open any agent tab as a live view inside your window. The
+page itself keeps running in the agent space, with the agent's identity. It
+feels like one browser, while the two profiles stay strictly apart.
+
+| | (A) Agent space | (B) Linked view from your window |
 | --- | --- | --- |
-| Where | A separate profile, run as a second instance of the app. Its window appears only when you watch, sign in or take over | Your personal profile and window, next to your own tabs |
-| Sign-ins | Its own identities, which you sign in to once. Never your personal sessions | A tab you hand over keeps its identity (your sign-in). Tabs the agent opens get a **scratch identity** that holds none of your sign-ins, unless you make one of your identities available |
-| Runs when | Always, from login. Also while your personal browser is closed | Only while your personal browser runs |
-| How you see it | Agents panel, the Agents entry in your window, watch on demand | In place: an agent badge on the tab, a folder per agent task, an agent bar on the page |
-| Rendering | Headless; watching costs (§3.7) | Agent tabs are background tabs and don't paint; selecting one is watching |
-| Blocked sites | The opt-in egress rule (§3.5) | Never; the system block stays |
-| Prompts | None for ordinary actions; grants for post, react, follow and message (§6.2) | The P4 confirmation, with a new *Allow on this tab until done* choice; the same grants as A |
-| Main risk | Low: the agent is never near your own sessions | Higher: a tab you hand over acts with your sign-in |
-| Best for | Unattended and scheduled work, many agents at once, several accounts of one site, blocked sites | "Help me with this page", short supervised tasks, work that needs your own session |
+| What it is | A separate agent profile, run as a second instance of the app (§3.3). All agent work happens here | A live, read-only-by-default view of an agent tab, shown inside your own window (§3.11). Nothing runs in your profile |
+| Where the page runs | In the agent space | Still in the agent space. Your window only shows its frames |
+| Identity and cookies | The agent space's identities, which you sign in to once. Never your personal sessions | The viewed tab's agent-space identity. Your profile gets no cookie, storage, history or session-restore entry from a linked view, and the agent space gets nothing from your profile |
+| Runs when | Always, from login. Also while your personal browser is closed | Only while your personal browser runs and the view is open |
+| How you see it | The agent space's own window and Agents panel, when you ask for them | The **Agents** entry in your sidebar or toolbar, its list of active agents, and linked views under their own *Agent space* heading in your sidebar (mocks f, i) |
+| Rendering | Headless (§3.7) | Renders only while the view is open and shown; headless again when you close it or switch away (§3.11) |
+| Input | Agents drive their own tabs | None by default. *Take over* (an explicit action) sends your input over the link to the agent space; *Give back* returns the tab (mock j) |
+| Sign-in | Prompts and sign-in tabs belong to the agent space (§5.4) | The prompt appears in your window through the link, and you sign in inside a linked view, in the agent space's identity |
+| Blocked sites | The opt-in egress rule (§3.5) | Sites the Mac blocks are not shown in linked views by default (§3.11) |
+| Main risk | Low: agents are never near your own sessions | Low: a view is pixels and an accessibility tree; it carries no profile data either way. The new surface is the link itself, which accepts only your own browser (§3.11) |
+| Best for | Unattended and scheduled work, many agents at once, several accounts of one site, blocked sites | Seeing what agents are doing without leaving your window, following a task live, stepping in for a moment, signing in when an agent asks |
 
-**Recommendation: both, with one ownership model, built A first.**
+**Recommendation: both, as one system.** A is where agents work; B is how
+you look in.
 
-- An agent that opens pages on its own works in **A**. That is the default,
-  and A is what replaces the agent Chrome, so it comes first (phases 1–12).
-- **B** applies only when you start it: you hand a tab to an agent (tab
-  menu *Let Codex use this tab*) or you ask an agent for help from a page.
-  An agent can never put tabs into your window by itself. Its new tabs for
-  that task go into a folder in your window, in a scratch identity. B comes
-  in phase 13 and reuses the owner field, identities, watch and takeover from
-  A.
-- The marks are the same in both places: an agent badge says *who drives*,
-  and the identity colour says *as whom*. A tab can show both.
-- B changes one P4 rule: today every act needs *Allow once*. B adds *Allow on
-  this tab until done*, for one tab and one session, revoked by *Stop*, by
-  takeover or when the session ends. Grants (§6.2) and the credential rule
-  (§6.1) still apply. This is a change to agent-channel-v1 §4.2, owned by the
-  integration lead.
+- **A comes first** (phases 1–12), because it is what replaces the agent
+  Chrome. Until the link exists, you watch, sign in and take over in the
+  agent space's own window (§5.1, §5.6, §5.7).
+- **B is built on top of A** (phases 13–15) and adds no second place for
+  agent tabs. It reuses A's owner field, identities, headless mode, watch,
+  takeover and sign-in flow. It only moves where you see them: into your own
+  window.
+- **"Help me with this page"** no longer means handing your own tab to an
+  agent. *Send to agent space* in your tab's menu opens the same URL as a new
+  tab in the agent space, in an identity the agent may use (§6.5), with none
+  of your cookies. You can then follow it in a linked view. Only the URL
+  crosses, and only when you click.
+- **The marks are the same everywhere:** an agent badge says *who drives*,
+  the identity colour says *as whom*, and the agent-space colour around a
+  linked view says *where it runs*.
+- **The personal profile's P4 bridge** (agent-channel-v1 §4) is not changed
+  by this design. It gains no owner field, no agent-owned tabs, no scratch
+  identities and no relaxed confirmation. Whether P4's `tabs.open` should
+  keep opening background tabs in your profile now that agents have their own
+  space is an open question (§10).
 
 ### 3.2 Processes, profiles, identities and the agent channel
 
 ```mermaid
 flowchart LR
   subgraph personal["AxioSozo · personal profile (role personal)"]
-    PZ["Zen/Gecko parent<br/>your tabs + agent tabs in place (B)"]
-    PI["Identities<br/>Work · Client A · scratch per agent task"]
+    PZ["Zen/Gecko parent<br/>your tabs only + linked views (B)"]
+    PI["Identities<br/>Work · Client A (yours only)"]
     PC["CEF host<br/>one request context per identity"]
-    PE["P4 endpoint<br/>Allow once / Allow on this tab"]
+    PE["P4 endpoint<br/>unchanged (agent-channel-v1)"]
+    PL["Link client (B)<br/>shows summary, frames, prompts"]
     PZ --- PI
     PI --- PC
     PZ --- PE
+    PZ --- PL
   end
   subgraph agent["AxioSozo · agent profile (role agent) · login item · headless"]
     AZ["Zen/Gecko parent<br/>AgentTabRegistry: one owner per tab"]
@@ -157,21 +195,23 @@ flowchart LR
     AB["WebDriver BiDi<br/>in-process, no listener"]
     AC["CEF host<br/>one request context per identity<br/>DevTools messages over the private pipe"]
     AE["Workspace endpoint<br/>Unix socket 0600, local only"]
+    AL["Link endpoint (B)<br/>only your own browser"]
     AD["Egress rule (opt-in)<br/>DoH for hosts-blocked names"]
     AZ --- AI
     AI --- AB
     AI --- AC
     AZ --- AE
+    AZ --- AL
     AZ --- AD
   end
   M1["Agent 1<br/>agent-bridge --workspace"] -->|"session s_1"| AE
   M2["Agent 2<br/>agent-bridge --workspace"] -->|"session s_2"| AE
-  M3["Agent 3 (handed a tab)"] -->|"P4 session"| PE
   X["Status consumer"] -->|"status.read"| AE
   D["Dashboard / CLI<br/>open URL as identity"] -->|"links.open"| AE
   D -->|"links.open"| PE
-  AE -.->|"summary + sign-in prompts<br/>(hosts, states, no content)"| PZ
-  H(("Human")) -->|"signs in, watches,<br/>takes over, grants"| AZ
+  AL -.->|"summary, sign-in prompts,<br/>frames of an open view"| PL
+  PL -.->|"open/close view; input<br/>only after Take over"| AL
+  H(("Human")) -->|"looks in, signs in,<br/>takes over, grants"| PZ
   M1 -.->|"fallback until the last phase"| L["Legacy agent Chrome"]
 ```
 
@@ -182,16 +222,19 @@ The same diagram as an image:
   are two processes of the same AxioSozo/Zen build. Each has its own parent
   process, content processes, CEF host and Chromium profile. They share no
   profile directory, cookie, cache, password store, add-on or preference.
-- **One channel, two modes.** Both run the same `AgentChannelService`, each on
-  its own profile socket (`<profile>/.a/s`, agent-channel-v1 §1). The personal
-  endpoint keeps the P4 rules, plus option B (§3.1). The agent endpoint serves
-  the workspace tools (§7.1) under the rules of §6.
-- **A summary goes from the agent instance to the personal one**, never the
-  reverse. The personal window shows how many agents work, on which hosts,
-  in which state, and any open sign-in prompt (§5.4). It can bring the agent
-  window forward. The summary carries hosts, identity names and states. It
-  carries no URLs beyond the host, no page content and no cookies.
-
+- **Agents connect only to the agent space.** Both instances run the same
+  `AgentChannelService`, each on its own profile socket (`<profile>/.a/s`,
+  agent-channel-v1 §1). The agent endpoint serves the workspace tools (§7.1)
+  under the rules of §6. The personal endpoint keeps the P4 rules, unchanged,
+  and gains nothing from this design.
+- **The link joins the two windows, not the two profiles** (§3.11). The agent
+  instance tells your browser which agents work, on which hosts, in which
+  state, and about any open sign-in prompt (§5.4). That summary carries
+  hosts, identity names, task titles and states: no URLs beyond the host, no
+  page content and no cookies. When you open a linked view, the frames and
+  accessibility tree of that one tab follow, until you close it. Your browser
+  sends only view requests, and your input after an explicit *Take over*.
+  Nothing from your profile is ever sent.
 ### 3.3 The agent profile (A1)
 
 - **Created once from Settings.** about:axiosozo → Agents → *Set up the agent
@@ -241,10 +284,10 @@ web app are five identities, all signed in at once.
 - **Identities are per profile.** The personal profile and the agent profile
   each have their own. If the same account is needed in both, the human signs
   in twice, and the two sessions are separate (A1).
-- **Scratch identities.** In option B, each agent task gets a temporary
-  identity. It holds none of the human's sign-ins and is deleted, data
-  included, when the task's session ends. The workspace (A) uses them too,
-  when an agent asks for a clean identity.
+- **Scratch identities.** In the agent space, an agent that asks for a clean
+  identity gets a temporary one. It holds no sign-ins and is deleted, data
+  included, when the agent's session ends. Scratch identities exist only in
+  the agent space; the personal profile never gets one.
 - **How an identity is chosen.** The first rule that applies wins:
   1. *Named in the call.* `new_page({url, identity})`, `links.open({url,
      identity})`, by key or alias. The caller must be allowed to use it
@@ -261,7 +304,7 @@ web app are five identities, all signed in at once.
   6. *Otherwise:* a site with one identity uses it. A site with several opens
      the chooser for a human (mock h) and returns `IDENTITY_REQUIRED
      {candidates}` to an agent, and nothing opens. A site with none uses the
-     profile's default identity (in B, an agent gets its scratch identity).
+     profile's default identity.
 - **Never:** change the identity of a loaded tab (another identity means a new
   tab, as `ProjectAccountRuntime` already requires), guess from page content,
   or read an account name from a page. Identity names are labels the human
@@ -309,8 +352,15 @@ default, shown only when the role is `agent`).
   `ProjectRunner`, so the child dies with the instance. The request contexts
   point at it. It is never a system-wide policy.
 - **What stays the same.** The system hosts block is not touched. Other apps
-  and the personal profile keep it, including agent tabs in option B. Only
-  errors are logged, and no per-request log of names is kept.
+  and the personal profile keep it. Only errors are logged, and no
+  per-request log of names is kept.
+- **Linked views respect the block.** A linked view (§3.11) shows pages the
+  agent space loaded, so with this rule on it could show a blocked site
+  inside your own window. By default it does not: for a tab whose host the
+  Mac blocks, the linked view shows only the summary line (agent, host,
+  state) and no frames. A separate Settings switch, *Show blocked sites in
+  linked views*, off by default, changes that. Sign-in for such a site opens
+  in the agent space's own window instead (§5.4).
 - **Opt-in, scoped, visible.** The setting is per profile, needs a trusted
   click, and shows in the agent window's identity panel ("This profile uses DNS
   over HTTPS").
@@ -340,17 +390,18 @@ default, shown only when the role is `agent`).
   inherits its opener's owner. Every read and every input checks `owner ===
   session` before anything else runs, and fails with `NOT_OWNER` otherwise.
   `list_pages` returns only the caller's tabs plus a count of tabs it cannot
-  see. In option B the same field marks the agent tabs in your window, and
-  each agent's tabs can belong to a different agent.
+  see. The owner field exists only in the agent space: the personal
+  profile's tabs are all yours and carry no owner field.
 - **Resuming.** The bridge receives a resume token in `welcome` and keeps it
   in memory. When a session's connection drops, its tabs become **parked** for
   10 minutes: still owned, but visible to no one. A reconnect with the token
   within that time takes them back. After that, parked tabs close unless the
-  human adopts them in the Agents panel. In option B, a dropped session's
-  handed tabs go straight back to the human.
-- **Human hand-over.** The human can give one of their own tabs to an agent
-  (*Let … use this tab*), take one (§5.7), or close any tab. Agents can never
-  give tabs to each other.
+  human adopts them in the Agents panel or in a linked view.
+- **Human hand-over.** In the agent space, the human can give a human-owned
+  tab to an agent, take one (§5.7, §3.11), or close any tab. Tabs of the
+  personal profile are never handed over: *Send to agent space* (§3.1) opens
+  the URL as a new agent-space tab instead. Agents can never give tabs to
+  each other.
 
 ### 3.7 Headless by default, watch on demand (R3)
 
@@ -372,21 +423,29 @@ rendering.
     the host sends nothing to Zen's surface. `Page.captureScreenshot` renders
     on request; that this works for a hidden windowless target is to be
     verified (§10).
-- **Attach a view (Watch).** *Watch* sits in the Agents panel and in the tab's
-  menu. In option B, selecting the agent's tab is watching. In the workspace,
-  the agent window comes forward with that tab selected. The instance becomes
-  a regular app while one of its windows shows. The tab becomes active and
-  paints at the display's rate. A Chromium tab streams frames to Zen's
-  surface (engine-surface-v1).
+- **Attach a view (Watch).** There are two ways to watch, with the same
+  rules:
+  - *From your own window* (the usual way, once phase 14 lands): *View* in
+    the Agents list opens a **linked view** (§3.11). The agent instance
+    paints that tab and hands the frames to your browser; it needs no window
+    of its own.
+  - *In the agent space's own window* (phases 6 and 11, and the fallback):
+    *Watch* in its Agents panel or tab menu brings that window forward with
+    the tab selected. The instance becomes a regular app while one of its
+    windows shows.
+
+  Either way the tab becomes active and paints at the display's rate, and a
+  Chromium tab streams frames to a Zen surface (engine-surface-v1).
 - **The resource note.** While watching, the agent bar shows **LIVE** and the
   measured cost of that tab's processes: CPU share and memory, from the same
   per-process data about:processes uses, and the CEF host's process list for
   Chromium tabs. Nothing is estimated. If a value cannot be measured, the bar
   shows none.
 - **Detach.** These all return the tab to headless:
-  - *Stop watching*
-  - closing or minimising the window
-  - selecting another tab
+  - *Stop watching*, or *Close view* on a linked view
+  - closing or minimising the window that shows it (your window for a linked
+    view, the agent window otherwise)
+  - selecting another tab, so the view is no longer shown
   - the screen locking
   - 10 minutes without human activity
 
@@ -398,7 +457,8 @@ rendering.
   preview is a still screenshot taken on request, never a live stream.
   Watching never changes the agent's input path, so it never slows the agent
   beyond the shared CPU.
-- **Watching is read-only.** Input is takeover (§5.7).
+- **Watching is read-only.** Input is takeover (§5.7; in a linked view only
+  through the explicit *Take over*, §3.11).
 
 ### 3.8 One tool surface over two engines
 
@@ -434,7 +494,8 @@ flight during the switch fails with `UNAVAILABLE` and is never replayed.
   app, so it is visible in the system's login items. It starts the app with
   the agent profile and without a window, and it restarts after a crash. On
   macOS the instance stays an accessory app (no Dock icon) until it shows a
-  window for watching, sign-in, takeover or the Agents panel.
+  window of its own (the agent window or its Agents panel). Linked views in
+  your window need no agent window (§3.11).
 - **Quitting** the agent instance from its menu or the Agents panel stops it
   until the next login or *Start agent workspace*. Agents then get the
   fallback of §8.
@@ -452,13 +513,103 @@ flight during the switch fails with `UNAVAILABLE` and is never replayed.
   appended to `axiosozo/agent-metrics.jsonl` in the agent profile, rotated at
   1 MiB. Nothing in it names a URL, an argument, an identity or page content.
 
+### 3.11 The link: your window into the agent space (B, R1, R3)
+
+Option B is a connection, not a second place for agent tabs. Your browser
+shows what the agent space is doing, and opens agent tabs as live views,
+while every page keeps running in the agent space.
+
+- **What the link is.** A private channel between your browser (the personal
+  instance) and the agent instance, separate from the agents' endpoint.
+  - The agent instance listens on its own link socket inside the agent
+    profile (mode 0600, directory 0700, no TCP listener), only while the
+    agent workspace is on.
+  - It accepts exactly one kind of peer: the personal instance of the same
+    app, run by the same user. The agent instance checks the peer's user id
+    and, on macOS, that the peer's code signature matches its own (from the
+    socket's audit token). Agents, `agent-bridge`, pages and other processes
+    are refused.
+  - Your browser connects when Settings → Agents → *Show the agent space in
+    this window* is on. It is on once you set up the agent workspace, and
+    turning it off removes the Agents entry and every linked view.
+  - The message format is a new contract (proposed name `agent-link-v1`),
+    owned by the integration lead (phase 13).
+- **What crosses, and when.**
+
+  | Direction | What | When |
+  | --- | --- | --- |
+  | agent space → your window | The summary: agents, task titles, states, per tab the host and identity name, the current action as a label the chrome writes ("Typing into Search"), open sign-in and grant requests | While connected |
+  | agent space → your window | A still preview of one tab | On request, when you hover it in the Agents list |
+  | agent space → your window | Frames of one tab (IOSurface handles over Mach, as engine-surface-v1 delivers them), its accessibility tree, its URL and title, and the measured cost | Only while that linked view is open and shown |
+  | your window → agent space | Open view, close view, *Take over*, *Give back*, *Sign in*, *Later*, grant answers, *Send to agent space* (one URL) | When you click |
+  | your window → agent space | Keyboard, mouse, wheel, touch and paste events for one tab | Only while you hold that tab after *Take over* |
+
+  Never in either direction: cookies, storage, cache, passwords, history,
+  session data, identities, add-on data or preferences.
+- **What a linked view is in your window.** It is not a tab of your profile.
+  - It sits under its own *Agent space · linked* heading at the end of your
+    sidebar, framed in the agent-space colour. The URL bar shows the
+    *Agent space* chip, the host and the identity chip (mock i).
+  - It writes no history entry, session-restore entry, cache entry or cookie
+    into your profile. It can't be moved among your tabs, pinned or put in a
+    folder. *Copy link* copies only the URL, and opening that URL yourself
+    opens an ordinary tab of your own profile with your own sign-ins.
+  - Your extensions, password manager, autofill, content blockers and dev
+    tools don't apply to it, because the page isn't loaded in your profile.
+    Those of the agent space do.
+  - When your browser quits, its linked views are gone. The agent tabs are
+    not.
+- **Read-only by default.** While an agent drives, no input reaches the page.
+  Clicks, keys, wheel and drops stop in your browser, and a click shows a
+  short hint: "Read-only. Take over to use this page." The view scales to
+  fit and follows the agent's viewport. Screen readers read it through the
+  forwarded accessibility tree, the same pattern `engine-accessibility.md`
+  uses for Chromium tabs, so the view is never a blank picture to assistive
+  technology.
+- **Rendering costs only while you look** (key decision 4). The agent
+  instance paints the tab only while its linked view is open and shown
+  (§3.7). Closing the view, switching to another tab, minimising your window,
+  locking the screen or 10 minutes without activity return the tab to
+  headless. Frames cross as surface handles, not pixel copies. The view's bar
+  shows **LIVE**, *Read-only* and the measured cost, and the Agents entry
+  says "viewing N".
+- **Taking over.** Only an explicit action takes over: the *Take over* button
+  or its menu item, never a stray click or key in the view. The effect is
+  the one of §5.7, in the agent space:
+  - the tab's owner becomes `human`, with the agent remembered
+  - the agent's pending input is cancelled, and every further call on the
+    tab gets `HUMAN_IN_CONTROL`, reads included
+  - your input travels over the link and is delivered there as native input,
+    so the page sees an ordinary user
+  - **cookies stay in the agent space.** What the page stores while you hold
+    it, including a sign-in or an accepted cookie banner, lands in that tab's
+    agent-space identity. Nothing is written to your profile, and your
+    password manager neither fills nor saves there.
+- **Handing back.** *Give back* returns the tab to the remembered agent, and
+  the view turns read-only again. The tab also goes back by itself 15
+  minutes after your last input, never while a password or one-time-code
+  field has focus (§5.7). *Close view* while you hold the tab stops the
+  rendering; the tab stays yours, headless, until you give it back from the
+  Agents list or the 15 minutes pass. The agent then works with whatever
+  state the page and identity have, such as the sign-in you just did.
+- **When the link breaks.** If the agent instance stops, linked views show
+  "The agent space stopped" with *Start agent space*, and your own tabs are
+  not affected. If your browser quits, the agent space keeps working; tabs
+  you held through the link go back to their agents as with *Give back*,
+  except sign-in tabs, whose requests stay open (§5.4).
+- **Sites the Mac blocks** are not shown in linked views by default (§3.5).
+- **Fallback.** If a linked view cannot be shown (phase 14 not done, or Gecko
+  frames cannot yet cross instances, §10), *View* brings the agent space's own
+  window forward with that tab, as in §3.7. Ownership, identities and
+  takeover work the same.
+
 ## 4. What the human sees at a glance
 
 | Place | What it shows |
 | --- | --- |
-| Personal window, sidebar footer | An **Agents** entry when agents work: a ring while they work, amber with a count when one needs you (sign-in, grant), red when the endpoint failed. Click → the Agents panel |
-| Personal window, tabs (option B) | Agent badge on handed tabs, a folder per agent task, the identity stripe, the agent bar on the page (mock f) |
-| Personal window, bottom right | Non-blocking sign-in prompts (mock b) |
+| Personal window, sidebar footer and toolbar | An **Agents** entry when agents work: a ring while they work, amber with a count when one needs you (sign-in, grant), red when the endpoint or the link failed. A small agent-space mark with the same count sits in the toolbar, for compact mode. Click → the agent-space list: each agent, its task, host, identity and current action, with *View* or *Sign in* (mock f) |
+| Personal window, *Agent space · linked* (B) | Linked views you opened, below your own tabs and framed in the agent-space colour: **LIVE**, *Read-only*, the agent and its action, the cost, *Close view*, *Take over*; after takeover *Give back* (mocks i, j). Your own tabs never carry agent marks |
+| Personal window, bottom right | Non-blocking sign-in prompts; *Sign in* opens a linked sign-in view (mock b) |
 | Agent window, sidebar | Tabs grouped **by owner**: one section per agent session (agent name, task title, state), then *You* (human-owned tabs), then *Parked*. Identity stripes on every tab |
 | Agent window, Agents panel | Every session: agent, task, tabs, last call and its result, *Watch*, *Disconnect*; the endpoint state; the grants in force |
 | about:axiosozo → Agents (Settings) | Workspace on/off, endpoint on/off, the egress setting, sign-in status per site and identity, grants and their history, metrics sharing |
@@ -494,30 +645,68 @@ markup. Each mock comes in light and dark.
 
   The header shows the endpoint state ("On · this Mac only · 2 agents") and
   the egress setting when it is on.
-- In the personal window, the **Agents** entry shows the same summary in one
-  line and opens this panel.
+- This is the agent space's own window, which appears only when you ask for
+  it (*Open agent window*). In your personal window, the **Agents** entry
+  shows the same summary through the link and opens the agent-space list
+  (§5.2).
 
-### 5.2 Agent tabs in your own window (option B, R1)
+### 5.2 The linked view: from your window into the agent space (option B, R1, R3)
 
-![Agent tabs in your window, light](assets/agent-workspace/f-mixed-window-light.png)
-![Agent tabs in your window, dark](assets/agent-workspace/f-mixed-window-dark.png)
+Three moments: you see what agents are doing, you open one tab live, and you
+take over. The rules behind them are in §3.11.
 
-- **One window, several owners.** Your tabs, a tab you handed to one agent
-  and a folder of tabs another agent opened sit side by side. Each agent tab
-  is marked in place:
-  - the agent's badge next to the favicon
-  - a state mark: a ring while it works, amber when it needs you
-  - the identity stripe
-- **Handed tab.** The tab stays where it is. An agent bar on top of the page
-  shows the agent and what it is doing ("Reading the plans table"), with
-  *Stop* (the agent's use ends and the tab is yours again) and *Take over*
-  (§5.7). Selecting the tab is watching it.
-- **Tabs the agent opens** go into a Zen tab folder named after the agent and
-  its task, after the tab you handed over. They use the task's scratch
-  identity, so none of your sign-ins are in them. A sign-in the agent needs
-  there goes through §5.4. Closing the folder ends the agent's use of those
-  tabs.
-- **Your other tabs** are invisible to the agent (§6.3).
+**(f) The indicator in your window.**
+
+![Agent space indicator in your window, light](assets/agent-workspace/f-linked-indicator-light.png)
+![Agent space indicator in your window, dark](assets/agent-workspace/f-linked-indicator-dark.png)
+
+- Your window holds only your tabs. The **Agents** entry at the foot of the
+  sidebar, and its mark in the toolbar, show that the agent space is busy: a
+  ring while agents work, amber with a count when one needs you.
+- Clicking it opens the **agent-space list**, a Lab-kit card anchored to the
+  entry. One row per agent session:
+  - the agent's icon, name and task title
+  - the host and identity of the tab it is working on, and its current
+    action
+  - its state, and *View* (opens the linked view) or, when it waits for you,
+    *Sign in* or *Review grant*
+
+  The header names the place ("Agent space · 3 agents · 5 tabs") and offers
+  *Open agent window*. The list carries hosts, identity names and states,
+  never page content or cookies.
+
+**(i) A live, read-only view open in your window.**
+
+![Linked view open, light](assets/agent-workspace/i-linked-view-light.png)
+![Linked view open, dark](assets/agent-workspace/i-linked-view-dark.png)
+
+- *View* adds an entry under *Agent space · linked* at the end of your
+  sidebar and shows the agent's tab in your content area. The frame around
+  it, the entry's outline and the URL bar's *Agent space* chip use the agent
+  profile's colour, so it never looks like one of your tabs. The identity
+  chip says *as whom* the page runs.
+- The view's bar shows **LIVE**, *Read-only*, the agent and its action, the
+  measured cost of that tab's processes in the agent space, *Close view* and
+  *Take over*. The agent's pointer shows as a ring drawn by the chrome.
+- A second linked view that is not shown stays listed but headless, marked
+  *Headless*. Closing a view removes its entry and returns the tab to
+  headless. The values in the mock are samples.
+
+**(j) Taking over, and handing back.**
+
+![Take over through the linked view, light](assets/agent-workspace/j-linked-takeover-light.png)
+![Take over through the linked view, dark](assets/agent-workspace/j-linked-takeover-dark.png)
+
+- *Take over* is the only way in. The entry's badge turns to *You*, and a
+  notification bar says "You took over from Codex in the agent space, as
+  Client A. Codex can't read or type here. What you sign in to or accept
+  stays in the agent space." with *Close view* and *Give back*.
+- You use the page normally. Your input goes over the link; cookies and
+  storage the page sets go into the agent space's Client A identity, never
+  into your profile.
+- *Give back* returns the tab to the agent and the view to read-only. The
+  15-minute return of §5.7 applies too. The agent's other tabs and every
+  other agent keep working throughout.
 
 ### 5.3 Identities: choose, show, manage (R2)
 
@@ -563,6 +752,7 @@ waiting"). Two identities of the same site are two requests.
 **The prompt does not block.**
 
 - A Lab-kit card appears at the bottom right of the personal window. It
+  arrives through the link (§3.11), from the agent space that raised it. It
   takes no focus and has no modal layer. It shows:
   - the waiting agents' icons
   - *Session expired* or *Sign-in needed*
@@ -575,14 +765,24 @@ waiting"). Two identities of the same site are two requests.
 
 **Signing in.**
 
-- *Sign in* opens a **human-owned** tab in the right profile and identity, at
-  the site's login URL (or the URL the agent hit). In the workspace, the
-  agent window comes forward. In option B, the tab opens in your window.
-- A notification bar says "Sign in as Client B. Agents can't see this tab. 2
+- *Sign in* opens a **human-owned** tab **in the agent space**, in the
+  identity that needs it, at the site's login URL (or the URL the agent hit).
+  That tab shows in your own window as a linked view (§3.11), under *Agent
+  space · linked*, already yours: no *Take over* is needed, because the
+  browser created it for you.
+- **The sign-in happens in the agent space's identity, never in your
+  profile.** The session cookie lands in that identity (Client B in the
+  mock). Your profile gets no cookie, history entry or saved password from
+  it.
+- A notification bar says "Sign in as Client B in the agent space. Agents
+  can't see this tab. The sign-in stays there, not in your profile. 2
   waiting." with *Done* and *Cancel*.
-- The human signs in however they like: typing, their own password manager,
-  a passkey, two-factor. No agent can list, read, screenshot or drive this
-  tab.
+- The human signs in however they like: typing, a passkey, two-factor, or a
+  password from their own password app. The personal profile's password
+  manager does not fill or save here, since the page isn't in that profile.
+  No agent can list, read, screenshot or drive this tab.
+- Before phase 15, and for sites the Mac blocks (§3.5), the same tab opens
+  in the agent space's own window instead. The rules are the same.
 
 **Resuming.**
 
@@ -645,6 +845,10 @@ waiting"). Two identities of the same site are two requests.
 ![Watch live, light](assets/agent-workspace/e-watch-light.png)
 ![Watch live, dark](assets/agent-workspace/e-watch-dark.png)
 
+This mock shows watching in the agent space's own window. Watching from your
+own window is the linked view (§5.2, mock i): the same bar and the same
+rules, plus *Read-only* and the agent-space frame.
+
 - The watched tab shows an eye in the sidebar. The agent bar on the page
   shows:
   - **LIVE**
@@ -661,8 +865,13 @@ waiting"). Two identities of the same site are two requests.
 ![Takeover, light](assets/agent-workspace/d-takeover-light.png)
 ![Takeover, dark](assets/agent-workspace/d-takeover-dark.png)
 
-- **Trigger.** Native human input in the content of an agent-owned tab, or the
-  *Take over* button. Input means keyboard, click, wheel or touch, including
+This mock shows takeover in the agent space's own window. Through a linked
+view in your own window (§5.2, mock j) the effect is the same, but only the
+explicit *Take over* triggers it: input in a read-only linked view reaches
+nothing and takes nothing over (§3.11).
+
+- **Trigger.** In the agent space's own window: native human input in the
+  content of an agent-owned tab, or the *Take over* button. Input means keyboard, click, wheel or touch, including
   input that arrives through screen sharing or a shared keyboard.
   - *Gecko* tells human input from automation in the parent: the BiDi input
     dispatcher marks its own events, while human events arrive from the
@@ -691,8 +900,8 @@ waiting"). Two identities of the same site are two requests.
   - The tab also goes back by itself 15 minutes after the last human input
     (today's pause limit), but never while a password or one-time-code field
     has focus.
-  - Closing the tab ends it too.
-  - In option B, *Stop* ends the agent's use for good.
+  - Closing the tab ends it too. Closing a linked view does not close the
+    tab; it only stops the rendering (§3.11).
   - A tab returned with a different document (the human navigated) gets a
     new document id, so the agent's old `uid`s are stale and it must
     snapshot again.
@@ -738,10 +947,10 @@ The API callers use ("open this URL as identity X") is in §7.4.
 
 ## 6. Agent-safety rules as browser behaviour
 
-These rules apply wherever an agent owns a tab: in the agent profile and, for
-option B, in the personal profile. The personal profile also keeps every P4
-rule (agent-channel-v1 §4), with the single *Allow on this tab until done*
-extension of §3.1.
+These rules apply wherever an agent owns a tab, and that is only ever the
+agent profile. The personal profile holds no agent-owned tab; it keeps every
+P4 rule of agent-channel-v1 §4 unchanged. The link of §3.11 is not an agent
+endpoint and gives agents no access to anything.
 
 ### 6.1 Agents never enter credentials
 
@@ -815,12 +1024,15 @@ Owner checks happen in the parent before any engine call (§3.6). `NOT_OWNER`
 reveals nothing about the other tab, not even whether it exists. These tabs
 are never listed to an agent:
 
-- the human's own tabs, in both profiles
+- human-owned tabs in the agent space, including tabs you took over through
+  a linked view
 - sign-in tabs
 - the probe's and lookup's `system` tabs
 
-`list_pages` counts them only as "tabs you can't see: N". In option B an
-agent sees only the tab you handed it and its own folder.
+`list_pages` counts them only as "tabs you can't see: N". The personal
+profile's tabs are not in the agent space at all, so an agent there cannot
+even count them. Whether a linked view is open is invisible to the agent:
+watching changes nothing it can observe (§3.7).
 
 ### 6.4 The endpoint stays off until Settings, and stays on this Mac
 
@@ -832,13 +1044,17 @@ agent sees only the tab you handed it and its own folder.
 - The fallback resolver child of §3.5 listens on loopback for the CEF host
   only, with a random token, and serves no agent.
 - The workspace tools exist only in a profile whose role is `agent`. The
-  personal endpoint serves P4 and option B only.
+  personal endpoint serves P4 only, unchanged.
+- The link socket of §3.11 is not an agent endpoint. It lives in the agent
+  profile with the same 0600/0700 rules, has no TCP listener, and accepts
+  only the personal instance of the same signed app and user. A process that
+  fails that check gets nothing, not even the summary.
 
 ### 6.5 Identities agents may use
 
-- In the workspace, an agent may use identities whose *Agents* switch is on,
-  plus its own scratch identities. In option B, it may use only the
-  identity of the tab you handed it and its task's scratch identity.
+- An agent may use the agent space's identities whose *Agents* switch is on,
+  plus its own scratch identities. It can never use an identity of the
+  personal profile, because those don't exist in the agent space.
   - Any other identity named in a call fails with `IDENTITY_NOT_ALLOWED`.
   - `list_identities` shows only the allowed ones, with key, name, sites
     and sign-in state.
@@ -957,7 +1173,10 @@ site. A caller such as an automation dashboard gets:
   - `profile` is `personal` (default) or `agent`. An alias is unique within
     a profile.
   - The tab opens in the profile that holds the identity, owned by the
-    human, in front only if that profile's window is in front.
+    human, in front only if that profile's window is in front. A tab opened
+    in the agent space shows in your window as a linked view (§3.11), and it
+    is already yours, so you can use it without *Take over*. Its cookies
+    stay in the agent space.
   - `links.map {pattern, alias}` registers a mapping (§5.8 step 2) and
     waits for the human's confirmation.
 - **CLI** `axiosozo-agent open --as <alias|key> [--profile personal|agent] <url>`
@@ -987,7 +1206,7 @@ entry**: the workspace bridge runs as a router.
   started on the legacy browser stays there until its pages are closed or the
   session ends.
 - Every result says which backend served it (`_meta.backend`), and the
-  metrics of §3.10 count fallback calls. Phase 16 uses that count as its exit
+  metrics of §3.10 count fallback calls. Phase 18 uses that count as its exit
   check.
 - **On the legacy backend:**
   - `request_human_login` answers with text telling the agent to ask the
@@ -999,7 +1218,7 @@ entry**: the workspace bridge runs as a router.
   - `links.open` and its CLI need a running AxioSozo browser. Without one,
     the CLI says so and opens nothing.
 - With neither backend available: `UNAVAILABLE: no agent browser is running`.
-- **The legacy agent Chrome is retired only in the final phase (17), never
+- **The legacy agent Chrome is retired only in the final phase (19), never
   earlier.**
 
 ## 9. Phases
@@ -1007,7 +1226,8 @@ entry**: the workspace bridge runs as a router.
 Each phase is one task. It ends with its own check, and with real macOS E1/E2
 where an engine path is involved. Nothing is called READY without real macOS
 E1/E2 (AGENTS.md). The legacy agent Chrome keeps running alongside until
-phase 17.
+phase 19. Phases 1–12 build the agent space (A); phases 13–15 build the linked
+view from your window (B) on top of it.
 
 | # | Phase | Acceptance check | E1/E2 relevance |
 | --- | --- | --- | --- |
@@ -1019,15 +1239,17 @@ phase 17.
 | 6 | **Headless agent tabs, the agents sidebar, watch and takeover (Gecko)** (§3.7, §5.1, §5.6, §5.7). Inactive agent tabs, the background-throttling exemption, owner groups, badges, the Agents panel, *Watch* with the measured resource note, takeover with the first input withheld, *Give back*, the 15-minute return. | Unwatched agent tabs paint no frames (paint counter stays flat) while BiDi calls and screenshots work. Native input on an agent tab gives `HUMAN_IN_CONTROL`, the first event does not reach the page, and synthetic BiDi input does not take over. Screenshots match mocks (a), (d) and (e) in light and dark. | Gecko only. |
 | 7 | **Identities in Gecko** (§3.4, §5.3). `identities.json`, keys and aliases, the choosing order, scratch identities, the Identities page, the *Agents* switch, sign out and remove. | Unit tests: the choosing order (call, opener, rule, agent default, site default, `IDENTITY_REQUIRED`); `IDENTITY_NOT_ALLOWED`; a loaded tab never changes identity; remove deletes data and rules. A native fixture run: five identities of one fixture site hold five different session cookies at once. Screenshots match mock (g). | None (Gecko only). |
 | 8 | **Identities in Chromium.** One CEF request context per identity with its own `cache_path` (workstation-v1 §3), created lazily, released when unused, deleted on remove; the egress rule on each. | Host tests with real CEF on the loopback fixture: two identities' Chromium tabs hold different cookies at once; no shared-jar fallback exists; remove deletes the directory. | **High.** E1: Chromium tabs of two identities render side by side in Zen. E2: after a host crash every tab recovers in its own identity, never in another. |
-| 9 | **Sign-in prompt and status per identity** (§5.4, §5.5, §7.2). Detection mid-task, one request per profile, identity and site, the non-blocking card, the sign-in tab, return URLs, *Later*/decline/expiry, notification limits, the probe per identity, `status.read`, the CLI. | State machine tests: an unknown result never counts as signed in; two agents share one request; *Later* suppresses cards for an hour; agents resume after *Done* without any restart; sign-in and probe tabs are invisible to agents. Screenshots match mocks (b) and (c). | E1: a sign-in in a Chromium tab of the right identity (if a site's engine preference is Chromium). |
+| 9 | **Sign-in prompt and status per identity** (§5.4, §5.5, §7.2). Detection mid-task, one request per profile, identity and site, the non-blocking card, the sign-in tab, return URLs, *Later*/decline/expiry, notification limits, the probe per identity, `status.read`, the CLI. | State machine tests: an unknown result never counts as signed in; two agents share one request; *Later* suppresses cards for an hour; agents resume after *Done* without any restart; sign-in and probe tabs are invisible to agents. Screenshots match mock (c) and the card of mock (b); until phase 15 the sign-in tab opens in the agent space's own window, after it as a linked view. | E1: a sign-in in a Chromium tab of the right identity (if a site's engine preference is Chromium). |
 | 10 | **Action grants** (§6.2). `action-rules.json`, the grant UI, both enforcement layers in both engines, per identity. | On a fixture "social" site, an unauthorised post is blocked before dispatch and at the network, in Gecko and Chromium. A grant of one allows exactly one. An unknown write is held as `post`. | E1 for Chromium (request handler in the host). E2: a host crash with a held request never lets it through. |
 | 11 | **Chromium tool parity, watch and takeover on Chromium.** cef-v1 `devtools.*` messages and the method allowlist; every tool of §7.1 on Chromium tabs, including trace, audit, heap snapshot and screencast; hidden targets produce no frames; takeover through `CEFPresenter`. | Host tests with real CEF on fixtures; the allowlist refuses everything else. No port is opened (checked with the system's open-socket listing). A hidden Chromium agent tab sends no frames and still answers `take_screenshot`. | **High.** E1: tools work while the tab renders in Zen; watching attaches and detaches the frame stream. E2: a host kill during a call gives `UNAVAILABLE`, the tab recovers (the Chromium-stopped panel or Gecko), and nothing is replayed. |
 | 12 | **Account-aware links** (§5.8, §7.4). `links.open`, `links.map`, caller registration, aliases, link rules, opt-in lookup, the chooser, the CLI, the in-page attribute on granted origins. | Unit tests: alias and rule resolution; lookup off by default, stops at the first match, never runs for an unregistered caller; no match gives the chooser or `IDENTITY_REQUIRED`; an unregistered caller is refused. A native fixture run: the CLI opens one URL in identity X while identity Y holds a different session. Screenshot matches mock (h). | E1: when the site prefers Chromium, the tab opens in the identity's request context. |
-| 13 | **Agent tabs in your window (option B)** (§3.1, §5.2). Owner field in the personal registry, *Let … use this tab*, the agent bar, folders, scratch identity per task, *Allow on this tab until done* (agent-channel-v1 §4.2 change, integration lead). | Fake-channel and fixture tests: an agent in B never lists or reads a human tab; its scratch identity holds none of the human's cookies and is deleted with the session; *Stop* and a dropped session return the tab. Screenshots match mock (f). | E1: a handed Chromium tab is driven through CEF in place. E2: a host crash with a handed tab returns it to the human. |
-| 14 | **Assistant attach** (§7.3). Codex config through MCP; the Gecko extension path if a build exists. | The assistant lists and drives its own pages in the agent profile. | None (Gecko) unless the extension uses Chromium tabs. |
-| 15 | **Login item, metrics and two Macs** (§3.9, §3.10). Registration, crash restart, accessory mode, the metrics file, install notes for a second Mac. | Killing the instance brings it back. Metrics hold no URLs or identities (test). A second Mac's setup needs no root step. | E2: a restart after a crash restores endpoint state and parks tabs correctly. |
-| 16 | **Consumers switch, shadow period.** Agents' MCP entries point at the router. The marketing table reads `status.read`/CLI. Dashboards call `links.open`. | The router metrics show no fallback calls for 7 days while the agent workspace runs. Every inventory item A1–A12 and requirement R1–R5 is checked against §2 on the real Mac. | Real macOS E1/E2 for Chromium in the agent profile must pass before phase 17. |
-| 17 | **Retire the legacy agent Chrome.** Remove `--fallback-command` from configs. The owner removes the old login items, proxy, policy and profile outside this repo. Agents' instructions drop the legacy sign-in helper. | Phases 1–16 accepted. Real macOS E1/E2 passed. No fallback call in the shadow period. | Final gate: no READY claim without real macOS E1/E2. |
+| 13 | **The link and the indicator (option B)** (§3.11, §5.2 mock f). The link socket in the agent profile with the peer check (same user, same signed app), the `agent-link-v1` contract (integration lead), the summary into your window, the **Agents** entry and toolbar mark, the agent-space list with still previews on request, sign-in and grant cards arriving through the link, *Send to agent space*, the hosts-blocked marking (§3.5). | Fake-link tests: the summary carries no URL beyond the host, no page content and no cookie; a peer with another user id or code signature gets nothing; turning the Settings switch off removes the entry. A native run: after a session of agent work, the personal profile's cookie store, history and session store hold nothing from the agent space. Screenshots match mock (f) in light and dark. | None (no frames yet). |
+| 14 | **Live linked view, read-only** (§3.11, §5.2 mock i). Frames of one agent tab into your window: Chromium tabs by relaying the agent CEF host's surfaces, Gecko tabs by the path phase 14 settles (§10); the forwarded accessibility tree; *Agent space · linked* entries; render only while shown; the detach rules; **LIVE**, *Read-only* and the measured cost; the blocked-site default; the fallback to the agent window. | A closed or hidden linked view sends no frames and the agent tab paints none (paint counter flat), while BiDi calls go on. No click, key, wheel or drop in a read-only view reaches the page (fixture page counts events). A linked view writes no history, session-restore, cache or cookie entry into the personal profile. A screen reader reads the view's text. Screenshots match mock (i). | **High.** E1: a Chromium agent tab shows live in the personal window through the relay, and a Gecko agent tab too. E2: killing the agent instance or its CEF host while viewing shows "The agent space stopped" in the view, the personal window keeps working, and nothing is replayed. |
+| 15 | **Take over, hand back and sign in through the link** (§3.11, §5.2 mock j, §5.4 mock b). Explicit *Take over*, input forwarded as native input, *Give back*, the 15-minute return, *Close view* while held, the sign-in tab opened as a linked view, `links.open` agent-space tabs shown linked. | Fixture tests: only the explicit action takes over; the agent gets `HUMAN_IN_CONTROL` and its other tabs keep working; after a fixture sign-in through a linked view, the session cookie exists in the agent-space identity and in no personal identity; *Give back* and a dropped link return the tab. Screenshots match mocks (j) and (b). | E1: typing into a Chromium agent tab through the linked view reaches the page in the agent space. E2: a host crash while you hold a tab returns the view to "stopped" and never delivers your input to another tab. |
+| 16 | **Assistant attach** (§7.3). Codex config through MCP; the Gecko extension path if a build exists. | The assistant lists and drives its own pages in the agent profile. | None (Gecko) unless the extension uses Chromium tabs. |
+| 17 | **Login item, metrics and two Macs** (§3.9, §3.10). Registration, crash restart, accessory mode, the metrics file, install notes for a second Mac. | Killing the instance brings it back. Metrics hold no URLs or identities (test). A second Mac's setup needs no root step. | E2: a restart after a crash restores endpoint state and parks tabs correctly. |
+| 18 | **Consumers switch, shadow period.** Agents' MCP entries point at the router. The marketing table reads `status.read`/CLI. Dashboards call `links.open`. | The router metrics show no fallback calls for 7 days while the agent workspace runs. Every inventory item A1–A12 and requirement R1–R5 is checked against §2 on the real Mac. | Real macOS E1/E2 for Chromium in the agent profile must pass before phase 19. |
+| 19 | **Retire the legacy agent Chrome.** Remove `--fallback-command` from configs. The owner removes the old login items, proxy, policy and profile outside this repo. Agents' instructions drop the legacy sign-in helper. | Phases 1–18 accepted. Real macOS E1/E2 passed. No fallback call in the shadow period. | Final gate: no READY claim without real macOS E1/E2. |
 
 ## 10. Open questions and risks
 
@@ -1046,10 +1268,31 @@ phase 17.
   and its own cookie store. Lazily created contexts limit this. A cap per
   profile, if one is needed, is set from measurements in phase 8, not
   guessed here.
-- **Option B's *Allow on this tab until done*** relaxes P4's per-action
-  confirmation for one handed tab. That is the owner's product decision, and
-  the change to agent-channel-v1 belongs to the integration lead. Phase 13 does
-  not start without it.
+- **Gecko frames across instances** (§3.11): Chromium agent tabs already
+  produce IOSurfaces, which the agent instance can relay to your browser.
+  For a Gecko agent tab, the agent instance must composite that one tab into
+  a surface it can hand over, without a window on screen. Whether the pinned
+  Gecko can do that without a patch decides phase 14's Gecko half. Until it
+  can, *View* on a Gecko tab falls back to the agent window (§3.11).
+- **The link contract** (`agent-link-v1`, §3.11) is a new shared contract,
+  including how surfaces are relayed a second hop (engine-surface-v1 today
+  accepts only the host its receiver spawned). It belongs to the integration
+  lead. Phase 13 does not start without it.
+- **OS sheets during takeover or sign-in** (§3.11, §5.4): a passkey,
+  WebAuthn or file-picker sheet raised by a page in the agent space comes
+  from the agent instance, which has no window behind a linked view. Whether
+  such a sheet can attach to your window, or must bring the agent window
+  forward, is to be checked in phase 15. Until then, those pages offer *Open
+  in agent window*.
+- **Blocked sites in linked views** (§3.5): hiding frames of hosts the Mac
+  blocks is the default here. Whether to offer the *Show blocked sites in
+  linked views* switch at all is the owner's choice.
+- **P4 in the personal profile** (§3.1): P4's `tabs.open` still opens
+  background tabs in your own profile on an agent's request, per
+  agent-channel-v1 §4. With agents now always working in their own space,
+  whether P4 should keep that, move to *Send to agent space*, or stay as is
+  is the owner's and the integration lead's decision. This design does not
+  change it.
 - **Lookup** (§5.8) sends a request as each identity. It stays opt-in per
   site. Whether to offer it at all is the owner's choice. Rules and aliases
   cover the common case without it.
@@ -1061,7 +1304,7 @@ phase 17.
   so a stale rule over-blocks and never under-blocks, but the human then sees
   more prompts. The rules file is editable and versioned.
 - **Lifted gates**: capture and act stay literal `false` in the personal
-  profile until option B's phase. The agent role needs its own
-  ordinary-profile evidence before its gates open (phase 5). That evidence is
-  for the agent role only, and the personal profile's gates move only in
-  phase 13 with their own evidence.
+  profile; this design never lifts them there, because the linked view needs
+  no capture or act in your profile (its frames come from the agent space).
+  The agent role needs its own ordinary-profile evidence before its gates
+  open (phase 5), and that evidence is for the agent role only.
