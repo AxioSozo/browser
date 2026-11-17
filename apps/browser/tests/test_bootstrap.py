@@ -61,6 +61,38 @@ class BootstrapTests(unittest.TestCase):
                 zen.zen_import.prepare(stage, build, env, post)
             self.assertEqual(target.read_text(), 'user edit must survive\n')
 
+    def test_ffprefs_include_is_the_only_accepted_pre_import_change(self):
+        relative = zen.zen_import.FFPREFS_TARGET
+        with tempfile.TemporaryDirectory(prefix='axiosozo-ffprefs-test-') as directory:
+            build = Path(directory)
+            stage = build / 'source'
+            engine = stage / 'engine'
+            target = engine / relative
+            target.parent.mkdir(parents=True)
+            (stage / 'src').mkdir()
+            env = zen.zen_toolchain.environment()
+            subprocess.run(['git', 'init', '-q'], cwd=engine, env=env, check=True, capture_output=True)
+            pristine = 'pref("a", true);\npref("b", true);\npref("c", true);\n'
+            target.write_text(pristine)
+            subprocess.run(['git', 'add', relative], cwd=engine, env=env, check=True)
+            subprocess.run(['git', '-c', 'user.name=Fixture', '-c', 'user.email=fixture@invalid',
+                            '-c', 'core.hooksPath=/dev/null', '-c', 'commit.gpgsign=false',
+                            'commit', '-qm', 'synthetic pristine source'], cwd=engine, env=env, check=True)
+            (stage / 'src/arc.patch').write_text(
+                f'diff --git a/{relative} b/{relative}\n--- a/{relative}\n+++ b/{relative}\n'
+                '@@ -1,3 +1,4 @@\n pref("a", true);\n pref("b", true);\n+pref("arc", true);\n pref("c", true);\n')
+            # Exactly what ffprefs leaves before `surfer import`: the import is still needed.
+            target.write_text(pristine + '\n#include zen.js\n')
+            _, expected, needs_import = zen.zen_import.prepare(stage, build, env)
+            self.assertTrue(needs_import)
+            imported = 'pref("a", true);\npref("b", true);\npref("arc", true);\npref("c", true);\n\n#include zen.js\n'
+            self.assertEqual(expected[relative], hashlib.sha256(imported.encode()).hexdigest())
+            for edited in (pristine + '\n#include other.js\n', pristine + '\n#include zen.js\npref("x", 1);\n'):
+                target.write_text(edited)
+                with self.assertRaisesRegex(RuntimeError, 'PARTIAL_OR_MODIFIED_IMPORT'):
+                    zen.zen_import.prepare(stage, build, env)
+            self.assertFalse((build / 'zen-import.json').exists())
+
     def test_signed_search_dump_restore_accepts_only_pinned_zen_transform(self):
         relative = 'services/settings/dumps/main/search-config-v2.json'
         with tempfile.TemporaryDirectory(prefix='axiosozo-signed-dump-') as directory:

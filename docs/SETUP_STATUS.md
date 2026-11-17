@@ -123,7 +123,7 @@ synthetic add/read/replace/delete/lock; production Jev key input remains disable
 | --- | --- | --- |
 | macOS Apple Silicon access | PASS | macOS 26.6.2 arm64, 16 GiB RAM; project APFS build image on T9, `evidence/storage-project-ready.log` |
 | Pinned source provenance | PASS | Zen/Firefox/Surfer/CEF/T3 revisions and hashes in root lock and provenance |
-| Upstream security-update review | EXPERIMENTAL | Current Zen pin selects Firefox 156.0; Surfer reported upstream 156.0.1 during build. No silent pin change; review/rebuild required before calling this a current daily release. `docs/zen-notes.md` |
+| Upstream security-update review | EXPERIMENTAL | Zen 1.24.2b selects Firefox 160.0, the current Mozilla release on 17 November 2026 (fixes through MFSA 2026-125); CEF 156.0.30. Rebuilt and smoke-launched headless; real macOS E1/E2 not rerun, so not a daily release yet. `docs/zen-notes.md` |
 | Clean full native reconstruction | PASS | Pinned source and audited two-job toolchain built an arm64 app; exact logs/exit codes in `evidence/zen-native-build-log-index.json`, `evidence/root-setup-stale-target-20260923.json` |
 | Root `./dev check` | PASS | Latest full exit0 after principal-transition fix: `evidence/root-check-principal-transition-20260923.json` |
 | Root `./dev test` | PASS | Latest full exit0 after principal-transition fix, including real CEF stream: `evidence/root-test-principal-transition-20260923.json` |

@@ -110,8 +110,8 @@ jobs:
         id: firefox-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: ${{ env.AXIOSOZO_BUILD_ROOT }}/zen/firefox-156.0.source.tar.xz
-          key: firefox-source-156.0-${{ hashFiles('upstreams.lock.json') }}
+          path: ${{ env.AXIOSOZO_BUILD_ROOT }}/zen/firefox-160.0.source.tar.xz
+          key: firefox-source-160.0-${{ hashFiles('upstreams.lock.json') }}
 
       - name: Restore sccache
         id: sccache-restore
@@ -176,7 +176,7 @@ jobs:
           PY
           du -sh "$AXIOSOZO_BUILD_ROOT"/* "$AXIOSOZO_BUILD_ROOT"/caches/* 2>/dev/null | tee "$EVIDENCE_OUT/disk-usage.txt" || true
           df -h >> "$EVIDENCE_OUT/disk-usage.txt"
-          [ -f "$AXIOSOZO_BUILD_ROOT/zen/firefox-156.0.source.tar.xz" ] && echo "FIREFOX_ARCHIVE_PRESENT=1" >> "$GITHUB_ENV" || true
+          [ -f "$AXIOSOZO_BUILD_ROOT/zen/firefox-160.0.source.tar.xz" ] && echo "FIREFOX_ARCHIVE_PRESENT=1" >> "$GITHUB_ENV" || true
           cat "$EVIDENCE_OUT/build-stats.json"
 
       - name: Save sccache
@@ -199,8 +199,8 @@ jobs:
         if: always() && steps.firefox-cache.outputs.cache-hit != 'true' && env.FIREFOX_ARCHIVE_PRESENT == '1'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: ${{ env.AXIOSOZO_BUILD_ROOT }}/zen/firefox-156.0.source.tar.xz
-          key: firefox-source-156.0-${{ hashFiles('upstreams.lock.json') }}
+          path: ${{ env.AXIOSOZO_BUILD_ROOT }}/zen/firefox-160.0.source.tar.xz
+          key: firefox-source-160.0-${{ hashFiles('upstreams.lock.json') }}
         continue-on-error: true
 
       - name: Package (mach package + axiosozo-build-info.json)

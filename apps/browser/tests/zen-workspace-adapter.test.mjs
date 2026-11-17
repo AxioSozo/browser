@@ -245,6 +245,11 @@ test("menu target mirrors Zen: clicked space icon, else the active space", () =>
   assert.equal(adapter.workspaceForMenuEvent({ explicitOriginalTarget: { closest: () => button } }), B);
   const stranger = { getAttribute: () => "44444444-4444-4444-8444-444444444444" };
   assert.equal(adapter.workspaceForMenuEvent({ explicitOriginalTarget: { closest: () => stranger } }), A);
+  // Zen 1.24: the popup's anchor wins over the original click target.
+  assert.equal(adapter.workspaceForMenuEvent({ target: { anchorNode: { closest: () => button } },
+                                               explicitOriginalTarget: { closest: () => stranger } }), B);
+  assert.equal(adapter.workspaceForMenuEvent({ target: { anchorNode: null },
+                                               explicitOriginalTarget: { closest: () => button } }), B);
   assert.equal(adapter.workspaceForMenuEvent({}), A);
   f.window.elements[B] = { localName: "zen-workspace" };
   assert.equal(adapter.workspaceElement(B).localName, "zen-workspace");

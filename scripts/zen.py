@@ -28,10 +28,10 @@ STAGE = BUILD / 'source'
 OBJECT = BUILD / 'obj'
 EXTERNAL = '/Users/wout/.local/bin/dev-external'
 MOUNT = '/Users/wout/.local/bin/mount-dev-storage'
-ZEN_SHA = '541ee55196395ee8082862b83c84c90ab41d9f6d'
-FIREFOX_REVISION = '48a735cc74a7e6d730f9bf59c3de58f750287a23'
-FIREFOX_SHA512 = 'a5cc16a63f4b43f01bc26e2feb12e54e5281aebdc81775cbc0e8d77dd5ceefa5055e78d2a6ad54895c397d414d1fac13d49ddf28099f534269a6a166dedafa5e'
-FIREFOX_VERSION = '158.0.1'
+ZEN_SHA = '0057b295aee4a1ff00e0bd24e1150b7bc1a28503'
+FIREFOX_REVISION = 'd84e7a6936554efe26097d9d9b24a0e11330e630'
+FIREFOX_SHA512 = '9209a62de1ee83fe05750b77a439dc89280ebf738b5257d84af1a1faf2f4bbf505558feac126e71033c8de1a48265717c0341af4e855134e59d1b4b5b9dd820f'
+FIREFOX_VERSION = '160.0'
 FIREFOX_URL = f'https://archive.mozilla.org/pub/firefox/candidates/{FIREFOX_VERSION}-candidates/build1/source/firefox-{FIREFOX_VERSION}.source.tar.xz'
 BUNDLE_ID = 'nl.axiosozo.browser.dev'
 LINUX = storage.LINUX
@@ -761,7 +761,7 @@ def setup(build_native=True):
         zen_import.finish(STAGE, BUILD, import_key, imported_files)
     zen_import.refresh_links(STAGE)
     installed_locales = zen_import.install_zen_locales(STAGE)
-    print(f'PASS: verified 14 Zen en-US Fluent files ({installed_locales} installed)', flush=True)
+    print(f'PASS: verified 16 Zen en-US Fluent files ({installed_locales} installed)', flush=True)
     apply_records(engine, native_patches)
     run_command(['npm', 'run', 'surfer', '--', 'config', 'brand', 'axiosozo-dev'], env=env)
     run_command(['npm', 'run', 'surfer', '--', 'config', 'buildMode', 'dev'], env=env)

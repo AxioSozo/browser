@@ -34,7 +34,7 @@ export const ZEN_ADAPTER_CONTRACT = Object.freeze([
   { name: "event ZenWorkspacesUIUpdate", source: SPACES, needle: "new CustomEvent(\"ZenWorkspacesUIUpdate\"" },
   { name: "tab attribute zen-workspace-id", source: SPACES, needle: "tab.getAttribute(\"zen-workspace-id\")" },
   { name: "tab attribute zen-essential", source: SPACES, needle: "tab.getAttribute(\"zen-essential\") === \"true\"" },
-  { name: "menu target toolbarbutton[zen-workspace-id]", source: SPACES, needle: "event.explicitOriginalTarget?.closest(\"toolbarbutton\")" },
+  { name: "menu target toolbarbutton[zen-workspace-id]", source: SPACES, needle: "target = (\n        event.target.anchorNode || event.explicitOriginalTarget\n      )?.closest(\"toolbarbutton\");" },
   { name: "popup #zenWorkspaceMoreActions", source: POPUPS, needle: "<menupopup id=\"zenWorkspaceMoreActions\">" },
   { name: "menu #context_zenWorkspacesOpenInContainerTab", source: POPUPS, needle: "<menu id=\"context_zenWorkspacesOpenInContainerTab\"" },
   { name: "window.gZenStartup", source: "src/zen/common/modules/ZenStartup.mjs", needle: "window.gZenStartup = new ZenStartup();" },
@@ -295,7 +295,8 @@ export class ZenWorkspaceAdapter {
   workspaceForMenuEvent(event) {
     let target = null;
     try {
-      target = event?.explicitOriginalTarget?.closest?.("toolbarbutton")
+      // Zen 1.24: the popup's anchor (the space icon it was opened on) comes first.
+      target = (event?.target?.anchorNode || event?.explicitOriginalTarget)?.closest?.("toolbarbutton")
         ?? event?.target?.triggerNode?.closest?.("toolbarbutton") ?? null;
     } catch {}
     const uuid = target?.getAttribute?.("zen-workspace-id");

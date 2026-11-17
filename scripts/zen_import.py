@@ -48,7 +48,7 @@ def restore_signed_search_dump(engine, record, env=None):
     return True
 
 
-def install_zen_locales(stage, expected_count=14):
+def install_zen_locales(stage, expected_count=16):
     """Install pinned en-US Zen Fluent files without deleting existing data.
 
     Subfolders count: about:preferences links the required
@@ -170,11 +170,26 @@ def normalized_hashes(engine, files, expected, post_import):
     return actual
 
 
+# Zen's `npm run import` runs ffprefs before `surfer import`; ffprefs appends this
+# exact line to Firefox's default prefs (tools/ffprefs prepare_zen_prefs). Since
+# Zen 1.24 a Zen patch (arc_browser_migrator) also targets that file, so the
+# pre-import baseline of firefox.js is Mozilla's bytes plus only this line.
+FFPREFS_TARGET = 'browser/app/profile/firefox.js'
+FFPREFS_LINE = b'#include zen.js'
+
+
+def ffprefs_baseline(relative, content):
+    """The reviewed ffprefs pre-import transformation of a pristine blob (else unchanged)."""
+    if relative != FFPREFS_TARGET or content is None or FFPREFS_LINE in content:
+        return content
+    return content + b'\n' + FFPREFS_LINE + b'\n'
+
+
 def prepare(stage, build, env, post_import=()):
     """Return expected hashes and whether the stage still needs its first import.
 
     Every initial import is checked against an independent reconstruction of only
-    its 266 target files. A failed/partial import is never automatically reset.
+    its target files (294 for Zen 1.24.2b). A failed/partial import is never automatically reset.
     """
     engine = stage / 'engine'
     patches, files, inputs = patch_inputs(stage)
@@ -206,7 +221,7 @@ def prepare(stage, build, env, post_import=()):
                 if len(header) != 3 or header[1] != b'blob':
                     raise RuntimeError('UNEXPECTED_BASELINE_OBJECT: ' + relative)
                 length = int(header[2])
-                content = result.stdout[offset:offset + length]
+                content = ffprefs_baseline(relative, result.stdout[offset:offset + length])
                 offset += length + 1
                 destination = scratch / relative
                 destination.parent.mkdir(parents=True, exist_ok=True)

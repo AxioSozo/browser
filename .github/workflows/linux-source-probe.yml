@@ -36,8 +36,8 @@ jobs:
         id: firefox-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
-          path: ${{ env.SRC }}/firefox-156.0.source.tar.xz
-          key: firefox-source-156.0-${{ hashFiles('upstreams.lock.json') }}
+          path: ${{ env.SRC }}/firefox-160.0.source.tar.xz
+          key: firefox-source-160.0-${{ hashFiles('upstreams.lock.json') }}
 
       - name: Fetch and verify the pinned sources
         run: |
@@ -45,7 +45,7 @@ jobs:
           mkdir -p "$OUT" "$SRC"
           url=$(jq -r .firefox.source_url upstreams.lock.json)
           sha=$(jq -r .firefox.sha512 upstreams.lock.json)
-          tarball="$SRC/firefox-156.0.source.tar.xz"
+          tarball="$SRC/firefox-160.0.source.tar.xz"
           [ -f "$tarball" ] || curl -fsSL --retry 3 -o "$tarball" "$url"
           echo "$sha  $tarball" | sha512sum -c - | tee "$OUT/verify.txt"
           mkdir -p "$SRC/ff"
@@ -80,7 +80,7 @@ jobs:
           mkdir -p "$OUT/patched"
           grep '^patched|' scripts/source_probe.txt | cut -d'|' -f2 > "$SRC/wanted.txt"
           [ -s "$SRC/wanted.txt" ] || exit 0
-          tar -xJf "$SRC/firefox-156.0.source.tar.xz" -C "$SRC/ff" --strip-components=1 --wildcards $(sed 's|^|*/|' "$SRC/wanted.txt")
+          tar -xJf "$SRC/firefox-160.0.source.tar.xz" -C "$SRC/ff" --strip-components=1 --wildcards $(sed 's|^|*/|' "$SRC/wanted.txt")
           includes=$(sed 's|^|--include=|' "$SRC/wanted.txt")
           find "$SRC/zen/src" -name '*.patch' | sort | while read -r patch; do
             git -C "$SRC/ff" apply --ignore-space-change --ignore-whitespace $includes "$patch" 2>>"$OUT/patched/apply-errors.txt" \

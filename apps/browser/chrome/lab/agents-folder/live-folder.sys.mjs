@@ -65,7 +65,7 @@ export const ZEN_TOUCHPOINTS = Object.freeze([
   { name: "live folder option", source: "src/zen/folders/ZenFolders.mjs", needle: "folder.isLiveFolder = options.isLiveFolder;" },
   { name: "folder icon", source: "src/zen/folders/ZenFolders.mjs", needle: "setFolderUserIcon(group, icon) {" },
   { name: "folders of all spaces", source: "src/zen/spaces/ZenSpaceManager.mjs", needle: "get allTabGroups() {" },
-  { name: "sublabel label", source: "src/browser/components/tabbrowser/content/tab-js.patch", needle: "class=\"zen-tab-sublabel\"" },
+  { name: "sublabel label", source: "src/browser/components/tabbrowser/content/tab-mjs.patch", needle: "class=\"zen-tab-sublabel\"" },
   { name: "sublabel text", source: "locales/en-US/browser/browser/zen-vertical-tabs.ftl", needle: "*[other] { $tabSubtitle }" },
   { name: "terminal icon", source: "src/browser/themes/shared/zen-icons/jar.inc.mn", needle: "skin/classic/browser/zen-icons/selectable/terminal.svg" },
 ]);

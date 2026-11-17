@@ -21,7 +21,7 @@ const { createStartPageGate, START_PAGE_URL, START_PAGE_PREF, AxioSozoServices }
 const { ZenWorkspaceAdapter } = await import("../chrome/ZenWorkspaceAdapter.sys.mjs");
 
 const TARGET = "src/browser/base/content/browser-commands-js.patch";
-const BEFORE = "16651739183379aca7213be3e7dbebc33f3f1b8f31aba29b790a1bfec1dcc631";
+const BEFORE = "f5e8a30bb8181e3107236c3b27f17c3d514e225a3c843a5c2f0e12ef9ca535a9";
 const overlay = JSON.parse(readFileSync(new URL("../../../patches/zen/overlay.json", import.meta.url), "utf8"));
 const sha256 = text => createHash("sha256").update(text, "utf8").digest("hex");
 const UPSTREAM = new URL(`../../../upstream/zen/${TARGET}`, import.meta.url);
@@ -29,7 +29,7 @@ const UPSTREAM = new URL(`../../../upstream/zen/${TARGET}`, import.meta.url);
 // The pinned upstream file, byte for byte (its sha256 is BEFORE).
 const ORIGINAL = [
   "diff --git a/browser/base/content/browser-commands.js b/browser/base/content/browser-commands.js",
-  "index 757c5b16612c96f327798f9e47c83144668074f0..1a10a321ee05f2ec84f33f087d8c0e43035fc18b 100644",
+  "index 757c5b16612c96f327798f9e47c83144668074f0..1b843dc5aeb942e4d108110b18e67fdd2cec6f0d 100644",
   "--- a/browser/base/content/browser-commands.js",
   "+++ b/browser/base/content/browser-commands.js",
   "@@ -13,6 +13,10 @@ var BrowserCommands = {",
@@ -43,7 +43,15 @@ const ORIGINAL = [
   "       try {",
   "         gBrowser.goBack();",
   "       } catch (ex) {}",
-  "@@ -252,6 +256,10 @@ var BrowserCommands = {",
+  "@@ -232,6 +236,7 @@ var BrowserCommands = {",
+  "       event?.button == 1 &&",
+  "       Services.prefs.getBoolPref(\"middlemouse.paste\") &&",
+  "       gMiddleClickNewTabUsesPasteboard;",
+  "+    searchClipboard ||= gZenUIManager.newTabButtonWantsClipboard(event);",
+  " ",
+  "     let relatedToCurrent = false;",
+  "     let where = \"tab\";",
+  "@@ -252,6 +257,10 @@ var BrowserCommands = {",
   "       }",
   "     }",
   " ",
@@ -54,7 +62,7 @@ const ORIGINAL = [
   "     // A notification intended to be useful for modular peformance tracking",
   "     // starting as close as is reasonably possible to the time when the user",
   "     // expressed the intent to open a new tab.  Since there are a lot of",
-  "@@ -374,6 +382,14 @@ var BrowserCommands = {",
+  "@@ -374,6 +383,14 @@ var BrowserCommands = {",
   "       return;",
   "     }",
   " ",
@@ -73,11 +81,11 @@ const ORIGINAL = [
 ].join("\n");
 
 // The native BrowserCommands.openTab as Zen's patch leaves it, byte for byte
-// (engine/browser/base/content/browser-commands.js lines 232-294 of the pinned
+// (engine/browser/base/content/browser-commands.js lines 232-295 of the pinned
 // source whose sha256 is NATIVE.sha256).
 const NATIVE = {
   path: "/Volumes/AxioSozoBuild/workstation/zen/source/engine/browser/base/content/browser-commands.js",
-  sha256: "eb16be6fbcdc7706edae8697e2e2c71518eef0f604e970ccb055bc9e7b2985f9",
+  sha256: "e7f5c3a5781d91619181abf810056f119eca6f79a69489e908abac05b180fb2a",
 };
 const NATIVE_OPEN_TAB = [
   "  openTab({ event, url } = {}) {",
@@ -87,6 +95,7 @@ const NATIVE_OPEN_TAB = [
   "      event?.button == 1 &&",
   "      Services.prefs.getBoolPref(\"middlemouse.paste\") &&",
   "      gMiddleClickNewTabUsesPasteboard;",
+  "    searchClipboard ||= gZenUIManager.newTabButtonWantsClipboard(event);",
   "",
   "    let relatedToCurrent = false;",
   "    let where = \"tab\";",
@@ -197,8 +206,8 @@ test("overlay: applying gives exactly the pinned result, reverting gives the ori
   assert.equal(revert(after, record()), ORIGINAL);
   const before = ORIGINAL.split("\n"), lines = after.split("\n");
   assert.equal(lines.length - before.length, 13, "13 added lines, all inside the openTab hunk");
-  assert.deepEqual(lines.filter(line => line.startsWith("@@")), ["@@ -13,6 +13,10 @@ var BrowserCommands = {", "@@ -252,6 +256,23 @@ var BrowserCommands = {",
-    "@@ -374,6 +395,14 @@ var BrowserCommands = {"]);
+  assert.deepEqual(lines.filter(line => line.startsWith("@@")), ["@@ -13,6 +13,10 @@ var BrowserCommands = {", "@@ -232,6 +236,7 @@ var BrowserCommands = {",
+    "@@ -252,6 +257,23 @@ var BrowserCommands = {", "@@ -374,6 +396,14 @@ var BrowserCommands = {"]);
   // Each hunk's counts still match its body (git apply checks them).
   const hunks = after.split(/^(?=@@ )/mu).slice(1);
   for (const hunk of hunks) {
@@ -234,7 +243,16 @@ function browser({ answer = () => "about:axiosozo#home", consume = false, newTab
     window: { AxioSozo: { startPageForNewTab: () => { log.asked++; return answer(); } } },
     BROWSER_NEW_TAB_URL: newTab, gMiddleClickNewTabUsesPasteboard: pasteboard,
     BrowserUtils: { whereToOpenLink: event => event.where ?? "tab" },
-    gZenUIManager: { handleNewTab: (...args) => { log.zen.push(args); return consume; } },
+    gZenUIManager: {
+      handleNewTab: (...args) => { log.zen.push(args); return consume; },
+      // Zen 1.24 ZenUIManager.newTabButtonWantsClipboard on macOS: an accel-click
+      // whose innermost source event targets the new-tab button pastes.
+      newTabButtonWantsClipboard: event => {
+        let source = event;
+        while (source?.sourceEvent) source = source.sourceEvent;
+        return source?.target?.id === "tabs-newtab-button" ? source.metaKey : false;
+      },
+    },
     Services: {
       obs: { notifyObservers: (_subject, topic) => log.notified.push(topic) },
       // A missing pref without a default throws, as natively.
@@ -307,6 +325,14 @@ test("hook: explicit URLs, clipboard paste and other event destinations are neve
     assert.deepEqual([paste.log.asked, paste.log.zen, paste.log.prefs], [0, [[false, true, "tab"]], ["middlemouse.paste"]], "a pasted middle click is never asked");
     assert.deepEqual(paste.log.opened, consume ? [] : [{ url: "https://pasted.example/", where: "tab", related: true, fixup: true }], "the native paste");
   }
+  // Zen 1.24: Cmd-clicking the new-tab button pastes too, and is never asked.
+  const button = browser();
+  button.openTab({ event: { where: "tab", sourceEvent: { target: { id: "tabs-newtab-button" }, metaKey: true } } });
+  assert.deepEqual([button.log.asked, button.log.zen, button.log.opened], [0, [[false, true, "tab"]],
+    [{ url: "https://pasted.example/", where: "tab", related: true, fixup: true }]], "a Cmd-click paste on the new-tab button");
+  const plainButton = browser();
+  plainButton.openTab({ event: { where: "tab", sourceEvent: { target: { id: "tabs-newtab-button" }, metaKey: false } } });
+  assert.equal(plainButton.log.asked, 1, "a plain click on the new-tab button is an ordinary command");
   const unsafe = browser({ clipboard: "javascript:alert(1)" });
   unsafe.openTab({ event: { where: "tab", button: 1 } });
   assert.deepEqual([unsafe.log.asked, unsafe.log.opened[0].url], [0, "alert(1)"], "Firefox's own paste sanitizer still runs");

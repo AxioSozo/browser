@@ -40,19 +40,19 @@ export const UNDERSTAND_FIXTURE_INPUTS = Object.freeze([
   },
   {
     "relative": "policy.json",
-    "sha256": "11bfa29243e6dd76224244c252b827794de6cb4a9e9efded19b01cfdadd17fcc",
+    "sha256": "c516b9faa7af940ad9e900a87ae70a374793557d292ee0d125d3f8f1b5ece369",
     "maxBytes": 32768
   },
   {
     "relative": "understand_fixture.py",
-    "sha256": "816814804e3f91bd89d0bf6e304c6de7d4a58fe3b5bc20682ff895fd5b85ade5",
+    "sha256": "23e4fc1f0073927331d2c37f37302c1888472c6a181421425a0ed4fe52aee707",
     "maxBytes": 65536
   }
 ].map(Object.freeze));
 export const UNDERSTAND_FIXTURE_BINARIES = Object.freeze([
   {
     "path": "/Volumes/AxioSozoBuild/toolchains/zen/python/bin/python3.11",
-    "sha256": "67909d536cd240fcf4b1125a9ff691ad473ad23156fa4f45611da52233959071",
+    "sha256": "96362363eae965731b1c9cfde891ee5a56c4da37104a513d0726e27b8564acc4",
     "maxBytes": 33554432
   },
   {

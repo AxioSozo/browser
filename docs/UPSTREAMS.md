@@ -8,8 +8,8 @@ ignored generated inputs with upstream remotes; the maintainable local work is i
 
 | Input | Pin | Use |
 | --- | --- | --- |
-| Zen | 541ee55196395ee8082862b83c84c90ab41d9f6d / 1.23.4b | Application source + small MPL chrome overlay |
-| Firefox | 48a735cc74a7e6d730f9bf59c3de58f750287a23 / 158.0.1 candidate build 1 | Zen's actual Gecko source selection; SHA512-verified archive extracted and locally committed as a pristine build baseline |
+| Zen | 0057b295aee4a1ff00e0bd24e1150b7bc1a28503 / 1.24.2b | Application source + small MPL chrome overlay |
+| Firefox | d84e7a6936554efe26097d9d9b24a0e11330e630 / 160.0 candidate build 1 | Zen's actual Gecko source selection; SHA512-verified archive extracted and locally committed as a pristine build baseline |
 | Surfer | 1.14.9 | Audited pinned Zen build driver; Zen package-lock retained |
 | CEF | 6028375a4532fb89d23b58635f5c0d3a82c93959 / 156.0.30 | Official macOS ARM64 minimal binary; version and SHA256 pinned |
 | Chromium | 2ad9b7f5a86846e0b264090723a6a78964bb84c4 / 156.0.8078.96 | Engine inside that CEF distribution |
@@ -49,8 +49,23 @@ the anchors were unchanged except for the browser-commands hunk offsets and
 Firefox 158's `WebRenderCommandsResult` return type in the engine-view canvas
 display item. Zen's package-lock is also moved from follow-redirects 1.16.0 to
 1.16.1 (GHSA-q3jh-wrc6-jgq8, GHSA-8r9p-f939-6h3c). The previous checkout is kept
-as `upstream/zen-1.22.3b-f0f21cd`. Rerun the full native and security test
-matrix before treating this development build as a current daily browser.
+as `upstream/zen-1.22.3b-f0f21cd`.
+
+On 17 November 2026 Zen moved from 1.23.4b to 1.24.2b (Firefox 160.0, released
+10 November), which adds Mozilla's fixes from MFSA 2026-116, -118, -123 and -125
+(Firefox 158.0.2 through 160). Firefox 159 had already been replaced by 160 when
+the update was made, so the update went straight to the newest Zen release. The
+overlay and retired-stock records only needed new hashes, plus new
+browser-commands hunk offsets because Zen added a hunk above ours
+(`newTabButtonWantsClipboard`). The Firefox-native records and the signed
+search-config dump were re-derived from the imported 160.0 tree. Zen moved
+`tab-js.patch` to `tab-mjs.patch` and now finds the space menu's target through
+the popup's `anchorNode`. The adapters follow both changes, and tests pin them.
+The same update moved CEF 156.0.7 to 156.0.30 (Chromium 156.0.8078.96; CEF's
+`include/` API is unchanged) and python-build-standalone 20261021 (Python
+3.11.17) to 20261110 (Python 3.11.18, zlib 1.4, expat 2.10.0). Rerun the full
+native and security test matrix before treating this development build as a
+current daily browser.
 
 Security update owner: Wout/the maintainer of this development fork. Before daily
 use and whenever Mozilla, Zen or Chromium announces a relevant fix, review upstream

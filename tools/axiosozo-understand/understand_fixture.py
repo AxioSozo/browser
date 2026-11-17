@@ -17,9 +17,9 @@ BASE = BUILD / "gui-fixtures"
 PROFILE_BASE = BUILD / "runtime/e626697ad91fe95c"
 PYTHON = Path("/Volumes/AxioSozoBuild/toolchains/zen/python/bin/python3.11")
 NODE = Path("/Volumes/AxioSozoBuild/toolchains/zen/node/bin/node")
-POLICY_SHA = "11bfa29243e6dd76224244c252b827794de6cb4a9e9efded19b01cfdadd17fcc"
+POLICY_SHA = "c516b9faa7af940ad9e900a87ae70a374793557d292ee0d125d3f8f1b5ece369"
 NODE_SHA = "ff9365ccf73e95b7ac69867418124973addde63043650c0db96bd6a722c53cd8"
-PYTHON_SHA = "67909d536cd240fcf4b1125a9ff691ad473ad23156fa4f45611da52233959071"
+PYTHON_SHA = "96362363eae965731b1c9cfde891ee5a56c4da37104a513d0726e27b8564acc4"
 FILE_PINS = {'packages/provider-host/cli.mjs': 'b9997e1ee509341a3e9f96fa6221d90e369d457d29e57a5838989ad58a9ac65c', 'packages/provider-host/fixtures/understand/common.mjs': 'a7970176dff6e3f6305331e5a25ac4128d9fd10ec97f4ff326102c3463a37936', 'packages/provider-host/fixtures/understand/fake-cli.mjs': 'bb9bc0cf0fcaab18f1fef054a992cf75e267f600c8eee3e486bf64e557160eac', 'packages/provider-host/src/discovery.mjs': 'e53c1f8daa20ea3d9162f8b418fe196bd2b3175da3b636e36e674b74b8af4c9a', 'packages/provider-host/src/understand.mjs': '6f070833e58709c9a64345a19791c7f61f17baec2db7e58a9538c3eb92f69ef7', 'packages/provider-host/src/validation.mjs': 'f9bc96f48c21c473061c8ab0fea425879a7d7279554542ccaa81134470f81365', 'packages/provider-host/vendor/t3/version.ts': 'd335a12481cab591cf84abc98b1becdec6229674e9e59fd0d8067cf204e8f92f'}
 
 
