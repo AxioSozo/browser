@@ -1,0 +1,31 @@
+## uname -a
+Linux ip-10-0-133-199 7.0.0-1014-aws #14~24.04.1-Ubuntu SMP PREEMPT Fri Sep 18 21:24:59 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+## nproc
+4
+## free -h
+               total        used        free      shared  buff/cache   available
+Mem:            15Gi       930Mi        13Gi        44Mi       967Mi        14Gi
+Swap:          3.0Gi          0B       3.0Gi
+## df -h
+Filesystem            Size  Used Avail Use% Mounted on
+/dev/mapper/cow-root  145G   56G   89G  39% /
+/dev/mapper/cow-root  145G   56G   89G  39% /
+## os-release
+PRETTY_NAME="Ubuntu 24.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="24.04"
+VERSION="24.04.5 LTS (Noble Numbat)"
+## kernel sandbox knobs
+/proc/sys/kernel/apparmor_restrict_unprivileged_userns=1
+/proc/sys/kernel/unprivileged_userns_clone=1
+/proc/sys/user/max_user_namespaces=55514
+## DRM devices
+total 0
+drwxr-xr-x  3 root root      80 Nov 17 10:19 .
+drwxr-xr-x 16 root root    3480 Nov 17 10:19 ..
+drwxr-xr-x  2 root root      60 Nov 17 10:19 by-path
+crw-rw----  1 root video 226, 0 Nov 17 10:19 card0
+card0
+card0-Unknown-1
+version
+/sys/class/drm/card0/device/driver -> /sys/bus/platform/drivers/simple-framebuffer
