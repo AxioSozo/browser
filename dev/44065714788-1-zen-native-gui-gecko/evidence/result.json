@@ -1,0 +1,79 @@
+{
+  "harness": "axiosozo-linux-gui",
+  "version": 1,
+  "engine": "gecko",
+  "started_utc": "2026-11-17T12:04:34+00:00",
+  "host": {
+    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpus": 4
+  },
+  "test_only_switches": [
+    "-marionette",
+    "--remote-allow-system-access",
+    "loopback Marionette port",
+    "throwaway owned profile"
+  ],
+  "scenarios": {
+    "launch": {
+      "status": "FAIL",
+      "reason": "AssertionError: timed out waiting for browser window chrome (last error: Marionette:SetContext: unsupported operation: System access is required. Start AxioSozo with the \"MOZ_REMOTE_ALLOW_SYSTEM_ACCESS=1\" environment variable set to enable it.)",
+      "seconds": 46.28
+    }
+  },
+  "screenshots": [
+    "/home/runner/work/browser/browser/gui/evidence/failure-launch.png",
+    "/home/runner/work/browser/browser/gui/evidence/final.png"
+  ],
+  "app": {
+    "executable": "/home/runner/axiosozo-build/linux-app/44065714788/axiosozo-dev/axiosozo-dev",
+    "source": "fetched-artifact",
+    "run_id": "44065714788",
+    "repository_commit": "452e51fb22ba87e96efac29c8c0a7af53ea47200",
+    "fingerprint": "2a7398b9b47f424be23f61efb5a78c3e25acfad8cca527679584c21506a7607c",
+    "fingerprint_matches_checkout": true
+  },
+  "session": "/home/runner/axiosozo-build/runtime/753a97d5a9bc09a8/gui-281bebaf90d454a8",
+  "display": {
+    "server": "Xvfb",
+    "display": ":90",
+    "size": "1280x800",
+    "xauth": true,
+    "geometry": "1280 800"
+  },
+  "dbus": "private session bus",
+  "command": [
+    "/home/runner/axiosozo-build/linux-app/44065714788/axiosozo-dev/axiosozo-dev",
+    "-no-remote",
+    "-profile",
+    "/home/runner/axiosozo-build/runtime/753a97d5a9bc09a8/gui-281bebaf90d454a8/gecko",
+    "-marionette",
+    "--remote-allow-system-access",
+    "about:blank"
+  ],
+  "browser": {
+    "pid": 3225,
+    "marionette_port": 36423,
+    "capabilities": {
+      "browserName": "axiosozo",
+      "browserVersion": "0.1a1",
+      "platformName": "linux"
+    },
+    "seconds_to_marionette": 4.97,
+    "exit_code": 0
+  },
+  "screenshot": "/home/runner/work/browser/browser/gui/linux-gecko-fixture.png",
+  "cleanup": {
+    "state": "DIRECT_CHILDREN_REAPED",
+    "direct_children_reaped": true,
+    "groups": "NOT_VERIFIED"
+  },
+  "not_run": [
+    "chrome",
+    "about",
+    "fixture",
+    "input"
+  ],
+  "status": "FAIL",
+  "evidence_dir": "/home/runner/work/browser/browser/gui/evidence"
+}
