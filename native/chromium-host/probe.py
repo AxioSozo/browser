@@ -29,16 +29,16 @@ if IS_LINUX:
 else:
     BUILD_ROOT = Path(os.environ.get('AXIOSOZO_BUILD_ROOT', '/Volumes/AxioSozoBuild'))
 BASE = BUILD_ROOT / 'cef'
-VERSION = '156.0.7+g47dbc1d+chromium-156.0.8078.17'
+VERSION = '156.0.30+g6028375+chromium-156.0.8078.96'
 # Official CEF minimal distributions of the same pinned version (upstreams.lock.json
 # cef.platforms). sha1 is the value published in cef-builds.spotifycdn.com/index.json;
 # sha256 was computed from the downloaded archive whose sha1 matched it.
 LINUX_ARCHES = {'x86_64': 'linux64', 'aarch64': 'linuxarm64'}
 LINUX_PINS = {
-    'linux64': dict(sha256='46c55fff95da8d5cbe2db0fba16413e3e268bf240a5de1a5b8322e3cacdc6bfd',
-                    sha1='c8c8055f9ad040a42691be6f04fb6107e2309c8d', bytes=331669290),
-    'linuxarm64': dict(sha256='cf98289ac9c153bf6091c798a6c1a3a563966cc87ea3acf31b5ac18499be1148',
-                       sha1='e6eb1644e8929409bdd9abf34c553c3c9ed0b4f7', bytes=431079916),
+    'linux64': dict(sha256='356db99d653698aa9ba78b22965032b4fa5b23ba079ffdbaa5d28a8530f04011',
+                    sha1='0b4c2189e3b93033bbef13add1a86f66849c1e62', bytes=333332290),
+    'linuxarm64': dict(sha256='e6d3dd54f07c91eb8df60b8114b116c9ff4370c8bf5b672e8fb7d7b2747b9153',
+                       sha1='ea8f06c33514f9f3d75ca003437f9ac45223e07d', bytes=431279094),
 }
 LINUX_ARCH = LINUX_ARCHES.get(platform.machine()) if IS_LINUX else None
 if IS_LINUX:
@@ -57,8 +57,8 @@ else:
     # Versioned, so a previous pin's archive is never resumed into or reused.
     ARCHIVE = BASE / ARCHIVE_NAME
     URL = 'https://cef-builds.spotifycdn.com/' + ARCHIVE_NAME.replace('+', '%2B')
-    SHA256 = 'd9a4e98dfde499bfecc49ec2290395fbfffc3923fed5f967bb95c6e05e03e903'
-    ARCHIVE_BYTES = 134827440
+    SHA256 = '731b599e78c71bf33530d65bfa18963f7d1d59902c1f381f5452188e5116b855'
+    ARCHIVE_BYTES = 134874408
     APP = BASE / 'AxioCEFProbe.app'
     BINARY = APP / 'Contents/MacOS/AxioCEFProbe'
 EVIDENCE = ROOT / 'docs/evidence'
@@ -144,18 +144,27 @@ def host_check():
         raise RuntimeError('BLOCKED_ENV: DevStorage is not mounted')
     if not BUILD_ROOT.is_mount():
         raise RuntimeError('BLOCKED_ENV: AXIOSOZO_BUILD_ROOT must be the mounted project APFS volume')
-    info = plistlib.loads(subprocess.check_output(['/usr/bin/hdiutil', 'info', '-plist']))
-    verified = any(image.get('image-path') == '/Volumes/T9/Dev.sparsebundle'
-                   and any(entity.get('mount-point') == str(BUILD_ROOT)
-                           for entity in image.get('system-entities', []))
-                   for image in info.get('images', []))
+    # Other volumes (source, DevStorage, T9 itself) must not pass: only the APFS
+    # volume named AxioSozoBuild mounted at the build root.
+    disk = plistlib.loads(subprocess.check_output(['/usr/sbin/diskutil', 'info', '-plist', str(BUILD_ROOT)]))
+    verified = (disk.get('VolumeName') == 'AxioSozoBuild' and disk.get('MountPoint') == str(BUILD_ROOT)
+                and str(disk.get('FilesystemType', '')).lower() == 'apfs')
     if verified:
-        # Other volumes of the same image (source, DevStorage) must not pass.
-        disk = plistlib.loads(subprocess.check_output(['/usr/sbin/diskutil', 'info', '-plist', str(BUILD_ROOT)]))
-        verified = (disk.get('VolumeName') == 'AxioSozoBuild' and disk.get('MountPoint') == str(BUILD_ROOT)
-                    and str(disk.get('FilesystemType', '')).lower() == 'apfs')
+        # Since October 2026 that volume lives in T9's own APFS container (as in
+        # scripts/storage.py volume_verified); formerly inside /Volumes/T9/Dev.sparsebundle.
+        t9 = plistlib.loads(subprocess.check_output(['/usr/sbin/diskutil', 'info', '-plist', '/Volumes/T9'])) \
+            if Path('/Volumes/T9').is_mount() else {}
+        container = (t9.get('APFSContainerReference')
+                     if t9.get('MountPoint') == '/Volumes/T9' and str(t9.get('FilesystemType', '')).lower() == 'apfs'
+                     else None)
+        if not (container and disk.get('APFSContainerReference') == container):
+            info = plistlib.loads(subprocess.check_output(['/usr/bin/hdiutil', 'info', '-plist']))
+            verified = any(image.get('image-path') == '/Volumes/T9/Dev.sparsebundle'
+                           and any(entity.get('mount-point') == str(BUILD_ROOT)
+                                   for entity in image.get('system-entities', []))
+                           for image in info.get('images', []))
     if not verified:
-        raise RuntimeError('BLOCKED_ENV: project build root is not the AxioSozoBuild APFS volume of the verified T9 image')
+        raise RuntimeError('BLOCKED_ENV: project build root is not the AxioSozoBuild APFS volume of T9')
     if not shutil.which('xcrun'):
         raise RuntimeError('BLOCKED_ENV: Xcode command line tools missing')
 

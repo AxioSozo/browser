@@ -205,7 +205,7 @@ not passing web or E1/E2 evidence. Do not approve a Keychain prompt automaticall
 
 Official CEF added per-app Keychain service/account names in
 [commit fa874ac](https://github.com/chromiumembedded/cef/commit/fa874acb9dd4a0ebf607245543b2f20d27d04916).
-The pinned 156.0.7 exposes them as `cef_settings_t.keychain_service_name` and
+The pinned 156.0.30 exposes them as `cef_settings_t.keychain_service_name` and
 `keychain_account_name` (API version 15600; empty keeps Chromium's default item).
 The host deliberately leaves them empty for now: a different name creates or reads a
 different Keychain item, so data encrypted under the current item (the persistent web

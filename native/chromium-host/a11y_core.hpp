@@ -3,7 +3,7 @@
 //
 // Input: CEF's OnAccessibilityTreeChange / OnAccessibilityLocationChange payloads,
 // in the shape produced by libcef/browser/osr/osr_accessibility_util.cc (CEF
-// 062ebe433bf6 / 154.0.23, unchanged in the pinned 47dbc1df023e / 156.0.7
+// 062ebe433bf6 / 154.0.23, unchanged in the pinned 6028375a4532 / 156.0.30
 // runtime), converted from cef_value_t into
 // the bounded Value below by a11y.inc.
 //

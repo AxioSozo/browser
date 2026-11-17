@@ -10,8 +10,8 @@ import { DamagePayloadAssembler, validMemfdCapability, validMemfdFrame, memfdSlo
 // <<<
 import { SpareHost, prewarmWanted, PREWARM_STARTUP_DELAY_MS, PREWARM_AFTER_CLOSE_MS } from "./EngineHostSpare.sys.mjs";
 
-export const CEF_VERSION = "156.0.7+g47dbc1d+chromium-156.0.8078.17";
-export const CHROMIUM_VERSION = "156.0.8078.17";
+export const CEF_VERSION = "156.0.30+g6028375+chromium-156.0.8078.96";
+export const CHROMIUM_VERSION = "156.0.8078.96";
 // Inert identity of a target created at about:blank; never resolvable or loaded.
 export const BLANK_IDENTITY = "https://axiosozo.invalid";
 const MAX_PIXELS = 33554432;

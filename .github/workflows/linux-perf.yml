@@ -165,7 +165,7 @@ jobs:
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: /home/runner/axiosozo-build/cef/*.tar.bz2
-          key: cef-156.0.7-g47dbc1d-${{ runner.arch }}-minimal-perf
+          key: cef-156.0.30-g6028375-${{ runner.arch }}-minimal-perf
       - name: A/B (base vs candidate variants, alternating rounds)
         env:
           VARIANTS: ${{ needs.plan.outputs.ab_variants }}
@@ -180,7 +180,7 @@ jobs:
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: /home/runner/axiosozo-build/cef/*.tar.bz2
-          key: cef-156.0.7-g47dbc1d-${{ runner.arch }}-minimal-perf
+          key: cef-156.0.30-g6028375-${{ runner.arch }}-minimal-perf
       - name: Keep evidence small
         if: always()
         run: |

@@ -215,11 +215,15 @@ class SigningIdentityTests(unittest.TestCase):
 
 class HostCheckTests(unittest.TestCase):
     """Mocked OS metadata only; no real hdiutil/diskutil query or volume."""
-    def check(self, image_path, disk):
+    T9 = {'MountPoint': '/Volumes/T9', 'FilesystemType': 'apfs', 'APFSContainerReference': 'disk7'}
+
+    def check(self, image_path, disk, t9=None):
         image = {'images': [{'image-path': image_path,
                              'system-entities': [{'mount-point': str(probe.BUILD_ROOT)}]}]}
         def check_output(argv, **_kwargs):
-            return plistlib.dumps(image if Path(argv[0]).name == 'hdiutil' else disk)
+            if Path(argv[0]).name == 'hdiutil':
+                return plistlib.dumps(image)
+            return plistlib.dumps((t9 or {}) if argv[-1] == '/Volumes/T9' else disk)
         # The owner volume policy, also when this test runs under the macOS CI build root.
         with patch.object(probe, 'MACOS_CI', False), \
              patch.object(probe.platform, 'system', return_value='Darwin'), \
@@ -239,6 +243,19 @@ class HostCheckTests(unittest.TestCase):
                                  ('/Volumes/T9/Dev.sparsebundle', dict(good, MountPoint='/Volumes/Other'))):
             with self.assertRaisesRegex(RuntimeError, 'BLOCKED_ENV'):
                 self.check(image_path, disk)
+
+    def test_the_build_volume_in_the_t9_container_passes(self):
+        good = {'VolumeName': 'AxioSozoBuild', 'MountPoint': str(probe.BUILD_ROOT), 'FilesystemType': 'apfs',
+                'APFSContainerReference': 'disk7'}
+        self.check('/Volumes/Elsewhere.sparsebundle', good, self.T9)
+        for disk, t9 in ((dict(good, APFSContainerReference='disk9'), self.T9),
+                         (dict(good, VolumeName='DevStorage'), self.T9),
+                         (dict(good, MountPoint='/Volumes/Other'), self.T9),
+                         (good, dict(self.T9, FilesystemType='exfat')),
+                         (good, dict(self.T9, MountPoint='/Volumes/T9 1')),
+                         (good, {})):
+            with self.assertRaisesRegex(RuntimeError, 'BLOCKED_ENV'):
+                self.check('/Volumes/Elsewhere.sparsebundle', disk, t9)
 
 
 class LinuxPortTests(unittest.TestCase):

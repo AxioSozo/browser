@@ -11,8 +11,8 @@ ignored generated inputs with upstream remotes; the maintainable local work is i
 | Zen | 541ee55196395ee8082862b83c84c90ab41d9f6d / 1.23.4b | Application source + small MPL chrome overlay |
 | Firefox | 48a735cc74a7e6d730f9bf59c3de58f750287a23 / 158.0.1 candidate build 1 | Zen's actual Gecko source selection; SHA512-verified archive extracted and locally committed as a pristine build baseline |
 | Surfer | 1.14.9 | Audited pinned Zen build driver; Zen package-lock retained |
-| CEF | 47dbc1df023e99f006fb9e850a8d83cc19b4fdd9 / 156.0.7 | Official macOS ARM64 minimal binary; version and SHA256 pinned |
-| Chromium | ab5de11f88f0792d2ad84e22abd460412e915f13 / 156.0.8078.17 | Engine inside that CEF distribution |
+| CEF | 6028375a4532fb89d23b58635f5c0d3a82c93959 / 156.0.30 | Official macOS ARM64 minimal binary; version and SHA256 pinned |
+| Chromium | 2ad9b7f5a86846e0b264090723a6a78964bb84c4 / 156.0.8078.96 | Engine inside that CEF distribution |
 | T3 Code | b5a0f810108d42ca8635b5a3d75a6e885bb3a254 | Small audited TypeScript extraction, provenance manifest retained |
 | Helium | Not imported | Complete browser fork; no embedding code needed for current candidate |
 
