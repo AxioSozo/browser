@@ -1,0 +1,8065 @@
+{
+ "schema": "axiosozo-gecko-profile-summary-v1",
+ "window_epoch_ms": [
+  1794911728458.072,
+  1794911728680.322
+ ],
+ "processes": [
+  {
+   "pid": 4071,
+   "process_type": "default",
+   "process_name": "Parent Process",
+   "is_parent": true,
+   "cpu_ms": 203.41,
+   "threads": [
+    {
+     "samples": 104,
+     "span_ms": 218.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 82.81,
+     "cpu_percent_of_span": 37.9,
+     "categories": {
+      "Graphics": 80.98,
+      "Profiler": 1.75,
+      "Idle": 0.08
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 82.81,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "webrender_render": 82.74,
+      "memcpy_memset": 0.95,
+      "poll_wait": 0.08
+     },
+     "top_self": [
+      {
+       "frame": "[libxul.so]",
+       "ms": 64.2,
+       "share": 0.7753
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 4.82,
+       "share": 0.0582
+      },
+      {
+       "frame": "hypotf@@GLIBC_2.35 [libm.so.6]",
+       "ms": 4.27,
+       "share": 0.0516
+      },
+      {
+       "frame": "writev [libc.so.6]",
+       "ms": 3.86,
+       "share": 0.0467
+      },
+      {
+       "frame": "__exp2f_fma [libm.so.6]",
+       "ms": 2.88,
+       "share": 0.0347
+      },
+      {
+       "frame": "mozilla::baseprofiler::profiler_current_thread_id() [axiosozo-dev]",
+       "ms": 1.75,
+       "share": 0.0212
+      },
+      {
+       "frame": "__memmove_avx512_unaligned_erms [libc.so.6]",
+       "ms": 0.95,
+       "share": 0.0115
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.08,
+       "share": 0.0009
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[libxul.so]",
+       "ms": 82.81,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 82.81,
+       "share": 1.0
+      },
+      {
+       "frame": "RenderThread::UpdateAndRender",
+       "ms": 82.74,
+       "share": 0.9991
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 74.52,
+       "share": 0.8998
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 74.52,
+       "share": 0.8998
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 74.52,
+       "share": 0.8998
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 74.52,
+       "share": 0.8998
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 74.52,
+       "share": 0.8998
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 4.82,
+       "share": 0.0582
+      },
+      {
+       "frame": "hypotf@@GLIBC_2.35 [libm.so.6]",
+       "ms": 4.27,
+       "share": 0.0516
+      },
+      {
+       "frame": "writev [libc.so.6]",
+       "ms": 3.86,
+       "share": 0.0467
+      },
+      {
+       "frame": "xcb_flush [libxcb.so.1]",
+       "ms": 3.86,
+       "share": 0.0467
+      },
+      {
+       "frame": "[libxcb.so.1]",
+       "ms": 3.86,
+       "share": 0.0467
+      },
+      {
+       "frame": "__exp2f_fma [libm.so.6]",
+       "ms": 2.88,
+       "share": 0.0347
+      },
+      {
+       "frame": "profiler_add_marker",
+       "ms": 1.75,
+       "share": 0.0212
+      },
+      {
+       "frame": "AddMarkerToBuffer",
+       "ms": 1.75,
+       "share": 0.0212
+      },
+      {
+       "frame": "mozilla::baseprofiler::profiler_current_thread_id() [axiosozo-dev]",
+       "ms": 1.75,
+       "share": 0.0212
+      },
+      {
+       "frame": "__memmove_avx512_unaligned_erms [libc.so.6]",
+       "ms": 0.95,
+       "share": 0.0115
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.08,
+       "share": 0.0009
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.08,
+       "share": 0.0009
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.08,
+       "share": 0.0009
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 0.08,
+       "share": 0.0009
+      }
+     ],
+     "name": "Renderer",
+     "tid": 4129,
+     "markers": {
+      "Awake": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 105,
+     "span_ms": 222.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 73.27,
+     "cpu_percent_of_span": 33.0,
+     "categories": {
+      "Layout": 15.73,
+      "JavaScript": 15.21,
+      "Idle": 13.25,
+      "DOM": 10.44,
+      "GC / CC": 7.91,
+      "Graphics": 5.38,
+      "Other": 3.51,
+      "Profiler": 1.83
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 30.97,
+      "native_no_js": 42.3,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 16.72,
+      "harness_diagnostics": 11.94,
+      "paint_layout": 8.83,
+      "gc_cc": 7.91,
+      "engine_stream_read": 2.87,
+      "webrender_render": 2.79,
+      "json_metadata": 1.11
+     },
+     "top_self": [
+      {
+       "frame": "[libxul.so]",
+       "ms": 42.55,
+       "share": 0.5807
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 13.25,
+       "share": 0.1809
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 8.46,
+       "share": 0.1155
+      },
+      {
+       "frame": "mprotect [libc.so.6]",
+       "ms": 3.7,
+       "share": 0.0505
+      },
+      {
+       "frame": "g_source_ref [libglib-2.0.so.0]",
+       "ms": 3.39,
+       "share": 0.0463
+      },
+      {
+       "frame": "getcontext [libc.so.6]",
+       "ms": 0.95,
+       "share": 0.013
+      },
+      {
+       "frame": "__lll_lock_wait [libc.so.6]",
+       "ms": 0.88,
+       "share": 0.012
+      },
+      {
+       "frame": "recvmsg [libc.so.6]",
+       "ms": 0.08,
+       "share": 0.0011
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 73.27,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 73.27,
+       "share": 1.0
+      },
+      {
+       "frame": "XREMain::XRE_main",
+       "ms": 73.27,
+       "share": 1.0
+      },
+      {
+       "frame": "__libc_start_call_main [libc.so.6]",
+       "ms": 72.59,
+       "share": 0.9908
+      },
+      {
+       "frame": "_start [axiosozo-dev]",
+       "ms": 72.59,
+       "share": 0.9908
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 72.59,
+       "share": 0.9908
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 72.59,
+       "share": 0.9908
+      },
+      {
+       "frame": "__libc_start_main_impl [libc.so.6]",
+       "ms": 72.59,
+       "share": 0.9908
+      },
+      {
+       "frame": "js::RunScript",
+       "ms": 30.97,
+       "share": 0.4227
+      },
+      {
+       "frame": "RefreshDriver tick",
+       "ms": 22.84,
+       "share": 0.3117
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 16.72,
+       "share": 0.2282
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 16.72,
+       "share": 0.2282
+      },
+      {
+       "frame": "JSActor message handler",
+       "ms": 15.45,
+       "share": 0.2109
+      },
+      {
+       "frame": "promise callback",
+       "ms": 13.82,
+       "share": 0.1886
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 13.25,
+       "share": 0.1809
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 13.25,
+       "share": 0.1809
+      },
+      {
+       "frame": "Styles",
+       "ms": 12.87,
+       "share": 0.1757
+      },
+      {
+       "frame": "PresShell::DoFlushPendingNotifications Layout",
+       "ms": 12.85,
+       "share": 0.1753
+      },
+      {
+       "frame": "Update the rendering Layout, content-visibility and resize observers",
+       "ms": 12.15,
+       "share": 0.1658
+      },
+      {
+       "frame": "executeScript (chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:343:22)[71]",
+       "ms": 11.94,
+       "share": 0.1629
+      },
+      {
+       "frame": "receiveMessage (chrome://remote/content/marionette/actors/MarionetteCommandsChild.sys.mjs:163:23)[71]",
+       "ms": 11.94,
+       "share": 0.1629
+      },
+      {
+       "frame": "JSActor receive message",
+       "ms": 11.94,
+       "share": 0.1629
+      },
+      {
+       "frame": "switchToChromium (chrome://browser/content/axiosozo/CEFPresenter.sys.mjs:655:25)[10]",
+       "ms": 9.84,
+       "share": 0.1342
+      },
+      {
+       "frame": "evaluate.sandbox (chrome://remote/content/marionette/evaluate.sys.mjs:77:29)[173]",
+       "ms": 9.0,
+       "share": 0.1229
+      },
+      {
+       "frame": "Incremental CC",
+       "ms": 7.91,
+       "share": 0.1079
+      },
+      {
+       "frame": "evaluate.sandbox/promise< (chrome://remote/content/marionette/evaluate.sys.mjs:103:29)[173]",
+       "ms": 7.12,
+       "share": 0.0971
+      },
+      {
+       "frame": "nsCycleCollector_collectSlice",
+       "ms": 6.86,
+       "share": 0.0936
+      },
+      {
+       "frame": "CC (Build Graph)",
+       "ms": 6.86,
+       "share": 0.0936
+      },
+      {
+       "frame": "setURI (chrome://browser/content/urlbar/UrlbarInputBase.mjs:1003:9)[40]",
+       "ms": 5.4,
+       "share": 0.0737
+      },
+      {
+       "frame": "#syncChrome (chrome://browser/content/axiosozo/CEFPresenter.sys.mjs:964:14)[10]",
+       "ms": 5.4,
+       "share": 0.0737
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4071,
+     "markers": {
+      "RefreshDriverTick": {
+       "count": 11,
+       "total_ms": 38.86,
+       "max_ms": 8.53
+      },
+      "Styles": {
+       "count": 20,
+       "total_ms": 19.48,
+       "max_ms": 7.25
+      },
+      "CCSlice": {
+       "count": 1,
+       "total_ms": 7.81,
+       "max_ms": 7.81
+      },
+      "DOMEvent": {
+       "count": 67,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "Awake": {
+       "count": 44,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Notify": {
+       "count": 9,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetDisplayList": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetFocusTarget": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_UpdateEffects": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_IdleTime": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_DidComposite": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_CommitBrowsingContextTrans": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_SynthMouseMoveEvent": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_UpdateDimensions": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Reply_InitForIdleUse": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_ChildToParentMatrix": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_RenderLayers": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_StopIMEStateManagement": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_Deactivate": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_RealMouseEnterExitWidgetEv": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBackgroundStarter::Msg_InitBackground": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProfiler::Msg_AwaitNextChunkManagerUpda": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_RequestIdleTime": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_IdleTimeUsed": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProcessHangMonitor::Msg_UnloadLayersWhi": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWindowGlobal::Msg_UpdateDocumentTitle": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_PExtensionsConstructor": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitBackground": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "CC": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PScriptCache::Msg___delete__": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Observe": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBackground::Msg_PIdleSchedulerConstruct": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_InitForIdleUse": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Unobserve": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_ObserveLayersUpda": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_UnsetActiveBrowsingContext": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 220.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 16.67,
+     "cpu_percent_of_span": 7.6,
+     "categories": {
+      "Other": 14.12,
+      "Idle": 2.55
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 16.67,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "memcpy_memset": 7.23,
+      "poll_wait": 2.55
+     },
+     "top_self": [
+      {
+       "frame": "[libxul.so]",
+       "ms": 6.89,
+       "share": 0.4135
+      },
+      {
+       "frame": "__memset_avx512_unaligned_erms [libc.so.6]",
+       "ms": 4.15,
+       "share": 0.2491
+      },
+      {
+       "frame": "__memmove_avx512_unaligned_erms [libc.so.6]",
+       "ms": 3.07,
+       "share": 0.1844
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 2.55,
+       "share": 0.153
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 16.67,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 16.67,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 16.67,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 16.67,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 16.67,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 16.67,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 16.67,
+       "share": 1.0
+      },
+      {
+       "frame": "__memset_avx512_unaligned_erms [libc.so.6]",
+       "ms": 4.15,
+       "share": 0.2491
+      },
+      {
+       "frame": "__memmove_avx512_unaligned_erms [libc.so.6]",
+       "ms": 3.07,
+       "share": 0.1844
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 2.55,
+       "share": 0.153
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 2.55,
+       "share": 0.153
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 2.55,
+       "share": 0.153
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait_for(mozilla::detail::MutexImpl&, mozilla::BaseTimeDuration<mozilla::TimeDurationValueCalculator> const&) [axiosozo-dev]",
+       "ms": 2.55,
+       "share": 0.153
+      }
+     ],
+     "name": "BackgroundThreadPool #2",
+     "tid": 4217,
+     "markers": {
+      "Awake": {
+       "count": 5,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 220.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 9.65,
+     "cpu_percent_of_span": 4.4,
+     "categories": {
+      "JavaScript": 9.65
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 9.65,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "subprocess_pipe_io": 9.65,
+      "poll_wait": 9.09
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 9.09,
+       "share": 0.942
+      },
+      {
+       "frame": "__lll_lock_wake [libc.so.6]",
+       "ms": 0.23,
+       "share": 0.0242
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.22,
+       "share": 0.0231
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.1,
+       "share": 0.0107
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "js::RunScript",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "WorkerThreadPrimaryRunnable::Run resource://gre/modules/subprocess/subprocess_unix.worker.js",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "Worker runnable",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 9.65,
+       "share": 1.0
+      },
+      {
+       "frame": "setTimeout handler",
+       "ms": 9.19,
+       "share": 0.9532
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 9.09,
+       "share": 0.942
+      },
+      {
+       "frame": "promise callback",
+       "ms": 0.45,
+       "share": 0.0468
+      },
+      {
+       "frame": "__lll_lock_wake [libc.so.6]",
+       "ms": 0.23,
+       "share": 0.0242
+      },
+      {
+       "frame": "mozilla::detail::MutexImpl::unlock() [axiosozo-dev]",
+       "ms": 0.23,
+       "share": 0.0242
+      },
+      {
+       "frame": "pthread_mutex_unlock@@GLIBC_2.2.5 [libc.so.6]",
+       "ms": 0.23,
+       "share": 0.0242
+      }
+     ],
+     "name": "DOM Worker",
+     "tid": 4412,
+     "markers": {
+      "DOMEvent": {
+       "count": 14,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 220.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 6.69,
+     "cpu_percent_of_span": 3.0,
+     "categories": {
+      "Other": 6.69
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 6.69,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "memcpy_memset": 0.4
+     },
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 6.3,
+       "share": 0.9408
+      },
+      {
+       "frame": "__memmove_avx512_unaligned_erms [libc.so.6]",
+       "ms": 0.4,
+       "share": 0.0592
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 6.69,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 6.69,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 6.69,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 6.69,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 6.69,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 6.69,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 6.3,
+       "share": 0.9408
+      },
+      {
+       "frame": "__memmove_avx512_unaligned_erms [libc.so.6]",
+       "ms": 0.4,
+       "share": 0.0592
+      }
+     ],
+     "name": "SwComposite",
+     "tid": 4228,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.5,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 4.55,
+     "cpu_percent_of_span": 2.1,
+     "categories": {
+      "Other": 4.55
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 4.55,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 2.45,
+       "share": 0.5381
+      },
+      {
+       "frame": "sched_yield [libc.so.6]",
+       "ms": 2.1,
+       "share": 0.4619
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 4.55,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 4.55,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 4.55,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 4.55,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 4.55,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 4.55,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 2.45,
+       "share": 0.5381
+      },
+      {
+       "frame": "sched_yield [libc.so.6]",
+       "ms": 2.1,
+       "share": 0.4619
+      }
+     ],
+     "name": "WRRenderBackend#0",
+     "tid": 4141,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 4.15,
+     "cpu_percent_of_span": 1.9,
+     "categories": {
+      "Idle": 2.6,
+      "Other": 1.54
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 4.15,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 2.6,
+      "paint_layout": 0.03
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 2.51,
+       "share": 0.606
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 1.52,
+       "share": 0.3658
+      },
+      {
+       "frame": "__lll_lock_wait [libc.so.6]",
+       "ms": 0.09,
+       "share": 0.0218
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.03,
+       "share": 0.0064
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 4.15,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 4.15,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 4.15,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 4.15,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 4.15,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 4.15,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 4.15,
+       "share": 1.0
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 2.6,
+       "share": 0.6278
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 2.6,
+       "share": 0.6278
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 2.6,
+       "share": 0.6278
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 2.51,
+       "share": 0.606
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 1.52,
+       "share": 0.3658
+      },
+      {
+       "frame": "PTexture::Msg___delete__",
+       "ms": 1.52,
+       "share": 0.3658
+      },
+      {
+       "frame": "PTexture::Msg_Destroy",
+       "ms": 1.52,
+       "share": 0.3658
+      },
+      {
+       "frame": "__pthread_mutex_cond_lock [libc.so.6]",
+       "ms": 0.09,
+       "share": 0.0218
+      },
+      {
+       "frame": "__lll_lock_wait [libc.so.6]",
+       "ms": 0.09,
+       "share": 0.0218
+      },
+      {
+       "frame": "PWebRenderBridge::Msg_SetDisplayList",
+       "ms": 0.03,
+       "share": 0.0064
+      }
+     ],
+     "name": "Compositor",
+     "tid": 4145,
+     "markers": {
+      "Awake": {
+       "count": 53,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_DidComposite": {
+       "count": 12,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetFocusTarget": {
+       "count": 9,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetDisplayList": {
+       "count": 8,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PTexture::Msg_Destroy": {
+       "count": 4,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PTexture::Msg___delete__": {
+       "count": 4,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Reply_FlushRendering": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PAPZ::Msg_RequestContentRepaint": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_PTextureConstructor": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_Update": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_DidComposite": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorManager::Msg_PCompositorBridg": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PAPZCTreeManager::Msg_UpdateZoomConstrai": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_FlushRendering": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_NewCompositable": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Reply_NewCompositable": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_ClearCachedResourc": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_ObserveLayersUpda": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_ParentAsyncMessages": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.5,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 2.96,
+     "cpu_percent_of_span": 1.3,
+     "categories": {
+      "Other": 2.96
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 2.96,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 1.88,
+       "share": 0.637
+      },
+      {
+       "frame": "sched_yield [libc.so.6]",
+       "ms": 0.82,
+       "share": 0.2775
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.25,
+       "share": 0.0855
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 2.96,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 2.96,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 2.96,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 2.96,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 2.96,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 2.96,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 1.88,
+       "share": 0.637
+      },
+      {
+       "frame": "sched_yield [libc.so.6]",
+       "ms": 0.82,
+       "share": 0.2775
+      }
+     ],
+     "name": "WRSceneBuilder#0",
+     "tid": 4139,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 218.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.85,
+     "cpu_percent_of_span": 0.4,
+     "categories": {
+      "Idle": 0.85
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.85,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.85,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.85,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.85,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.85,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.85,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.85,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.85,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.85,
+       "share": 1.0
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.85,
+       "share": 1.0
+      }
+     ],
+     "name": "IPC I/O Parent",
+     "tid": 4081,
+     "markers": {
+      "Awake": {
+       "count": 21,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC EVENT_MESSAGE": {
+       "count": 18,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetFocusTarget": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBackgroundStarter::Msg_InitBackground": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetDisplayList": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_RequestIdleTime": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_IdleTimeUsed": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_PExtensionsConstructor": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitBackground": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PScriptCache::Msg___delete__": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorManager::Msg_PCompositorBridg": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProfiler::Reply_EnsureStarted": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProfiler::Reply_AwaitNextChunkManagerUp": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Observe": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PAPZCTreeManager::Msg_UpdateZoomConstrai": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBackground::Msg_PIdleSchedulerConstruct": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_InitForIdleUse": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_FlushRendering": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Unobserve": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_ClearCachedResourc": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_UnsetActiveBrowsingContext": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 218.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.7,
+     "cpu_percent_of_span": 0.3,
+     "categories": {
+      "Other": 0.7
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.7,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.7
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.7,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "PR_Poll [libnspr4.so]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.7,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.7,
+       "share": 1.0
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4085,
+     "markers": {
+      "Awake": {
+       "count": 15,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.36,
+     "cpu_percent_of_span": 0.2,
+     "categories": {
+      "Idle": 0.36
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.36,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.36
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.36,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 0.36,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.36,
+       "share": 1.0
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4163,
+     "markers": {
+      "Awake": {
+       "count": 10,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PTexture::Msg_Destroy": {
+       "count": 4,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PTexture::Msg___delete__": {
+       "count": 4,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_PTextureConstructor": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_Update": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_DidComposite": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_NewCompositable": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Reply_NewCompositable": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PImageBridge::Msg_ParentAsyncMessages": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.21,
+     "cpu_percent_of_span": 0.1,
+     "categories": {
+      "Other": 0.11,
+      "Graphics": 0.11
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.21,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.11,
+       "share": 0.5083
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.11,
+       "share": 0.4917
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.21,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.21,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.21,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.21,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.21,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.21,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.11,
+       "share": 0.5083
+      },
+      {
+       "frame": "Rasterization",
+       "ms": 0.11,
+       "share": 0.4917
+      }
+     ],
+     "name": "WRWorker#0",
+     "tid": 4130,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.15,
+     "cpu_percent_of_span": 0.1,
+     "categories": {
+      "Other": 0.15
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.15,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.15,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.15,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.15,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.15,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.15,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.15,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.15,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.15,
+       "share": 1.0
+      }
+     ],
+     "name": "WRWorker#1",
+     "tid": 4131,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 218.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.14,
+     "cpu_percent_of_span": 0.1,
+     "categories": {
+      "Other": 0.14
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.14,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.14
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.14,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait_for(mozilla::detail::MutexImpl&, mozilla::BaseTimeDuration<mozilla::TimeDurationValueCalculator> const&) [axiosozo-dev]",
+       "ms": 0.14,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.14,
+       "share": 1.0
+      }
+     ],
+     "name": "Timer",
+     "tid": 4083,
+     "markers": {
+      "Awake": {
+       "count": 5,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.09,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.09
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.09,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.09,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.09,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.09,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.09,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.09,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.09,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.09,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.09,
+       "share": 1.0
+      }
+     ],
+     "name": "WRSceneBuilderLP#0",
+     "tid": 4140,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.5,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.08,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.08
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.08,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.08,
+       "share": 1.0
+      }
+     ],
+     "name": "WRWorker#3",
+     "tid": 4133,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.5,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.08,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.08
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.08,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.08,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.08,
+       "share": 1.0
+      }
+     ],
+     "name": "WRWorker#2",
+     "tid": 4132,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 218.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait_for(mozilla::detail::MutexImpl&, mozilla::BaseTimeDuration<mozilla::TimeDurationValueCalculator> const&) [axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BgIOThreadPool #1",
+     "tid": 4113,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 218.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4126,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.5,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "sched_yield [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "sched_yield [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WrGlyphRasterizer",
+     "tid": 4138,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WRSceneBuilder#1",
+     "tid": 4142,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WRSceneBuilderLP#1",
+     "tid": 4143,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WRRenderBackend#1",
+     "tid": 4144,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.5,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WRWorkerLP#3",
+     "tid": 4137,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WRWorkerLP#2",
+     "tid": 4136,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WRWorkerLP#1",
+     "tid": 4135,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "CanvasRenderer",
+     "tid": 4146,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 219.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "WRWorkerLP#0",
+     "tid": 4134,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 220.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "worker_messaging": 0.0,
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "WorkerThreadPrimaryRunnable::Run resource://services-settings/RemoteSettings.worker.mjs",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "WorkerPrivate::WaitForWorkerEvents",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "DOM Worker",
+     "tid": 4208,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 220.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "worker_messaging": 0.0,
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "WorkerThreadPrimaryRunnable::Run resource://gre/modules/PageThumbs.worker.js",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "WorkerPrivate::WaitForWorkerEvents",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "DOM Worker",
+     "tid": 4243,
+     "markers": {}
+    },
+    {
+     "samples": 104,
+     "span_ms": 220.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "worker_messaging": 0.0,
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "WorkerThreadPrimaryRunnable::Run resource://newtab/lib/SmartShortcutsRanker/RankShortcuts.worker.mjs",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "mozilla::detail::ConditionVariableImpl::wait(mozilla::detail::MutexImpl&) [axiosozo-dev]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "WorkerPrivate::WaitForWorkerEvents",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "DOM Worker",
+     "tid": 4359,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4970,
+   "process_type": "tab",
+   "process_name": "Web Content",
+   "is_parent": false,
+   "cpu_ms": 26.6,
+   "threads": [
+    {
+     "samples": 205,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 26.12,
+     "cpu_percent_of_span": 11.8,
+     "categories": {
+      "Other": 21.53,
+      "JavaScript": 2.77,
+      "Idle": 1.28,
+      "DOM": 0.54
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 2.4,
+      "native_no_js": 23.73,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 1.28
+     },
+     "top_self": [
+      {
+       "frame": "[libxul.so]",
+       "ms": 16.75,
+       "share": 0.6411
+      },
+      {
+       "frame": "[libexpat.so.1]",
+       "ms": 1.92,
+       "share": 0.0737
+      },
+      {
+       "frame": "[]",
+       "ms": 1.49,
+       "share": 0.0572
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 1.28,
+       "share": 0.0491
+      },
+      {
+       "frame": "FcNameParse [libfontconfig.so.1]",
+       "ms": 0.96,
+       "share": 0.0369
+      },
+      {
+       "frame": "__fcntl64_nocancel_adjusted [libc.so.6]",
+       "ms": 0.96,
+       "share": 0.0368
+      },
+      {
+       "frame": "getpid [libc.so.6]",
+       "ms": 0.93,
+       "share": 0.0355
+      },
+      {
+       "frame": "mprotect [libc.so.6]",
+       "ms": 0.91,
+       "share": 0.0349
+      },
+      {
+       "frame": "[libssl3.so]",
+       "ms": 0.89,
+       "share": 0.0341
+      },
+      {
+       "frame": "__lll_lock_wait [libc.so.6]",
+       "ms": 0.02,
+       "share": 0.0008
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 26.12,
+       "share": 1.0
+      },
+      {
+       "frame": "__libc_start_call_main [libc.so.6]",
+       "ms": 26.12,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 26.12,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 26.12,
+       "share": 1.0
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 26.12,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 26.12,
+       "share": 1.0
+      },
+      {
+       "frame": "__libc_start_main_impl [libc.so.6]",
+       "ms": 26.12,
+       "share": 1.0
+      },
+      {
+       "frame": "PContent::Msg_SetXPCOMProcessAttributes",
+       "ms": 10.34,
+       "share": 0.396
+      },
+      {
+       "frame": "PContent::Msg_LoadProcessScript",
+       "ms": 5.2,
+       "share": 0.1991
+      },
+      {
+       "frame": "js::RunScript",
+       "ms": 3.29,
+       "share": 0.1261
+      },
+      {
+       "frame": "message manager script load",
+       "ms": 3.29,
+       "share": 0.1261
+      },
+      {
+       "frame": "ChromeUtils::ImportESModule resource://gre/modules/ExtensionProcessScript.sys.mjs",
+       "ms": 3.29,
+       "share": 0.1261
+      },
+      {
+       "frame": "resource://gre/modules/extensionProcessScriptLoader.js[3]",
+       "ms": 3.29,
+       "share": 0.1261
+      },
+      {
+       "frame": "nsMessageManagerScriptExecutor::LoadScriptInternal resource://gre/modules/extensionProcessScriptLoader.js",
+       "ms": 3.29,
+       "share": 0.1261
+      },
+      {
+       "frame": "ChromeUtils.importESModule",
+       "ms": 3.29,
+       "share": 0.1261
+      },
+      {
+       "frame": "[libfontconfig.so.1]",
+       "ms": 2.88,
+       "share": 0.1101
+      },
+      {
+       "frame": "PContent::Msg_PScriptCacheConstructor",
+       "ms": 2.79,
+       "share": 0.1067
+      },
+      {
+       "frame": "GetServiceByContractID @mozilla.org/base/telemetry-controller-content;1",
+       "ms": 2.79,
+       "share": 0.1067
+      },
+      {
+       "frame": "resource://gre/modules/ExtensionProcessScript.sys.mjs[5]",
+       "ms": 2.4,
+       "share": 0.0917
+      },
+      {
+       "frame": "ModuleLoaderBase::EvaluateModule",
+       "ms": 2.4,
+       "share": 0.0917
+      },
+      {
+       "frame": "XML_ParseBuffer [libexpat.so.1]",
+       "ms": 1.92,
+       "share": 0.0737
+      },
+      {
+       "frame": "[libexpat.so.1]",
+       "ms": 1.92,
+       "share": 0.0737
+      },
+      {
+       "frame": "initExtension (resource://gre/modules/ExtensionProcessScript.sys.mjs:219:16)[5]",
+       "ms": 1.47,
+       "share": 0.0562
+      },
+      {
+       "frame": "initExtensionPolicy (resource://gre/modules/ExtensionProcessScript.sys.mjs:114:22)[5]",
+       "ms": 1.47,
+       "share": 0.0562
+      },
+      {
+       "frame": "init (resource://gre/modules/ExtensionProcessScript.sys.mjs:57:7)[5]",
+       "ms": 1.47,
+       "share": 0.0562
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 1.28,
+       "share": 0.0491
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 1.28,
+       "share": 0.0491
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 1.28,
+       "share": 0.0491
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 1.28,
+       "share": 0.0491
+      },
+      {
+       "frame": "FcNameParse [libfontconfig.so.1]",
+       "ms": 0.96,
+       "share": 0.0369
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4970,
+     "markers": {
+      "GCMinor": {
+       "count": 1,
+       "total_ms": 0.72,
+       "max_ms": 0.72
+      },
+      "Awake": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_RequestIdleTime": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_IdleTimeUsed": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_PExtensionsConstructor": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitBackground": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PScriptCache::Msg___delete__": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_LoadProcessScript": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorManager::Msg_PCompositorBridg": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBackground::Msg_PIdleSchedulerConstruct": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_InitForIdleUse": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "GC Interrupt": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProfiler::Reply_EnsureStarted": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProfiler::Reply_AwaitNextChunkManagerUp": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_IdleTime": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_UpdateMediaCodecsSupported": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_RefreshScreens": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_SetXPCOMProcessAttributes": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_UpdateSharedData": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_RegisterChrome": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_RegisterStringBundles": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_AppInfo": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_RemoteType": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_PScriptCacheConstructor": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_NotifyProcessPriorityChang": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitRendering": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_SetProcessSandbox": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_SetPermissionsWithKey": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitJSActorInfos": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_SetInputEventQueueEnabled": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_SuspendInputEventQueue": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_FlushInputEventQueue": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_ResumeInputEventQueue": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitProcessHangMonitor": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitProfiler": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_GMPsChanged": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_InitNextGenLocalStorageEna": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_SimpleURIUnknownRemoteSche": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Reply_CreateAudioIPCConnection": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Reply_InitForIdleUse": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 205,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.31,
+     "cpu_percent_of_span": 0.1,
+     "categories": {
+      "Idle": 0.31
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.31,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.31,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.31,
+       "share": 1.0
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.31,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.31,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.31,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.31,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.31,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.31,
+       "share": 1.0
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.31,
+       "share": 1.0
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 5007,
+     "markers": {
+      "IPC EVENT_MESSAGE": {
+       "count": 18,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "Awake": {
+       "count": 17,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Msg_IdleTime": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProfiler::Msg_AwaitNextChunkManagerUpda": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PIdleScheduler::Reply_InitForIdleUse": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 189,
+     "span_ms": 203.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.13,
+     "cpu_percent_of_span": 0.1,
+     "categories": {
+      "Other": 0.13
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.13,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.13
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.13,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.13,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.13,
+       "share": 1.0
+      }
+     ],
+     "name": "Timer",
+     "tid": 5017,
+     "markers": {
+      "CCGCScheduler::EnsureGCRunner": {
+       "count": 4,
+       "total_ms": 34.48,
+       "max_ms": 16.08
+      },
+      "Awake": {
+       "count": 7,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 202,
+     "span_ms": 217.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.04,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.04
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.04,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.04
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.04,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.04,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.04,
+       "share": 1.0
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 5014,
+     "markers": {
+      "IPC PBackgroundStarter::Msg_InitBackground": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "Awake": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 205,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 5009,
+     "markers": {}
+    },
+    {
+     "samples": 190,
+     "span_ms": 204.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 5016,
+     "markers": {
+      "Awake": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 180,
+     "span_ms": 194.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 5018,
+     "markers": {
+      "Awake": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    }
+   ]
+  },
+  {
+   "pid": 4777,
+   "process_type": "tab",
+   "process_name": "Isolated Web Content",
+   "is_parent": false,
+   "cpu_ms": 3.57,
+   "threads": [
+    {
+     "samples": 202,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 2.81,
+     "cpu_percent_of_span": 1.3,
+     "categories": {
+      "Idle": 1.54,
+      "Graphics": 1.03,
+      "Profiler": 0.13,
+      "Other": 0.11
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 2.81,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 1.65,
+      "paint_layout": 1.03
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 1.54,
+       "share": 0.5503
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 1.03,
+       "share": 0.3662
+      },
+      {
+       "frame": "__lll_lock_wait [libc.so.6]",
+       "ms": 0.13,
+       "share": 0.0446
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.11,
+       "share": 0.0388
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 2.81,
+       "share": 1.0
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 2.81,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 2.81,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 2.57,
+       "share": 0.9166
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 1.54,
+       "share": 0.5503
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 1.54,
+       "share": 0.5503
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 1.54,
+       "share": 0.5503
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 1.54,
+       "share": 0.5503
+      },
+      {
+       "frame": "nsLayoutUtils::PaintFrame",
+       "ms": 1.03,
+       "share": 0.3662
+      },
+      {
+       "frame": "Paint ",
+       "ms": 1.03,
+       "share": 0.3662
+      },
+      {
+       "frame": "nsDisplayList::PaintRoot",
+       "ms": 0.83,
+       "share": 0.2972
+      },
+      {
+       "frame": "WebRender display list",
+       "ms": 0.83,
+       "share": 0.2972
+      },
+      {
+       "frame": "RefreshDriver tick",
+       "ms": 0.19,
+       "share": 0.069
+      },
+      {
+       "frame": "Update the rendering Paint",
+       "ms": 0.19,
+       "share": 0.069
+      },
+      {
+       "frame": "PBrowser::Msg_RealMouseEnterExitWidgetEvent",
+       "ms": 0.13,
+       "share": 0.0446
+      },
+      {
+       "frame": "pthread_mutex_lock@@GLIBC_2.2.5 [libc.so.6]",
+       "ms": 0.13,
+       "share": 0.0446
+      },
+      {
+       "frame": "profiler_capture_backtrace",
+       "ms": 0.13,
+       "share": 0.0446
+      },
+      {
+       "frame": "__lll_lock_wait [libc.so.6]",
+       "ms": 0.13,
+       "share": 0.0446
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.11,
+       "share": 0.0388
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.11,
+       "share": 0.0388
+      },
+      {
+       "frame": "PCompositorBridge::Msg_FlushRendering",
+       "ms": 0.11,
+       "share": 0.0388
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4777,
+     "markers": {
+      "RefreshDriverTick": {
+       "count": 4,
+       "total_ms": 0.77,
+       "max_ms": 0.44
+      },
+      "Awake": {
+       "count": 15,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "DOMEvent": {
+       "count": 12,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetFocusTarget": {
+       "count": 9,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_SetDisplayList": {
+       "count": 6,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Observe": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PAPZCTreeManager::Msg_UpdateZoomConstrai": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "Styles": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_FlushRendering": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Notify": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Unobserve": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PWebRenderBridge::Msg_ClearCachedResourc": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_UnsetActiveBrowsingContext": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_UpdateEffects": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_DidComposite": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_CommitBrowsingContextTrans": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_SynthMouseMoveEvent": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_UpdateDimensions": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Reply_FlushRendering": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_ChildToParentMatrix": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PAPZ::Msg_RequestContentRepaint": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_RenderLayers": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_StopIMEStateManagement": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_Deactivate": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_RealMouseEnterExitWidgetEv": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 202,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.74,
+     "cpu_percent_of_span": 0.3,
+     "categories": {
+      "Idle": 0.74
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.74,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.74,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.74,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.74,
+       "share": 1.0
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.74,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.74,
+       "share": 1.0
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.74,
+       "share": 1.0
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4781,
+     "markers": {
+      "Awake": {
+       "count": 16,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PVsync::Msg_Notify": {
+       "count": 3,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_UpdateEffects": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Msg_DidComposite": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PContent::Msg_CommitBrowsingContextTrans": {
+       "count": 2,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_SynthMouseMoveEvent": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_UpdateDimensions": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_ChildToParentMatrix": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PCompositorBridge::Reply_FlushRendering": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PAPZ::Msg_RequestContentRepaint": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_RenderLayers": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PProcessHangMonitor::Msg_UnloadLayersWhi": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_StopIMEStateManagement": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_Deactivate": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      },
+      "IPC PBrowser::Msg_RealMouseEnterExitWidgetEv": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 202,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.02,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.02
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.02,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.02
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      }
+     ],
+     "name": "Timer",
+     "tid": 4803,
+     "markers": {
+      "Awake": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 202,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4787,
+     "markers": {}
+    },
+    {
+     "samples": 202,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4797,
+     "markers": {}
+    },
+    {
+     "samples": 202,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4802,
+     "markers": {}
+    },
+    {
+     "samples": 202,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4809,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4974,
+   "process_type": "tab",
+   "process_name": "Web Content",
+   "is_parent": false,
+   "cpu_ms": 0.02,
+   "threads": [
+    {
+     "samples": 207,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.02,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.02
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.02,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.02
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.02,
+       "share": 1.0
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.02,
+       "share": 1.0
+      }
+     ],
+     "name": "Timer",
+     "tid": 4992,
+     "markers": {
+      "Awake": {
+       "count": 1,
+       "total_ms": 0.0,
+       "max_ms": 0.0
+      }
+     }
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__libc_start_call_main [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__libc_start_main_impl [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4974,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4982,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4984,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4989,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4991,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "clone3 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[unknown]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "start_thread [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4995,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4223,
+   "process_type": "tab",
+   "process_name": "Web Content",
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 207,
+     "span_ms": 221.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4223,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4227,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4229,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4234,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4236,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Timer",
+     "tid": 4238,
+     "markers": {}
+    },
+    {
+     "samples": 207,
+     "span_ms": 221.7,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4239,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4318,
+   "process_type": "utility",
+   "process_name": "Utility Process",
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 214,
+     "span_ms": 221.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4318,
+     "markers": {}
+    },
+    {
+     "samples": 214,
+     "span_ms": 221.6,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4322,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4150,
+   "process_type": "socket",
+   "process_name": null,
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 212,
+     "span_ms": 221.3,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4150,
+     "markers": {}
+    },
+    {
+     "samples": 212,
+     "span_ms": 221.3,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4153,
+     "markers": {}
+    },
+    {
+     "samples": 212,
+     "span_ms": 221.3,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4154,
+     "markers": {}
+    },
+    {
+     "samples": 212,
+     "span_ms": 221.3,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PR_Poll [libnspr4.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4155,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4166,
+   "process_type": "rdd",
+   "process_name": null,
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 212,
+     "span_ms": 220.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4166,
+     "markers": {}
+    },
+    {
+     "samples": 212,
+     "span_ms": 220.8,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4170,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4158,
+   "process_type": "tab",
+   "process_name": "WebExtensions",
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 213,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4158,
+     "markers": {}
+    },
+    {
+     "samples": 213,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4162,
+     "markers": {}
+    },
+    {
+     "samples": 213,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4168,
+     "markers": {}
+    },
+    {
+     "samples": 213,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4181,
+     "markers": {}
+    },
+    {
+     "samples": 213,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4184,
+     "markers": {}
+    },
+    {
+     "samples": 213,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Timer",
+     "tid": 4186,
+     "markers": {}
+    },
+    {
+     "samples": 213,
+     "span_ms": 221.0,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4188,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4244,
+   "process_type": "tab",
+   "process_name": "Web Content",
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 216,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4244,
+     "markers": {}
+    },
+    {
+     "samples": 216,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4248,
+     "markers": {}
+    },
+    {
+     "samples": 216,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4249,
+     "markers": {}
+    },
+    {
+     "samples": 216,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4254,
+     "markers": {}
+    },
+    {
+     "samples": 216,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4256,
+     "markers": {}
+    },
+    {
+     "samples": 216,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Timer",
+     "tid": 4258,
+     "markers": {}
+    },
+    {
+     "samples": 216,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4259,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4782,
+   "process_type": "tab",
+   "process_name": "Web Content",
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 214,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4782,
+     "markers": {}
+    },
+    {
+     "samples": 214,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4786,
+     "markers": {}
+    },
+    {
+     "samples": 214,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4792,
+     "markers": {}
+    },
+    {
+     "samples": 214,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4800,
+     "markers": {}
+    },
+    {
+     "samples": 214,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4804,
+     "markers": {}
+    },
+    {
+     "samples": 214,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Timer",
+     "tid": 4805,
+     "markers": {}
+    },
+    {
+     "samples": 214,
+     "span_ms": 221.1,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4806,
+     "markers": {}
+    }
+   ]
+  },
+  {
+   "pid": 4262,
+   "process_type": "tab",
+   "process_name": "Privileged Content",
+   "is_parent": false,
+   "cpu_ms": 0.0,
+   "threads": [
+    {
+     "samples": 199,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "poll [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "g_main_context_iteration [libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "XRE_InitChildProcess",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libglib-2.0.so.0]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "PollWrapper",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "GeckoMain",
+     "tid": 4262,
+     "markers": {}
+    },
+    {
+     "samples": 199,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {},
+     "top_self": [
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "[libxul.so]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "syscall [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "MessagePumpLibevent::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "IPC I/O Child",
+     "tid": 4265,
+     "markers": {}
+    },
+    {
+     "samples": 199,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Socket Thread",
+     "tid": 4268,
+     "markers": {}
+    },
+    {
+     "samples": 199,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "nsThreadPool::Run::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "BackgroundThreadPool #1",
+     "tid": 4273,
+     "markers": {}
+    },
+    {
+     "samples": 199,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageIO",
+     "tid": 4275,
+     "markers": {}
+    },
+    {
+     "samples": 199,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Other": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_timedwait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "Timer",
+     "tid": 4277,
+     "markers": {}
+    },
+    {
+     "samples": 199,
+     "span_ms": 221.2,
+     "weight": "cpu_ms (threadCPUDelta)",
+     "cpu_ms": 0.0,
+     "cpu_percent_of_span": 0.0,
+     "categories": {
+      "Idle": 0.0
+     },
+     "js_split": {
+      "js_leaf": 0.0,
+      "native_under_js": 0.0,
+      "native_no_js": 0.0,
+      "no_stack": 0.0
+     },
+     "buckets_inclusive_ms": {
+      "poll_wait": 0.0
+     },
+     "top_self": [
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "top_total": [
+      {
+       "frame": "[]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "ThreadEventQueue::GetEvent::Wait",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "pthread_cond_wait@@GLIBC_2.3.2 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "__futex_abstimed_wait_cancelable64 [libc.so.6]",
+       "ms": 0.0,
+       "share": null
+      },
+      {
+       "frame": "(root)",
+       "ms": 0.0,
+       "share": null
+      }
+     ],
+     "name": "ImageBridgeChld",
+     "tid": 4278,
+     "markers": {}
+    }
+   ]
+  }
+ ],
+ "meta": {
+  "version": 36,
+  "preprocessedProfileVersion": null,
+  "product": "AxioSozo",
+  "interval": 1,
+  "stackwalk": 1,
+  "startTime": 1794911667811.0576,
+  "sampleUnits": {
+   "time": "ms",
+   "eventDelay": "ms",
+   "threadCPUDelta": "ns"
+  },
+  "configuration": {
+   "features": [
+    "js",
+    "stackwalk",
+    "ipcmessages",
+    "processcpu"
+   ],
+   "threads": [
+    "GeckoMain",
+    "DOM Worker",
+    "IPC I/O",
+    "Compositor",
+    "Renderer",
+    "WR",
+    "SwComposite",
+    "Canvas",
+    "ImageIO",
+    "Socket Thread",
+    "Timer",
+    "BackgroundThreadPool",
+    "BgIOThr",
+    "ImageBridgeChld"
+   ],
+   "interval": 1,
+   "capacity": 16777216,
+   "activeTabID": 0
+  },
+  "oscpu": "Linux x86_64",
+  "misc": "rv:156.0",
+  "platform": "X11",
+  "appBuildID": "20261020150226",
+  "sourceURL": "https://github.com/zen-browser/desktop/rev/f0f21cdade1fd519a660d756942f7032a8c7a518",
+  "physicalCPUs": 2,
+  "logicalCPUs": 4,
+  "categories": [
+   "Idle",
+   "Other",
+   "Test",
+   "Layout",
+   "JavaScript",
+   "GC / CC",
+   "Network",
+   "Graphics",
+   "DOM",
+   "Android",
+   "AndroidX",
+   "Java",
+   "Mozilla",
+   "Kotlin",
+   "Blocked",
+   "Mailnews",
+   "IPC",
+   "Media",
+   "Accessibility",
+   "Profiler",
+   "Timer",
+   "Remote-Protocol",
+   "Sandbox",
+   "Telemetry",
+   "ML",
+   "Logs"
+  ]
+ },
+ "symbolication": {
+  "tool": "nm",
+  "symbols_per_library": {
+   "axiosozo-dev": 362,
+   "ebda42d140fc2b09639f8b13a5d5f2e617ef09.debug": 6940,
+   "libxul.so": 2,
+   "libglib-2.0.so.0": 1850,
+   "linux-vdso.so.1": 0,
+   "libgdk-3.so.0": 761,
+   "libX11.so.6": 1182,
+   "libxcb.so.1": 674,
+   "libstdc++.so.6": 4013,
+   "libnspr4.so": 354,
+   "72fc0c42a75e38f138f8b66f1ebc8aad060525.debug": 2180,
+   "libfreetype.so.6": 220,
+   "?": 0,
+   "libdbus-1.so.3": 567,
+   "libfontconfig.so.1": 238,
+   "libexpat.so.1": 72,
+   "libssl3.so": 108,
+   "libmozsandbox.so": 54,
+   "libnss3.so": 884
+  }
+ },
+ "trimmed": {
+  "file": "/home/runner/work/browser/browser/.local/evidence-profile-chromium-2x/chromium-2x/profiles/chromium-2x-switch-to-engine.trimmed.json.gz",
+  "steps": [
+   "full"
+  ],
+  "mib": 0.87
+ },
+ "raw_mib": 5.1
+}
